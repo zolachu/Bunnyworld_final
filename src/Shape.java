@@ -14,8 +14,8 @@ public class Shape {
 	private boolean hidden;
 	private boolean movable;
 	private Map<String, String> scriptMap; 
-	
-			
+
+
 	public Shape(String name) {
 
 		//checking whether the name is valid (not taken already)
@@ -35,74 +35,70 @@ public class Shape {
 		this.movable = false;
 		this.scriptMap = new HashMap<String, String>();
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public double getX() {
 		return this.x;
 	}
-	
+
 	public double getY() {
 		return this.y;
 	}
-	
+
 	public double getWidth() {
 		return this.width;
 	}
-	
+
 	public double getHeight() {
 		return this.height;
 	}
 
-	
+
 	public void setHidden() {
 		this.hidden = true;
 	}
 	public void setMovable() {
 		this.movable = true;
 	}
-	
+
 	public void setPictureName(String name) {
 		this.pictureName = name;
 	}
-	
+
 	public void setTextString(String textString) {
 		this.textString = textString;
-		
+
 	}
-	
+
 	public void setScriptText(String scriptText) {
 		this.scriptText = scriptText;
 	}
-	
+
 	public void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
 	}
-	
+
 	public void setX(int x) {
 		this.x = x;
 	}
-	
+
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 	public void setPosition(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public void setWidth(double width) {
 		this.width = width;
 	}
 	public void setHeight(double height) {
 		this.height = height;
 	}
-
-	
-	
-
 
 }

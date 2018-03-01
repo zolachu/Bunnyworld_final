@@ -7,11 +7,11 @@ import java.util.*;
 
 public class Game {
 
-		private List<Page> pages;
-		private List<Shape> possessionList;
-		private Page firstPage;
-		private Page currPage;
-	
+	private List<Page> pages;
+	private List<Shape> possessionList;
+	private Page firstPage;
+	private Page currPage;
+
 	Game() {
 		this.pages = new ArrayList<Page>();
 		this.possessionList = new ArrayList<Shape>();
