@@ -3,11 +3,11 @@ import java.util.*;
 public class Page {
 
 	private String name;
-	private List<Shape> shapes;
+	private Set<Shape> shapes;
 
 	public Page(String name) {
 		this.name = name;
-		this.shapes = new ArrayList<Shape>(); 
+		this.shapes = new HashSet<Shape>(); 
 	}
 
 	public String getName() { 
@@ -19,14 +19,17 @@ public class Page {
 	}
 
 	public void addShape(Shape shape) {
-		shapes.add(shape);
+		this.shapes.add(shape);
 	}
 
-	public void removeShape(String shapeName) { 
-		for (int i = 0; i < this.shapes.size(); i++) {
-			if (this.shapes.get(i).getName().equals(shapeName)) {
-				this.shapes.remove(i);
-				break;
+	public void removeShape(Shape shape) {
+		this.shapes.remove(shape);
+	}
+	
+	public void removeShape(String name) { 
+		for (Shape shape : this.shapes) {
+			if (shape.getName().equals(name)) {
+				this.shapes.remove(shape);
 			}
 		}
 	}

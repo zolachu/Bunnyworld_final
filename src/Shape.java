@@ -101,4 +101,7 @@ public class Shape {
 		this.height = height;
 	}
 
+	public boolean equals(Shape shape) {
+		return this.name.equals(shape.getName());
+	}
 }
