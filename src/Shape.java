@@ -13,7 +13,7 @@ public class Shape {
 	private double height;
 	private boolean hidden;
 	private boolean movable;
-	private Map<String, String> scriptMap; 
+	private Map<String, String> scriptMap;
 
 
 	public Shape(String name) {
