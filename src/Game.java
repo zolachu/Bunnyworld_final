@@ -46,7 +46,8 @@ public class Game {
 
 	public void removePage(String name) {
 		for (Page page : this.pages) { 
-			if (page.getName().equals(name)) {
+			if (page.getName().toLowerCase().equals(
+					name.toLowerCase())) {
 				this.pages.remove(page);
 				break;
 			}
@@ -63,7 +64,8 @@ public class Game {
 
 	public void removePossession(String name) {
 		for (Shape shape : this.possessions) { 
-			if (shape.getName().equals(name)) {
+			if (shape.getName().toLowerCase().equals(
+					name.toLowerCase())) {
 				this.possessions.remove(shape);
 				break;
 			}
@@ -71,7 +73,8 @@ public class Game {
 	}
 
 	public boolean equals(Game game) {
-		return this.name.equals(game.getName()); 
+		return this.name.toLowerCase().equals(
+				game.getName().toLowerCase()); 
 	}
 
 	// Random stuff for checking. Delete these

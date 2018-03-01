@@ -15,9 +15,7 @@ public class Shape {
 	private boolean movable;
 	private Map<String, String> scriptMap;
 
-
 	public Shape(String name) {
-
 		//checking whether the name is valid (not taken already)
 		//should somehow be check before the constructor is run by the game object?
 		// From the game object we look at the shape array and assign the default name
@@ -56,10 +54,14 @@ public class Shape {
 		return this.height;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public void setHidden() {
 		this.hidden = true;
 	}
+
 	public void setMovable() {
 		this.movable = true;
 	}
@@ -70,7 +72,6 @@ public class Shape {
 
 	public void setTextString(String textString) {
 		this.textString = textString;
-
 	}
 
 	public void setScriptText(String scriptText) {
@@ -97,11 +98,13 @@ public class Shape {
 	public void setWidth(double width) {
 		this.width = width;
 	}
+
 	public void setHeight(double height) {
 		this.height = height;
 	}
 
 	public boolean equals(Shape shape) {
-		return this.name.equals(shape.getName());
+		return this.name.toLowerCase().equals(
+				shape.getName().toLowerCase());
 	}
 }

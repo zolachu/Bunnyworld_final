@@ -4,9 +4,14 @@ public class Page {
 
 	private String name;
 	private Set<Shape> shapes;
+	
+	//Shapes or parts of shapes that fall outside the current page size are simply not drawn
+	// -> does this mean we need height and weight for pages too??
+	
+	
 
 	public Page(String name) {
-		this.name = name;
+		this.name = name.toLowerCase();
 		this.shapes = new HashSet<Shape>(); 
 	}
 
@@ -15,7 +20,7 @@ public class Page {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toLowerCase();
 	}
 
 	public void addShape(Shape shape) {
@@ -28,13 +33,15 @@ public class Page {
 	
 	public void removeShape(String name) { 
 		for (Shape shape : this.shapes) {
-			if (shape.getName().equals(name)) {
+			if (shape.getName().toLowerCase().equals(
+					name.toLowerCase())) {
 				this.shapes.remove(shape);
 			}
 		}
 	}
 
 	public boolean equals(Page page) {
-		return this.name.equals(page.getName());
+		return this.name.toLowerCase().equals(
+				page.getName().toLowerCase());
 	}
 }
