@@ -1,5 +1,6 @@
-import java.util.HashMap;
+package classproject.bunnyworld;
 
+import java.util.HashMap;
 
 /**
  * Script text is set of clauses where words are separated by spaces and clauses

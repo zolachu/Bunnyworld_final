@@ -1,6 +1,13 @@
+package classproject.bunnyworld;
+
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import java.util.*;
 
-public class Shape {
+
+public class GShape {
 
 	private static final int RECT   = 0; 
 	private static final int IMAGE  = 1;
@@ -26,7 +33,7 @@ public class Shape {
 	private boolean movable;
 	private Map<String, String> scriptMap;
 
-	public Shape(String name, float x, float y) {
+	public GShape(String name, float x, float y) {
 		//checking whether the name is valid (not taken already)
 		//should somehow be check before the constructor is run by the game object?
 		// From the game object we look at the shape array and assign the default name
@@ -51,7 +58,7 @@ public class Shape {
 		this.scriptMap = new HashMap<String, String>();
 	}
 	
-	public Shape(String name, float x, float y, String text, int type) {
+	public GShape(String name, float x, float y, String text, int type) {
 		this(name, x, y);
 		if (type == TEXT) {
 			this.text = text;
@@ -143,20 +150,20 @@ public class Shape {
 		this.y = y;
 	}
 
-	public void setPosition(double x, double y) {
+	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public void setWidth(double width) {
+	public void setWidth(float width) {
 		this.width = width;
 	}
 
-	public void setHeight(double height) {
+	public void setHeight(float height) {
 		this.height = height;
 	}
 
-	public boolean equals(Shape shape) {
+	public boolean equals(GShape shape) {
 		return this.name.toLowerCase().equals(
 				shape.getName().toLowerCase());
 	}

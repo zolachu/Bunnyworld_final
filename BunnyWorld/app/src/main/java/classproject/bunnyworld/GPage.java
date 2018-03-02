@@ -1,13 +1,16 @@
+package classproject.bunnyworld;
+
+
 import java.util.*;
 
-public class Page {
+public class GPage {
 
 	private String name;
-	private Set<Shape> shapes;
+	private Set<GShape> shapes;
 
-	public Page(String name) {
+	public GPage(String name) {
 		this.name = name.toLowerCase();
-		this.shapes = new HashSet<Shape>(); 
+		this.shapes = new HashSet<GShape>();
 	}
 
 	public String getName() { 
@@ -18,16 +21,16 @@ public class Page {
 		this.name = name.toLowerCase();
 	}
 
-	public void addShape(Shape shape) {
+	public void addShape(GShape shape) {
 		this.shapes.add(shape);
 	}
 
-	public void removeShape(Shape shape) {
+	public void removeShape(GShape shape) {
 		this.shapes.remove(shape);
 	}
 	
 	public void removeShape(String name) { 
-		for (Shape shape : this.shapes) {
+		for (GShape shape : this.shapes) {
 			if (shape.getName().toLowerCase().equals(
 					name.toLowerCase())) {
 				this.shapes.remove(shape);
@@ -35,7 +38,7 @@ public class Page {
 		}
 	}
 
-	public boolean equals(Page page) {
+	public boolean equals(GPage page) {
 		return this.name.toLowerCase().equals(
 				page.getName().toLowerCase());
 	}
