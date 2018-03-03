@@ -57,6 +57,17 @@ public class Game {
 		}
 	}
 
+	/* returns pointer to GPage given its name
+	 * or returns null if a GPage by that name does not
+	 * exist.
+	 */
+	public GPage getPage(String pageID) {
+		for(GPage page: pages) {
+			if (page.getName().equals(pageID)) return page;
+		}
+		return null;
+	}
+
 	public void addPossession(GShape shape) {
 		this.possessions.add(shape);
 	}

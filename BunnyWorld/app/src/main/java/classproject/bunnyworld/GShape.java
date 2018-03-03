@@ -118,12 +118,12 @@ public class GShape {
 		this.name = name;
 	}
 
-	public void setHidden() {
-		this.hidden = true;
+	public void setHidden(boolean hide) {
+		this.hidden = hide;
 	}
 
-	public void setMovable() {
-		this.movable = true;
+	public void setMovable(boolean move) {
+		this.movable = move;
 	}
 
 	public void setPictureName(String name) {

@@ -69,7 +69,8 @@ public  class Script {
 	 * this function assumes only one page
 	 */
 	static void goTo(String param) {
-
+		GPage page = getPage(param);
+		if(page != null) changeCurrPage(page);
 	}
 
 	/* plays the sounds given by param
@@ -82,7 +83,7 @@ public  class Script {
 	/* hides the shapes given by param
 	 */
 	static void hide(String param) {
-
+		
 	}
 
 	/* shows the shapes given by param

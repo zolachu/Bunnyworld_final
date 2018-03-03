@@ -38,6 +38,17 @@ public class GPage {
 		}
 	}
 
+	/* returns pointer to GShape given its name
+	 * or returns null if a GShape by that name does not
+	 * exist.
+	 */
+	public GShape getShape(String shapeID) {
+		for(GShape shape: shapes) {
+			if (shape.getName().equals(shapeID)) return shape;
+		}
+		return null;
+	}
+
 	public boolean equals(GPage page) {
 		return this.name.toLowerCase().equals(
 				page.getName().toLowerCase());
