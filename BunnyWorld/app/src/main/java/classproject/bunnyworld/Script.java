@@ -55,10 +55,12 @@ public  class Script {
 				play(param);
 				break;
 			case "hide":
-				hide(param);
+				hideOrShow(param, true);
+				//updateCanvas();
 				break;
 			case "show":
-				show(param);
+				hideOrShow(param, false);
+				//updateCanvas();
 				break;
 		}
 	}
@@ -74,23 +76,35 @@ public  class Script {
 	}
 
 	/* plays the sounds given by param
-	 * (switches their hidden boolean to true)
+	 * assumes there are no spaces within file names
 	 */
 	static void play(String param) {
 
 	}
 
-	/* hides the shapes given by param
+	/* hides or shows the shapes given by param
+	 * based on the boolean passed into hide.
+	 * If hide is true, shape will be hidden.
+	 * (switches their hidden boolean to true)
+	 * assumes shape names contain no spaces
 	 */
-	static void hide(String param) {
-		
+	static void hideOrShow(String param, boolean hide) {
+		String[] shapesToHide = param.split(" ");
+		for(String shapeName: shapesToHide) {
+			GShape curr = findShape(shapeName);
+			if(curr != null) curr.setHidden(hide);
+		}
 	}
 
-	/* shows the shapes given by param
-	 * (switches their hidden boolean to false)
+	/* searches pages for and returns a GShape by the name
+	 * of shapeID or null if none exists
 	 */
-	static void show(String param) {
-
+	static GShape findShape(String shapeID) {
+		for(GPage page: pages) {
+			GShape shape = page.getShape(shapeID);
+			if(shape != null) return shape;
+		}
+		return null;
 	}
 
 
