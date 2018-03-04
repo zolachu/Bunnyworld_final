@@ -43,14 +43,14 @@ public class Game {
          * keys will be one of the Triggers above, and the value will be the complete
          * list of instructions to be completed in the event of the trigger.
          */
-		void parse(String scriptText, HashMap<String, String> map) { // <trigger, instruction>
+		void parse(String scriptText, HashMap<String, String> scriptMap) { // <trigger, instruction>
 			String[] allInstructions = scriptText.split(";");
 
 			for(String instruct: allInstructions) {
 				int index = instruct.indexOf(' ');
 				String trigger = instruct.substring(0, index);
 				String action = instruct.substring(index + 1); // eliminate space at the end
-				map.put(trigger, action);
+				scriptMap.put(trigger, action);
 			}
 		}
 
