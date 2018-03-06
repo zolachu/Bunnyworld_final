@@ -229,5 +229,19 @@ public class Game {
 	public String toString() {
 		return this.name;
 	}
+	
+	// Get current page name - Added by ZOLA
+	public String currPageName() {
+		return this.currPage.getName();
+	}
+
+	// Get first page name  - Added by Zola
+	public String firstPageName() {
+		return this.firstPage.getName();
+	}
+	// Get set of pages - added by Zola
+	public Set<GPage> pages() {
+		return this.pages;
+	}
 
 }
