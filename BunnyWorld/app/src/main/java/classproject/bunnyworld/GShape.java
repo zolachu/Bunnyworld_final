@@ -195,4 +195,9 @@ public class GShape {
 		return this.name.toLowerCase().equals(
 				shape.getName().toLowerCase());
 	}
+	
+	// added by ZOLA
+	public String getScriptText() {
+		return this.script;
+	}
 }
