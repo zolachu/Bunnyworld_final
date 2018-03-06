@@ -134,14 +134,14 @@ public class GameView extends View {
 
 
 
-
+            return true;
         }
-        return true;
-
-    }
-
-
-
 
 
 }
+
+
+
+
+
+
