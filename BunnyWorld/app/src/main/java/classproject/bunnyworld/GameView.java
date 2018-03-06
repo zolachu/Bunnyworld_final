@@ -80,55 +80,5 @@ public class GameView extends View {
     }
 
 
-    // Below are the stuff Cindy added:
-
-    /*
-     * Helper method that displays the currently selected shape's
-     * information on the right.
-     */
-    private void displayCurShapeData(GShape shape) {}
-
-    /*
-     * Helper method to update the currently selected shape
-     */
-    private void updateCurShape(GShape shape) {}
-
-    /*
-     * Helper method to add a new GShape to the current page
-     */
-    private void addNewShape () {}
-
-    /*
-     * Helper method to erase the currently selected shape
-     */
-    private void eraseCurShape(GShape shape) {}
-
-    /*
-     * Helper method to add a new page to the current game
-     */
-    private void addNewPage() {}
-
-    /*
-     * Helper method to switch pages
-     */
-    private void switchPage() {}
-
-    /*
-     * Helper method to update currently displayed page
-     */
-    private void savePage() {}
-
-    /*
-     * Helper method to save the currently editted game
-     */
-    private void saveGame() {}
-
-
-
-
-
-
-
-
 
 }

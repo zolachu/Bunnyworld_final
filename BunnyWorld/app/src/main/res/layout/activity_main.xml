@@ -20,7 +20,7 @@
         android:onClick="onEditGame" />
 
     <Button
-        android:text="Paly Existing Games"
+        android:text="Play Existing Games"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onPlayGame"/>

@@ -10,8 +10,8 @@ import java.util.*;
 public class GShape {
 
 	private static final int RECT   = 0; 
-	private static final int IMAGE  = 1;
-	private static final int TEXT   = 2;
+	public static final int IMAGE  = 1;
+	public static final int TEXT   = 2;
 	
 	private static final float INITIAL_WIDTH  = 5;
 	private static final float INITIAL_HEIGHT = 5;

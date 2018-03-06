@@ -21,4 +21,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+//    public void onEditGame(View view) {
+//        Intent intent = new Intent(this,EditorActivity.class);
+//        startActivity(intent);
+//    }
+
+    public void onPlayGame(View view) {
+        Intent intent = new Intent(this,PlayActivity.class);
+        startActivity(intent);
+    }
+
 }

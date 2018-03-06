@@ -7,7 +7,7 @@
     tools:context="classproject.bunnyworld.EditorActivity">
 
     <classproject.bunnyworld.GameView
-        android:id="@+id/random"
+        android:id="@+id/myCanvas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true" />
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Update"
-                android:onClick="shapeUpdate" />
+                android:onClick="updateShape" />
 
         </LinearLayout>
 
@@ -169,14 +169,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add"
-                android:onClick="shapeAdd" />
+                android:onClick="addShape" />
 
             <Button
                 android:id="@+id/shape_remove_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Remove"
-                android:onClick="shapeRemove" />
+                android:onClick="removeShape" />
 
         </LinearLayout>
 
@@ -194,21 +194,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
-            android:onClick="pagePlus" />
+            android:onClick="addPage" />
 
         <Button
             android:id="@+id/page_left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="←"
-            android:onClick="pageLeft" />
+            android:onClick="goToPrevPage" />
 
         <Button
             android:id="@+id/page_right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="→"
-            android:onClick="pageRight" />
+            android:onClick="goToNextPage" />
 
         <EditText
             android:id="@+id/page_name_editText"
@@ -222,14 +222,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update"
-            android:onClick="pageUpdate" />
+            android:onClick="updatePage" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:onClick="gameSave" />
+            android:onClick="saveGame" />
 
     </LinearLayout>
 
