@@ -12,21 +12,7 @@ import java.util.Set;
  */
 
 class GameManager {
-    
-    SQLiteDatabase db;
-
-    private Set<Game> allGames; // essentially active games for edit or play
-
-    private static final GameManager ourInstance = new GameManager();
-
-    static GameManager getInstance() {
-
-        return ourInstance;
-    }
-
-    private GameManager() {
-        db = SQLiteDatabase.openOrCreateDatabase("games.db", MODE_PRIVATE, null);
-        
+   db = SQLiteDatabase.openOrCreateDatabase("games.db", MODE_PRIVATE, null);
         allGames = new HashSet<Game>();
         //deepLoad();
 
@@ -82,10 +68,65 @@ class GameManager {
             // and we can know whether it is in the possessions or in a particular shape.
 
     }
-    private GameManager() {
-        allGames = new HashSet<Game>();
-        //deepLoad();
+
+    /* saves all of its games
+     */
+    public void deepSave() {
+        for(Game game: allGames) {
+            saveGame(game);
+        }
     }
+
+    /* Probably used by Editor to save games
+     */
+    public void saveGame(Game game) {
+
+        String gameName = game.getName();
+        String firstPageName = game.firstPageName();
+        String currPageName = game.currPageName();
+
+        Set<GPage> pages = game.pages();
+        String curr = "YES";
+        String first = "YES";
+
+
+        for (GPage page : pages) {
+
+            String pageName = page.getName();
+
+            //  INSERT INTO shapes VALUES ('gameName', 'pageName', x, y, w, h, null);
+            Set<GShape> shapes = page.shapes();
+            for (GShape shape : shapes) {
+                String shapeName = shape.getName();
+                String script = shape.getScriptText();
+                Double x = shape.getX();
+                Double y = shape.getY();
+                Double w = shape.getWidth();
+                Double h = shape.getHeight();
+
+
+                String setupStr = "INSERT INTO shapes VALUES("
+                        + "(\'" + gameName +"\',\'" + shapeName + "\',\'" + pageName + "\',\'" + script + "\',"
+                        + x + "," + y + "," + w + "," + h + "," + null + ");";
+                db.execSQL(setupStr);
+            }
+
+
+            // INSERT INTO pages VALUES ('gameName', 'pageName', YES, YES, null);
+
+
+            if (!pageName.equals(curr)) curr = "NO";
+            if (!pageName.equals(first)) first = "NO";
+
+            String setupStr = "INSERT INTO pages VALUES("
+                    + "(\'" + gameName +"\',\'" + pageName + "\',\'" + curr + "\',\'" + first + "\',\'"
+                    + null + ");";
+            db.execSQL(setupStr);
+
+        }
+
+    }
+
 
     /* saves all of its games
      */
