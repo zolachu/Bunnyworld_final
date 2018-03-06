@@ -108,7 +108,7 @@ public class GShape {
 	 * Returns true if yes
 	 */
 	public boolean inPossessions(Float canvasBottom) {
-
+		return false;
 	}
 
 	public double getX() {
