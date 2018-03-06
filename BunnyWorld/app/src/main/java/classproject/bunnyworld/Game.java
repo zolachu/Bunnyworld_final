@@ -133,7 +133,7 @@ public class Game {
 		void hideOrShow(String param, boolean hide) {
 			String[] shapesToHide = param.split(" ");
 			for(String shapeName: shapesToHide) {
-				GShape curr = findShape(shapeName);
+				GShape curr = getShape(shapeName);
 				if(curr != null) curr.setHidden(hide);
 			}
 		}
@@ -141,10 +141,10 @@ public class Game {
 		/* searches pages for and returns a GShape by the name
          * of shapeID or null if none exists
          */
-		GShape findShape(String shapeID) {
-			for(GPage page: pages) {
-				GShape shape = page.getShape(shapeID);
-				if(shape != null) return shape;
+		GShape getShape(String name) {
+			for (GPage page: pages) {
+				GShape shape = page.getShape(name);
+				if (shape != null) return shape;
 			}
 			return null;
 		}

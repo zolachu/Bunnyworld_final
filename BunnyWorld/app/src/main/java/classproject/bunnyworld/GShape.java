@@ -68,7 +68,10 @@ public class GShape {
 	}
 	
 	public void draw(Canvas canvas ) {
-		
+		if (isHidden()) {
+			return;
+		}
+
 		if (this.getState() == TEXT) {
 			canvas.drawText(this.text, this.x, this.y, textPaint);
 		} else if (this.getState() == IMAGE) {
@@ -110,6 +113,14 @@ public class GShape {
 	 */
 	public boolean inPossessions(Float canvasBottom) {
 		return false;
+	}
+
+	public boolean isHidden() {
+		return this.hidden;
+	}
+
+	public boolean isMovable() {
+		return this.movable;
 	}
 
 	public double getX() {
@@ -156,11 +167,11 @@ public class GShape {
 		this.fontSize = fontSize;
 	}
 
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
@@ -181,4 +192,5 @@ public class GShape {
 		return this.name.toLowerCase().equals(
 				shape.getName().toLowerCase());
 	}
+
 }

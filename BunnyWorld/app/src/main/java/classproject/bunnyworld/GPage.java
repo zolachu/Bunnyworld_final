@@ -1,6 +1,8 @@
 package classproject.bunnyworld;
 
 
+import android.graphics.Canvas;
+
 import java.util.*;
 
 public class GPage {
@@ -14,7 +16,7 @@ public class GPage {
 	}
 
 
-	public GShape selectShape(float x, float y) {
+	public GShape getTopShape(float x, float y) {
 		for (int i = shapes.size()-1; i >= 0; i--) {
 			if (shapes.get(i).containsPoint(x,y)) {
 				return shapes.get(i);
@@ -45,7 +47,11 @@ public class GPage {
 		return null;
 	}
 
-	public void draw(Canvas)
+	public void draw(Canvas canvas) {
+		for (GShape shape: shapes) {
+			shape.draw(canvas);
+		}
+	}
 
 	public void addShape(GShape shape) {
 		if (!shapes.contains(shape)) {

@@ -72,12 +72,9 @@ public class GameView extends View {
 
                 //from the game, get currentpage
                 //from the current page, get the shapes (list)
-                selectedShape = game.getCurrPage().selectShape(x, y);  // determine what the top shape is given x y
+                selectedShape = game.getCurrPage().getTopShape(x, y);  // determine what the top shape is given x y
 
                 //check if map contains onclick trigger, perform if it does
-
-
-
 
 
 
@@ -86,13 +83,30 @@ public class GameView extends View {
 
 
             case MotionEvent.ACTION_MOVE: //Handles dragging
-                x = event.getX();
-                y = event.getY();
+                if (selectedShape.isMovable() && !selectedShape.isHidden()){
+                    x = event.getX();
+                    y = event.getY();
+                    selectedShape.setPosition(x, y);
+
+                    //iterate over the shapes in the currpage,
+                    // and for the shapes whose map contains on drop,
+                    // check if dropShape (as in on drop <dropShape>)
+                    // matches the selectedShape, then highlight (green outline)
+
+
+
+                }
+
                 //Update items that match on drop script
                 invalidate();
                 break;
 
             case MotionEvent.ACTION_UP:
+                if (selectedShape.isMovable() && !selectedShape.isHidden()){
+
+
+                }
+
                 x = event.getX();
                 y = event.getY();
 
