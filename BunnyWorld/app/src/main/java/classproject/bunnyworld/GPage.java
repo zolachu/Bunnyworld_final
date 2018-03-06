@@ -77,4 +77,11 @@ public class GPage {
 		return this.name.toLowerCase().equals(
 				page.getName().toLowerCase());
 	}
+	
+	
+	// Get shapes added by ZOLA
+
+	public Set<GShape> shapes() {
+		return this.shapes;
+	}
 }
