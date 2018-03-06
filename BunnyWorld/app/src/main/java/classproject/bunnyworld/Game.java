@@ -1,7 +1,12 @@
 package classproject.bunnyworld;
 
 //import java.awt.image.BufferedImage;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
+
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,10 +100,26 @@ public class Game {
 		/* plays the sounds given by param
          * assumes there are no spaces within file names
          */
-		void play(String param) {
+		void play(String param) {/*
+			MediaPlayer mp = new MediaPlayer();
+			String[] soundsToPlay = param.split(" ");
+			for(String sound: soundsToPlay) {
+				try {
+					AssetFileDescriptor descriptor = res.openRawResourceFd("R.raw." + sound);
+					FileDescriptor fd = descriptor.getFileDescriptor();
 
-			// not yet complete
-
+					mp.setDataSource(fd);
+					mp.prepare();
+					mp.start();
+					while(mp.isPlaying()) {} // for now freezes while sound plays
+					mp.stop();
+					// need to close data descriptor
+				} catch (Exception e) {
+					// file by that name does not exist
+				}
+			}
+			mp.release();
+		*/
 		}
 
 		/* hides or shows the shapes given by param

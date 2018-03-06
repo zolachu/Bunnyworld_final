@@ -98,6 +98,19 @@ public class GShape {
 		}
 	}
 
+	public boolean containsPoint(Float x, Float y) {
+		// write this
+		return false;
+	}
+
+	/* Uses its current x and y and the passed in canvasBottom
+	 * to figure out whether half of itself is within possessions
+	 * Returns true if yes
+	 */
+	public boolean inPossessions(Float canvasBottom) {
+
+	}
+
 	public double getX() {
 		return this.x;
 	}
