@@ -26,6 +26,11 @@ public class GameView extends View {
     Paint onDropPaint;    //Paints an outline of a different color for on drop actions
     GShape selectedShape; //currently selected shape (selection triggered by clicks (action up/down)
 
+    float downX;
+    float downY;
+//    float downWidth; //Don't think we need this
+//    float downHeight;
+
     //constructor
     public GameView(Context context, AttributeSet attrs) {
 
@@ -73,6 +78,10 @@ public class GameView extends View {
                 //from the game, get currentpage
                 //from the current page, get the shapes (list)
                 selectedShape = game.getCurrPage().getTopShape(x, y);  // determine what the top shape is given x y
+                if (selectedShape != null) {
+                    downX = selectedShape.getX();
+                    downY = selectedShape.getY();
+                }
 
                 //check if map contains onclick trigger, perform if it does
 
@@ -83,10 +92,8 @@ public class GameView extends View {
 
 
             case MotionEvent.ACTION_MOVE: //Handles dragging
-                if (selectedShape.isMovable() && !selectedShape.isHidden()){
-                    x = event.getX();
-                    y = event.getY();
-                    selectedShape.setPosition(x, y);
+                if (selectedShape.isMovable()){
+                    selectedShape.setPosition(event.getX(), event.getY());
 
                     //iterate over the shapes in the currpage,
                     // and for the shapes whose map contains on drop,
@@ -102,18 +109,38 @@ public class GameView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (selectedShape.isMovable() && !selectedShape.isHidden()){
+
+                x = event.getX();
+                y = event.getY();
+
+                if(!selectedShape.isMovable() &&
+                        GShape.containsPoints(downX, downY, selectedShape.getWidth(),
+                        selectedShape.getHeight(), x, y)) {
+                    //this means it was a click so trigger on click
+                } else if (selectedShape.isMovable()){
+                        //this means that we want to drag the shape
+                        //check if dropShape (as in on drop <dropShape>)
+                        // matches the selectedShape, and perform on drop triggered action
+                } 
+
 
 
                 }
 
-                x = event.getX();
-                y = event.getY();
+                // it's either a click or a release after a drag.
+                // to be able to drag, the shape is not hidden and movable.
+                //
+
+
+
+
 
         }
         return true;
 
     }
+
+
 
 
 

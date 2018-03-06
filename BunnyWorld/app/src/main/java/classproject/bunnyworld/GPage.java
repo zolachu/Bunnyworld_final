@@ -18,7 +18,8 @@ public class GPage {
 
 	public GShape getTopShape(float x, float y) {
 		for (int i = shapes.size()-1; i >= 0; i--) {
-			if (shapes.get(i).containsPoint(x,y)) {
+			if (shapes.get(i).containsPoint(x,y) &&
+					!shapes.get(i).isHidden()) {
 				return shapes.get(i);
 			}
 		}

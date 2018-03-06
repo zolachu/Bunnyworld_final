@@ -66,7 +66,13 @@ public class GShape {
 			this.pictureName = text;
 		} 
 	}
-	
+
+	public static boolean containsPoints(float x, float y, float width, float height,
+										 float touchX, float touchY) {
+		return (touchX >= x && touchX <= x + width &&
+				touchY >= y && touchY <= y + height);
+	}
+
 	public void draw(Canvas canvas ) {
 		if (isHidden()) {
 			return;
@@ -85,8 +91,6 @@ public class GShape {
 		}	
 	}
 
-	
-	
 	public String getName() {
 		return this.name;
 	}
@@ -102,9 +106,8 @@ public class GShape {
 	}
 
 	public boolean containsPoint(Float x, Float y) {
-
-		return (x >= this.x && x <= this.x + width &&
-				y >= this.y && y <= this.y + height);
+		return (x >= this.x && x <= this.x + this.width &&
+				y >= this.y && y <= this.y + this.height);
 	}
 
 	/* Uses its current x and y and the passed in canvasBottom
@@ -123,19 +126,19 @@ public class GShape {
 		return this.movable;
 	}
 
-	public double getX() {
+	public float getX() {
 		return this.x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return this.y;
 	}
 
-	public double getWidth() {
+	public float getWidth() {
 		return this.width;
 	}
 
-	public double getHeight() {
+	public float getHeight() {
 		return this.height;
 	}
 
@@ -192,5 +195,4 @@ public class GShape {
 		return this.name.toLowerCase().equals(
 				shape.getName().toLowerCase());
 	}
-
 }
