@@ -121,7 +121,7 @@ public class GameView extends View {
                         //this means that we want to drag the shape
                         //check if dropShape (as in on drop <dropShape>)
                         // matches the selectedShape, and perform on drop triggered action
-                } 
+                }
 
 
 
