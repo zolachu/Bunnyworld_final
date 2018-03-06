@@ -99,8 +99,9 @@ public class GShape {
 	}
 
 	public boolean containsPoint(Float x, Float y) {
-		// write this
-		return false;
+
+		return (x >= this.x && x <= this.x + width &&
+				y >= this.y && y <= this.y + height);
 	}
 
 	/* Uses its current x and y and the passed in canvasBottom

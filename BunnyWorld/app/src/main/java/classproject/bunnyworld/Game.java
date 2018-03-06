@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.lang.String;
 
@@ -20,8 +22,8 @@ public class Game {
 	private String name;
 	private GPage firstPage;
 	private GPage currPage;
-	private Set<GPage> pages;
-	private Set<GShape> possessions;
+	private List<GPage> pages;
+	private List<GShape> possessions;
 
 
 
@@ -30,15 +32,15 @@ public class Game {
 	 * are separated by semicolon(;). Clause order is insignificant
 	 *
 	 * TRIGGERS
-	 * onclick<action>
-	 * onenter<actions>
-	 * ondrop<shape name><actions>
+	 * on click <action>
+	 * on enter <actions>
+	 * on drop <shape name><actions>
 	 *
 	 * ACTIONS
-	 * goto<page_name>
-	 * play< sound_name>
-	 * hide<shape_name>
-	 * show<shape_name>
+	 * goto <page_name>
+	 * play < sound_name>
+	 * hide <shape_name>
+	 * show <shape_name>
 	 * @author nicholasseay
 	 *
 	 */
@@ -94,7 +96,7 @@ public class Game {
          */
 		void goTo(String param) {
 			GPage page = getPage(param);
-			if(page != null) changeCurrPage(page);
+			if(page != null) setCurrPage(page);
 		}
 
 		/* plays the sounds given by param
@@ -151,11 +153,10 @@ public class Game {
 	}
 
 
-
 	Game(String name) {
-		this.name = name;
-		this.pages = new HashSet<GPage>();
-		this.possessions = new HashSet<GShape>();
+		this.name  = name;
+		this.pages = new ArrayList<GPage>();
+		this.possessions = new ArrayList<GShape>();
 		this.firstPage = new GPage("page1");
 		this.currPage  = firstPage;
 		this.pages.add(firstPage);
@@ -169,10 +170,12 @@ public class Game {
 		this.name = name;
 	}
 
-	public void changeCurrPage(GPage page) {
+	public GPage getCurrPage() {
+		return this.currPage;
+	}
+
+	public void setCurrPage(GPage page) {
 		this.currPage = page;
-		//updateCanvas();
-		//currPage.onEnter();
 	}
 
 	public void addPage(GPage page) {
@@ -197,9 +200,11 @@ public class Game {
 	 * or returns null if a GPage by that name does not
 	 * exist.
 	 */
-	public GPage getPage(String pageID) {
+	public GPage getPage(String name) {
 		for(GPage page: pages) {
-			if (page.getName().equals(pageID)) return page;
+			if (page.getName().toLowerCase().equals(name.toLowerCase())) {
+				return page;
+			}
 		}
 		return null;
 	}
@@ -230,6 +235,5 @@ public class Game {
 	public String toString() {
 		return this.name;
 	}
-
 
 }

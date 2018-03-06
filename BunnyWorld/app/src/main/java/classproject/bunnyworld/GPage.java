@@ -6,12 +6,23 @@ import java.util.*;
 public class GPage {
 
 	private String name;
-	private Set<GShape> shapes;
+	private List<GShape> shapes;
 
 	public GPage(String name) {
 		this.name = name.toLowerCase();
-		this.shapes = new HashSet<GShape>();
+		this.shapes = new ArrayList<GShape>();
 	}
+
+
+	public GShape selectShape(float x, float y) {
+		for (int i = shapes.size()-1; i >= 0; i--) {
+			if (shapes.get(i).containsPoint(x,y)) {
+				return shapes.get(i);
+			}
+		}
+		return null;
+	}
+
 
 	public String getName() { 
 		return this.name;
@@ -21,12 +32,31 @@ public class GPage {
 		this.name = name.toLowerCase();
 	}
 
+	/* returns pointer to GShape given its name
+     * or returns null if a GShape by that name does not
+ 	 * exist.
+ 	 */
+	public GShape getShape(String name) {
+		for(GShape shape: shapes) {
+			if (shape.getName().toLowerCase().equals(name.toLowerCase())) {
+				return shape;
+			}
+		}
+		return null;
+	}
+
+	public void draw(Canvas)
+
 	public void addShape(GShape shape) {
-		this.shapes.add(shape);
+		if (!shapes.contains(shape)) {
+			this.shapes.add(shape);
+		}
 	}
 
 	public void removeShape(GShape shape) {
-		this.shapes.remove(shape);
+		if (shapes.contains(shape)) {
+			this.shapes.remove(shape);
+		}
 	}
 	
 	public void removeShape(String name) { 
@@ -36,17 +66,6 @@ public class GPage {
 				this.shapes.remove(shape);
 			}
 		}
-	}
-
-	/* returns pointer to GShape given its name
-	 * or returns null if a GShape by that name does not
-	 * exist.
-	 */
-	public GShape getShape(String shapeID) {
-		for(GShape shape: shapes) {
-			if (shape.getName().equals(shapeID)) return shape;
-		}
-		return null;
 	}
 
 	public boolean equals(GPage page) {

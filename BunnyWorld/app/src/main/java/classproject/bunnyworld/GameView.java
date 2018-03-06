@@ -22,9 +22,9 @@ public class GameView extends View {
 
     //Declare instance variables
     Game game; //Game object(assuming this is intialized somehow...)
-    Paint selectedPaint; //Paints an outline on shape selected in the editor
-    Paint onDropPaint; //Paints an outline of a different color for on drop actions
-
+    Paint selectedPaint;  //Paints an outline on shape selected in the editor
+    Paint onDropPaint;    //Paints an outline of a different color for on drop actions
+    GShape selectedShape; //currently selected shape (selection triggered by clicks (action up/down)
 
     //constructor
     public GameView(Context context, AttributeSet attrs) {
@@ -37,9 +37,9 @@ public class GameView extends View {
     private void init() {
         selectedPaint = new Paint();
         selectedPaint.setColor(Color.BLUE);
-
         onDropPaint = new Paint();
         onDropPaint.setColor(Color.GREEN);
+        selectedShape = null;
     }
 
 
@@ -50,7 +50,7 @@ public class GameView extends View {
 
     }
 
-    float x1, y1, x2, y2;
+    float x, y;
 
     //Identifies if there is a shape located at the specific clicked point
     private GShape getShapeAtPoint() {
@@ -62,18 +62,40 @@ public class GameView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+
         switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+                x = event.getX();
+                y = event.getY();
+
+                //from the game, get currentpage
+                //from the current page, get the shapes (list)
+                selectedShape = game.getCurrPage().selectShape(x, y);  // determine what the top shape is given x y
+
+                //check if map contains onclick trigger, perform if it does
+
+
+
+
+
+
+
+                invalidate();
+
+
             case MotionEvent.ACTION_MOVE: //Handles dragging
-                x1 = event.getX();
-                y1 = event.getY();
+                x = event.getX();
+                y = event.getY();
                 //Update items that match on drop script
                 invalidate();
                 break;
-            case MotionEvent.ACTION_DOWN:
-                x1 = event.getX();
-                y1 = event.getY();
-                //Update shape to be selected
-                invalidate();
+
+            case MotionEvent.ACTION_UP:
+                x = event.getX();
+                y = event.getY();
+
         }
         return true;
 
