@@ -1,8 +1,6 @@
 package classproject.bunnyworld;
 
-
 import android.graphics.Canvas;
-
 import java.util.*;
 
 public class GPage {
