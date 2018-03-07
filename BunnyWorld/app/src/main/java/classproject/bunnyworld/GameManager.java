@@ -17,6 +17,7 @@ import java.util.Set;
 class GameManager {
     private Set<Game> allGames; // essentially active games for edit or play
     public GameView gameView;
+    private Game curGame;
 
     private static final GameManager ourInstance = new GameManager();
 
@@ -88,4 +89,40 @@ class GameManager {
     public GameView getGameView() {
         return gameView;
     }
+
+
+    // Below are Cindy's changes
+    // set the current game
+    public void setCurGame(String gameName) {
+        for (Game game : allGames) {
+            String curGameName = game.getName();
+            if (curGameName.equals(gameName)) {
+                curGame = game;
+                return;
+            }
+        }
+        curGame = new Game(gameName);
+        allGames.add(curGame);
+    }
+
+    // get the current game
+    public Game getCurGame() {
+        return curGame;
+    }
+
+    /*
+     * Check for duplicate game name
+     * returns true when duplicate name exists
+     * returns false when game name has no duplicates
+     */
+    public boolean duplicateGameName(String name) {
+        for (Game game : allGames) {
+            String curGameName = game.getName();
+            if (curGameName.equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

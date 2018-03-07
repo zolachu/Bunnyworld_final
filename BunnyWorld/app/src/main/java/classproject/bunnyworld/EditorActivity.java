@@ -7,15 +7,60 @@ import android.widget.EditText;
 
 public class EditorActivity extends AppCompatActivity {
 
+    private Game curGame;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        GameManager gameManager = GameManager.getInstance();
+        curGame = gameManager.getCurGame();
     }
 
     public void updateShape(View view) {
-        // step 1: get currently selected shape
+        // step 1: get currently selected shape, in shape class
+        GameView myView = findViewById(R.id.myCanvas);
+        //GShape curShape = myView.getSelectedShape();
+        GShape curShape = null;
+
         // step 2: check which shape views are nonempty and update those fields using setters
+        EditText shapeName = findViewById(R.id.shape_name_editText);
+        String name = shapeName.getText().toString();
+        if (!name.isEmpty()) curShape.setName(name);
+
+        EditText x_coordinate = findViewById(R.id.shape_X_editText);
+        String x = x_coordinate.getText().toString();
+        if (!x.isEmpty()) curShape.setX(Float.valueOf(x));
+
+        EditText y_coordinate = findViewById(R.id.shape_Y_editText);
+        String y = y_coordinate.getText().toString();
+        if (!y.isEmpty()) curShape.setY(Float.valueOf(y));
+
+        EditText width = findViewById(R.id.shape_W_editText);
+        float w = Float.valueOf(width.getText().toString());
+        curShape.setWidth(w);
+
+        EditText height = findViewById(R.id.shape_H_editText);
+        float h = Float.valueOf(height.getText().toString());
+        curShape.setHeight(h);
+
+        EditText texts = findViewById(R.id.shape_text_editText);
+        String text = texts.getText().toString();
+        if (!text.isEmpty()) curShape.setTextString(text);
+
+        EditText images = findViewById(R.id.shape_imgName_editText);
+        String image = images.getText().toString();
+        if (!image.isEmpty()) curShape.setPictureName(image);
+
+        EditText scripts = findViewById(R.id.shape_script_editText);
+        String script = scripts.getText().toString();
+        if (!script.isEmpty()) curShape.setScriptText(script);
+
+        EditText fontSizes = findViewById(R.id.shape_fontSize_editText);
+        String fontSize = fontSizes.getText().toString();
+        if (!fontSize.isEmpty()) curShape.setFontSize(Integer.valueOf(fontSize));
+
     }
 
     public void addShape(View view) {
@@ -90,7 +135,9 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void saveGame(View view) {
-        // same the current game to database by calling the singleton's write method
+        GameManager gameManager = GameManager.getInstance();
+        // gameManager.saveGame(curGame);
+        // save the current game to database by calling the singleton's write method
     }
 
 
