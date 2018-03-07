@@ -42,6 +42,7 @@ public class GameView extends View {
         onDropPaint   = new Paint();
         onDropPaint.setColor(Color.GREEN);
         selectedShape = null;
+
     }
 
     @Override
@@ -89,7 +90,7 @@ public class GameView extends View {
                 if (selectedShape.isMovable()){
                     selectedShape.setPosition(event.getX(), event.getY());
 
-                    //iterate over the shapes in the currpage,
+                    // iterate over the shapes in the currpage,
                     // and for the shapes whose map contains on drop,
                     // check if dropShape (as in on drop <dropShape>)
                     // matches the selectedShape, then highlight (green outline)
@@ -106,20 +107,20 @@ public class GameView extends View {
 
                 if(!selectedShape.isMovable() &&
                         GShape.containsPoints(downX, downY, selectedShape.getWidth(),
-                        selectedShape.getHeight(), x, y)) {
-                        //TODO this means it was a click so trigger on click here
+                                selectedShape.getHeight(), x, y)) {
+                    //TODO this means it was a click so trigger on click here
 
                 } else if (selectedShape.isMovable()){
-                        // it's either a click or a release after a drag.
-                        // To be able to drag the shape has to be movable.
-                        // TODO need a way to distinguish short drag and a click for movable objects
-                        // TODO check if dropShape (on drop <dropShape>) matches selectedShape,
-                        // TODO perform on drop triggered action
+                    // it's either a click or a release after a drag.
+                    // To be able to drag the shape has to be movable.
+                    // TODO need a way to distinguish short drag and a click for movable objects
+                    // TODO check if dropShape (on drop <dropShape>) matches selectedShape,
+                    // TODO perform on drop triggered action
                 }
 
         }
 
-            return true;
+        return true;
     }
 }
 

@@ -1,9 +1,6 @@
 package classproject.bunnyworld;
 
-//import java.awt.image.BufferedImage;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
-
+import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,133 +15,6 @@ public class Game {
 	private GPage currPage;
 	private List<GPage> pages;
 	private List<GShape> possessions;
-
-
-
-	/**
-	 * Script text is set of clauses where words are separated by spaces and clauses
-	 * are separated by semicolon(;). Clause order is insignificant
-	 *
-	 * TRIGGERS
-	 * on click <action>
-	 * on enter <actions>
-	 * on drop <shape name><actions>
-	 *
-	 * ACTIONS
-	 * goto <page_name>
-	 * play < sound_name>
-	 * hide <shape_name>
-	 * show <shape_name>
-	 * @author nicholasseay
-	 *
-	 */
-	public  class Script {
-
-		/* Populates the given map using the string of raw script text
-         * keys will be one of the Triggers above, and the value will be the complete
-         * list of instructions to be completed in the event of the trigger.
-         */
-		void parse(String scriptText, HashMap<String, String> scriptMap) { // <trigger, instruction>
-			String[] allInstructions = scriptText.split(";");
-
-			for(String instruct: allInstructions) {
-				int index = instruct.indexOf(' ');
-				String trigger = instruct.substring(0, index);
-				String action = instruct.substring(index + 1); // eliminate space at the end
-				scriptMap.put(trigger, action);
-			}
-		}
-
-		/* Given a clause, the Script decides what the action is and what its inputs
-         * are, then performs the desired action
-         */
-		void perform(String instruct) {
-			if(instruct == null) return;
-
-			int index = instruct.indexOf(' ');
-			String action = instruct.substring(0, index);
-			String param = instruct.substring(index + 1); // eliminate space at the end
-
-			switch (action) {
-				case "goTo":
-					goTo(param);
-					break;
-				case "play":
-					play(param);
-					break;
-				case "hide":
-					hideOrShow(param, true);
-					//updateCanvas();
-					break;
-				case "show":
-					hideOrShow(param, false);
-					//updateCanvas();
-					break;
-			}
-		}
-
-		//reads the trigger
-
-		/* switches game's current page
-         * this function assumes only one page
-         */
-		void goTo(String param) {
-			GPage page = getPage(param);
-			if(page != null) setCurrPage(page);
-		}
-
-		/* plays the sounds given by param
-         * assumes there are no spaces within file names
-         */
-		void play(String param) {/*
-			MediaPlayer mp = new MediaPlayer();
-			String[] soundsToPlay = param.split(" ");
-			for(String sound: soundsToPlay) {
-				try {
-					AssetFileDescriptor descriptor = res.openRawResourceFd("R.raw." + sound);
-					FileDescriptor fd = descriptor.getFileDescriptor();
-
-					mp.setDataSource(fd);
-					mp.prepare();
-					mp.start();
-					while(mp.isPlaying()) {} // for now freezes while sound plays
-					mp.stop();
-					// need to close data descriptor
-				} catch (Exception e) {
-					// file by that name does not exist
-				}
-			}
-			mp.release();
-		*/
-		}
-
-		/* hides or shows the shapes given by param
-         * based on the boolean passed into hide.
-         * If hide is true, shape will be hidden.
-         * (switches their hidden boolean to true)
-         * assumes shape names contain no spaces
-         */
-		void hideOrShow(String param, boolean hide) {
-			String[] shapesToHide = param.split(" ");
-			for(String shapeName: shapesToHide) {
-				GShape curr = getShape(shapeName);
-				if(curr != null) curr.setHidden(hide);
-			}
-		}
-
-		/* searches pages for and returns a GShape by the name
-         * of shapeID or null if none exists
-         */
-		GShape getShape(String name) {
-			for (GPage page: pages) {
-				GShape shape = page.getShape(name);
-				if (shape != null) return shape;
-			}
-			return null;
-		}
-
-
-	}
 
 
 	Game(String name) {
@@ -170,6 +40,10 @@ public class Game {
 
 	public void setCurrPage(GPage page) {
 		this.currPage = page;
+	}
+
+	public List<GPage> getPages() {
+		return this.pages;
 	}
 
 	public void addPage(GPage page) {
@@ -203,6 +77,17 @@ public class Game {
 		return null;
 	}
 
+	/* searches pages for and returns a GShape by the name
+ 	 * of shapeID or null if none exists
+ 	 */
+	GShape getShape(String name) {
+		for (GPage page : getPages()) {
+			GShape shape = page.getShape(name);
+			if (shape != null) return shape;
+		}
+		return null;
+	}
+
 	public void addPossession(GShape shape) {
 		this.possessions.add(shape);
 	}
@@ -223,25 +108,11 @@ public class Game {
 
 	public boolean equals(Game game) {
 		return this.name.toLowerCase().equals(
-				game.getName().toLowerCase()); 
+				game.getName().toLowerCase());
 	}
 
 	public String toString() {
 		return this.name;
-	}
-	
-	// Get current page name - Added by ZOLA
-	public String currPageName() {
-		return this.currPage.getName();
-	}
-
-	// Get first page name  - Added by Zola
-	public String firstPageName() {
-		return this.firstPage.getName();
-	}
-	// Get set of pages - added by Zola
-	public Set<GPage> pages() {
-		return this.pages;
 	}
 
 }

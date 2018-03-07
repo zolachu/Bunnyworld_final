@@ -25,7 +25,7 @@ public class GPage {
 	}
 
 
-	public String getName() { 
+	public String getName() {
 		return this.name;
 	}
 
@@ -63,8 +63,8 @@ public class GPage {
 			this.shapes.remove(shape);
 		}
 	}
-	
-	public void removeShape(String name) { 
+
+	public void removeShape(String name) {
 		for (GShape shape : this.shapes) {
 			if (shape.getName().toLowerCase().equals(
 					name.toLowerCase())) {
@@ -76,12 +76,5 @@ public class GPage {
 	public boolean equals(GPage page) {
 		return this.name.toLowerCase().equals(
 				page.getName().toLowerCase());
-	}
-	
-	
-	// Get shapes added by ZOLA
-
-	public Set<GShape> shapes() {
-		return this.shapes;
 	}
 }

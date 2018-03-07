@@ -9,17 +9,17 @@ import java.util.*;
 
 public class GShape {
 
-	private static final int RECT   = 0; 
+	private static final int RECT   = 0;
 	public static final int IMAGE  = 1;
 	public static final int TEXT   = 2;
-	
+
 	private static final float INITIAL_WIDTH  = 5;
 	private static final float INITIAL_HEIGHT = 5;
-	
+
 	private static Paint fillPaint;
 	private static Paint textPaint;
-	
-	
+
+
 	private String name;
 	private String pictureName;
 	private String text;
@@ -38,12 +38,12 @@ public class GShape {
 		//should somehow be check before the constructor is run by the game object?
 		// From the game object we look at the shape array and assign the default name
 		// later this name can be changed.
-		
+
 		fillPaint = new Paint();
 		fillPaint.setColor(Color.GRAY);
 		textPaint = new Paint();
 		textPaint.setColor(Color.BLACK);
-		
+
 		this.name = name;
 		this.pictureName = "";
 		this.text   = "";
@@ -57,14 +57,14 @@ public class GShape {
 		this.movable = false;
 		this.scriptMap = new HashMap<String, String>();
 	}
-	
+
 	public GShape(String name, float x, float y, String text, int type) {
 		this(name, x, y);
 		if (type == TEXT) {
 			this.text = text;
 		} else if (type == IMAGE) {
 			this.pictureName = text;
-		} 
+		}
 	}
 
 	public static boolean containsPoints(float x, float y, float width, float height,
@@ -82,19 +82,19 @@ public class GShape {
 			canvas.drawText(this.text, this.x, this.y, textPaint);
 		} else if (this.getState() == IMAGE) {
 			//canvas.drawBitmap(something...)
-		} else {	
+		} else {
 			float left   = this.x;
 			float right  = this.x + this.width;
 			float top    = this.y;
 			float bottom = this.y + this.height;
 			canvas.drawRect(left, top, right, bottom, fillPaint);
-		}	
+		}
 	}
 
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public int getState() {
 		if (!this.text.isEmpty()) {
 			return TEXT;
@@ -194,10 +194,5 @@ public class GShape {
 	public boolean equals(GShape shape) {
 		return this.name.toLowerCase().equals(
 				shape.getName().toLowerCase());
-	}
-	
-	// added by ZOLA
-	public String getScriptText() {
-		return this.script;
 	}
 }
