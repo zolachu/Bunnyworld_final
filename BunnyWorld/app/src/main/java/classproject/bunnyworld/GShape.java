@@ -9,9 +9,9 @@ import java.util.*;
 
 public class GShape {
 
-	private static final int RECT   = 0;
-	public static final int IMAGE  = 1;
-	public static final int TEXT   = 2;
+	private static final int RECT = 0;
+	public static final int IMAGE = 1;
+	public static final int TEXT  = 2;
 
 	private static final float INITIAL_WIDTH  = 5;
 	private static final float INITIAL_HEIGHT = 5;
@@ -73,6 +73,11 @@ public class GShape {
 				touchY >= y && touchY <= y + height);
 	}
 
+	public boolean containsPoint(Float x, Float y) {
+		return (x >= this.x && x <= this.x + this.width &&
+				y >= this.y && y <= this.y + this.height);
+	}
+
 	public void draw(Canvas canvas ) {
 		if (isHidden()) {
 			return;
@@ -103,11 +108,6 @@ public class GShape {
 		} else {
 			return RECT;
 		}
-	}
-
-	public boolean containsPoint(Float x, Float y) {
-		return (x >= this.x && x <= this.x + this.width &&
-				y >= this.y && y <= this.y + this.height);
 	}
 
 	/* Uses its current x and y and the passed in canvasBottom

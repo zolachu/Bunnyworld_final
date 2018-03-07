@@ -13,27 +13,7 @@ public class GPage {
 		this.shapes = new ArrayList<GShape>();
 	}
 
-
-	public GShape getTopShape(float x, float y) {
-		for (int i = shapes.size()-1; i >= 0; i--) {
-			if (shapes.get(i).containsPoint(x,y) &&
-					!shapes.get(i).isHidden()) {
-				return shapes.get(i);
-			}
-		}
-		return null;
-	}
-
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name.toLowerCase();
-	}
-
-	/* returns pointer to GShape given its name
+	/* returns a GShape object given its name
      * or returns null if a GShape by that name does not
  	 * exist.
  	 */
@@ -46,6 +26,34 @@ public class GPage {
 		return null;
 	}
 
+	/*
+	 * returns a top GShape object pointed by the mouse
+	 * at coordinates (x,y), if there is one. If not,
+	 * returns null.
+	 */
+	public GShape getTopShape(float x, float y) {
+		for (int i = shapes.size()-1; i >= 0; i--) {
+			if (shapes.get(i).containsPoint(x,y) &&
+					!shapes.get(i).isHidden()) {
+				return shapes.get(i);
+			}
+		}
+		return null;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name.toLowerCase();
+	}
+
+
+	/*
+	 * Draws all shapes in the page by calling
+	 * draw method in each shape in the shapes list
+	 */
 	public void draw(Canvas canvas) {
 		for (GShape shape: shapes) {
 			shape.draw(canvas);
