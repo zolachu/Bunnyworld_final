@@ -122,6 +122,14 @@ public class GameView extends View {
 
         return true;
     }
+
+    /*
+     * Returns the shape that's currently selected by the user
+     */
+    public GShape getSelectedShape() {
+        // TODO someone needs to write this
+        return null;
+    }
 }
 
 

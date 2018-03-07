@@ -77,4 +77,29 @@ public class GPage {
 		return this.name.toLowerCase().equals(
 				page.getName().toLowerCase());
 	}
+
+	public String assignDefaultShapeName() {
+		int length = shapes.size();
+		StringBuilder shapeName = new StringBuilder();
+		shapeName.append("Shape");
+		shapeName.append(Integer.valueOf(length));
+		String name = shapeName.toString();
+
+		while (duplicateShapeName(name)) {
+			shapeName.append(Integer.valueOf(length));
+			name = shapeName.toString();
+		}
+
+		return name;
+	}
+
+	public boolean duplicateShapeName(String shapeName) {
+		for (GShape shape : shapes) {
+			String curName = shape.getName();
+			if (curName.equals(shapeName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

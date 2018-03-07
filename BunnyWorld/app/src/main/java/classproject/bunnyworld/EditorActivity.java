@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -16,13 +18,15 @@ public class EditorActivity extends AppCompatActivity {
 
         GameManager gameManager = GameManager.getInstance();
         curGame = gameManager.getCurGame();
+
+        TextView gameName = findViewById(R.id.gameName_textView);
+        gameName.setText(curGame.getName());
     }
 
     public void updateShape(View view) {
         // step 1: get currently selected shape, in shape class
         GameView myView = findViewById(R.id.myCanvas);
-        //GShape curShape = myView.getSelectedShape();
-        GShape curShape = null;
+        GShape curShape = myView.getSelectedShape();
 
         // step 2: check which shape views are nonempty and update those fields using setters
         EditText shapeName = findViewById(R.id.shape_name_editText);
@@ -66,6 +70,18 @@ public class EditorActivity extends AppCompatActivity {
     public void addShape(View view) {
         EditText shapeName = findViewById(R.id.shape_name_editText);
         String name = shapeName.getText().toString();
+        GPage curPage = curGame.getCurrPage();
+        if (name.isEmpty()) {
+            name = curPage.assignDefaultShapeName();
+        } else {
+            if (curPage.duplicateShapeName(name)) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Shape name already exists!",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+        }
 
         EditText x_coordinate = findViewById(R.id.shape_X_editText);
         float x = Float.valueOf(x_coordinate.getText().toString());
@@ -99,6 +115,7 @@ public class EditorActivity extends AppCompatActivity {
         if (fontSize.isEmpty()) newShape.setFontSize(Integer.valueOf(fontSize));
 
         // add newShape to the current page's list of shapes
+        curPage.addShape(newShape);
 
         GameView myView = findViewById(R.id.myCanvas);
         myView.invalidate();
@@ -107,7 +124,12 @@ public class EditorActivity extends AppCompatActivity {
 
     public void removeShape(View view) {
         // step 1: get currently selected shape
+        GameView myView = findViewById(R.id.myCanvas);
+        GShape curShape = myView.getSelectedShape();
+
         // step 2: remove it from the current page's list of shapes
+        GPage curPage = curGame.getCurrPage();
+        curPage.removeShape(curShape);
     }
 
     public void addPage(View view) {
@@ -131,13 +153,19 @@ public class EditorActivity extends AppCompatActivity {
         String name = pageName.getText().toString();
 
         // pass the name to the current game and get obtain requested page
+        GPage newPage = curGame.getPage(name);
+
         // ask the custom view to redraw the requested page
+        GameView myView = findViewById(R.id.myCanvas);
+        //TODO How does GameView know which game and which page to display?????
     }
 
+    // save the current game to database by calling the singleton's write method
     public void saveGame(View view) {
         GameManager gameManager = GameManager.getInstance();
-        // gameManager.saveGame(curGame);
-        // save the current game to database by calling the singleton's write method
+        gameManager.deepSave();
+        //TODO so no need for separate shallow save method becuase game data is ways saved on the
+        //TODO singleton at all time when the program is running.
     }
 
 
