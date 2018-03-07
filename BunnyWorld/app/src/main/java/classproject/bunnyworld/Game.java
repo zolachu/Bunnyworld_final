@@ -115,4 +115,46 @@ public class Game {
 		return this.name;
 	}
 
+	public String assignDefaultPageName() {
+		int length = pages.size();
+		StringBuilder pageName = new StringBuilder();
+		pageName.append("Page");
+		pageName.append(Integer.valueOf(length));
+		String name = pageName.toString();
+
+		while (duplicatePageName(name)) {
+			pageName.append(Integer.valueOf(length));
+			name = pageName.toString();
+		}
+
+		return name;
+	}
+
+	public boolean duplicatePageName(String pageName) {
+		for (GPage page : pages) {
+			String curName = page.getName();
+			if (curName.equals(pageName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public GPage prePage() {
+		// TODO
+		return null;
+	}
+
+	public GPage nextPage() {
+		// TODO
+		return null;
+	}
+
+	public boolean isFirstPage(GPage page) {
+		if (page.equals(firstPage)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

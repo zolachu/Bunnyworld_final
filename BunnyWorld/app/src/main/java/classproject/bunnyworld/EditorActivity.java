@@ -128,36 +128,69 @@ public class EditorActivity extends AppCompatActivity {
         GShape curShape = myView.getSelectedShape();
 
         // step 2: remove it from the current page's list of shapes
-        GPage curPage = curGame.getCurrPage();
-        curPage.removeShape(curShape);
+        if (curShape != null) {
+            GPage curPage = curGame.getCurrPage();
+            curPage.removeShape(curShape);
+        }
     }
 
     public void addPage(View view) {
-        GPage newPage = new GPage("default name");
+        String pageName = curGame.assignDefaultPageName();
+        GPage newPage = new GPage(pageName);
 
         // step 1: add a new page to the current game
+        curGame.addPage(newPage);
+
         // step 2: ask the custom view to redraw the new empty page
+        GameView myView = findViewById(R.id.myCanvas);
+        //TODO How does GameView know which game and which page to display?????
     }
 
     public void goToPrevPage(View view) {
         // step 1: get the previous page from the current game's list of pages
         // step 2: ask the custom view to redraw the previous page
+        GameView myView = findViewById(R.id.myCanvas);
+        //TODO How does GameView know which game and which page to display?????
     }
 
     public void goToNextPage(View view) {
         // same thing as goToPrevPage()
     }
 
+    // this method renames a page
     public void updatePage(View view) {
         EditText pageName = findViewById(R.id.page_name_editText);
         String name = pageName.getText().toString();
 
-        // pass the name to the current game and get obtain requested page
-        GPage newPage = curGame.getPage(name);
+        // get current page
+        GPage curPage = curGame.getCurrPage();
 
-        // ask the custom view to redraw the requested page
-        GameView myView = findViewById(R.id.myCanvas);
-        //TODO How does GameView know which game and which page to display?????
+        // rename current page
+        if (!curGame.duplicatePageName(name)) {
+            curPage.setName(name);
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Page name already exists!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+    }
+
+    public void deletePage(View view) {
+        // get current page
+        GPage curPage = curGame.getCurrPage();
+
+        // delete current page
+        if (!curGame.isFirstPage(curPage)) {
+            curGame.removePage(curPage);
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Cannot delete the first page!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
     }
 
     // save the current game to database by calling the singleton's write method
