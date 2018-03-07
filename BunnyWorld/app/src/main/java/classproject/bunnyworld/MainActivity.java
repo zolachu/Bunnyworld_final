@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         boolean duplicate = gameManager.duplicateGameName(name);
         if (duplicate) {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Game already exists! Please change game name.",
+                    "Game already exists!",
                     Toast.LENGTH_SHORT);
             toast.show();
         } else {
@@ -40,10 +40,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void onEditGame(View view) {
-//        Intent intent = new Intent(this,EditorActivity.class);
-//        startActivity(intent);
-//    }
+    public void onEditGame(View view) {
+        GameManager gameManager = GameManager.getInstance();
+        EditText gameName = findViewById(R.id.game_existingName_editText);
+        String name = gameName.getText().toString();
+        boolean duplicate = gameManager.duplicateGameName(name);
+        if (duplicate) {
+            gameManager.setCurGame(name);
+
+            Intent intent = new Intent(this, EditorActivity.class);
+            startActivity(intent);
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Game doesn't exist!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 
     public void onPlayGame(View view) {
         Intent intent = new Intent(this,PlayActivity.class);
