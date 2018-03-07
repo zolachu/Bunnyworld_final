@@ -7,11 +7,31 @@
     android:orientation="vertical"
     tools:context="classproject.bunnyworld.MainActivity">
 
-    <Button
-        android:text="New Game"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onNewGame" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Game Name: " />
+
+        <EditText
+            android:id="@+id/game_name_editText"
+            android:inputType="text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:text="Make New Game"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="onNewGame"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <Button
         android:text="Edit Existing Games"
