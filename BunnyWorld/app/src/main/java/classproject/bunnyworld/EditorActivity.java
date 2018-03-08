@@ -196,9 +196,8 @@ public class EditorActivity extends AppCompatActivity {
     // save the current game to database by calling the singleton's write method
     public void saveGame(View view) {
         GameManager gameManager = GameManager.getInstance();
-        gameManager.deepSave();
-        //TODO so no need for separate shallow save method becuase game data is ways saved on the
-        //TODO singleton at all time when the program is running.
+        gameManager.saveGame(curGame);
+        gameManager.addGameToList(curGame);
     }
 
 
