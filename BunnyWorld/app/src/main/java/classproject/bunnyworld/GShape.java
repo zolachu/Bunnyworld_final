@@ -31,7 +31,7 @@ public class GShape {
 	private float height;
 	private boolean hidden;
 	private boolean movable;
-	private Map<String, String> scriptMap;
+	private Map<String, String[]> scriptMap;
 
 	public GShape(String name, float x, float y) {
 		//checking whether the name is valid (not taken already)
@@ -55,7 +55,7 @@ public class GShape {
 		this.height = INITIAL_HEIGHT;
 		this.hidden  = false;
 		this.movable = false;
-		this.scriptMap = new HashMap<String, String>();
+		this.scriptMap = new HashMap<String, String[]>();
 	}
 
 	public GShape(String name, float x, float y, String text, int type) {
@@ -202,6 +202,9 @@ public class GShape {
 	 * in the game, and returns true if so.
 	 */
 	public boolean isOnDropTarget(GShape selectedShape) {
-		return false;
+		String[] onDropActionArray = scriptMap.get(Script.ON_DROP);
+		if(onDropActionArray == null) return false;
+		String possibleSender = onDropActionArray[Script.ON_DROP_SENDER_INDEX];
+		return possibleSender.equals(selectedShape.getName());
 	}
 }
