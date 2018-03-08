@@ -16,7 +16,6 @@ public class Game {
 	private List<GPage> pages;
 	private List<GShape> possessions;
 
-
 	Game(String name) {
 		this.name  = name;
 		this.pages = new ArrayList<GPage>();
@@ -77,8 +76,8 @@ public class Game {
 		return null;
 	}
 
-	/* searches pages for and returns a GShape by the name
- 	 * of shapeID or null if none exists
+	/* searches pages for and returns a GShape
+	 * by the name or null if none exists
  	 */
 	GShape getShape(String name) {
 		for (GPage page : getPages()) {
@@ -141,13 +140,21 @@ public class Game {
 	}
 
 	public GPage prePage() {
-		// TODO
-		return null;
+		int currentPageIndex = indexOfPage(this.currPage);
+		if (currentPageIndex == 0) {
+			return this.currPage;
+		} else {
+			return this.pages.get(currentPageIndex - 1);
+		}
 	}
 
 	public GPage nextPage() {
-		// TODO
-		return null;
+		int currentPageIndex = indexOfPage(this.currPage);
+		if (currentPageIndex == this.pages.size()-1) {
+			return this.currPage;
+		} else {
+			return this.pages.get(currentPageIndex + 1);
+		}
 	}
 
 	public boolean isFirstPage(GPage page) {
@@ -160,5 +167,14 @@ public class Game {
 
 	public GPage getFirstPage() {
 		return this.firstPage;
+	}
+
+	private int indexOfPage (GPage page) {
+		for (int i = 0; i < this.pages.size(); i++) {
+			if (this.pages.get(i).equals(page)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

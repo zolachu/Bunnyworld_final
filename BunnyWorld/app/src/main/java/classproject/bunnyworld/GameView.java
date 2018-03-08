@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class GameView extends View {
 
-    //TODO get an instance of Game passed to this class via singleton or masterlist
+    //TODO get an instance of Game passed to this class via singleton
     //TODO Assuming we have such a design in this current implementation
 
     //Declare instance variables
@@ -26,8 +26,8 @@ public class GameView extends View {
     Paint onDropPaint;    //Paints an outline of a different color for on drop actions
     GShape selectedShape; //currently selected shape (selection triggered by clicks (action up/down)
 
-    float downX;
-    float downY;
+    float x, y;
+    float downX, downY;
 
     //Constructor
     public GameView(Context context, AttributeSet attrs) {
@@ -42,7 +42,6 @@ public class GameView extends View {
         onDropPaint   = new Paint();
         onDropPaint.setColor(Color.GREEN);
         selectedShape = null;
-
     }
 
     @Override
@@ -50,19 +49,6 @@ public class GameView extends View {
         super.onDraw(canvas);
         //TODO Iterate over list of shapes in the current page and draw items
 
-    }
-
-    float x, y;
-
-    //Identifies if there is a shape located at the specific clicked point
-    private GShape getShapeAtPoint() {
-        //TODO
-        //Iterate over shapes and check if point is within the bounds of that shape
-        //Return shape if found otherwise return null
-
-        //this is actuall implemented in a page, called getTopShape
-
-        return null;
     }
 
     @Override
@@ -137,15 +123,9 @@ public class GameView extends View {
      * Returns the shape that's currently selected by the user
      */
     public GShape getSelectedShape() {
-        // TODO someone needs to write this
-        return null;
+        return selectedShape;
     }
-
-
-    public void testMergeConflict() {
-        System.out.println("nick's way");
-
-    }
+<<<<<<< HEAD
 
 }
 
@@ -154,3 +134,6 @@ public class GameView extends View {
 
 
 /// betternick test
+=======
+}
+>>>>>>> touch
