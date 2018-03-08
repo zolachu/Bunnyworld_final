@@ -102,7 +102,11 @@ class GameManager {
             }
         }
         curGame = new Game(gameName);
-        allGames.add(curGame);
+        // allGames.add(curGame);
+    }
+
+    public void addGameToList(Game game) {
+        allGames.add(game);
     }
 
     // get the current game
