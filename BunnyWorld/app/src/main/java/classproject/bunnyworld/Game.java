@@ -157,4 +157,8 @@ public class Game {
 			return false;
 		}
 	}
+
+	public GPage getFirstPage() {
+		return this.firstPage;
+	}
 }

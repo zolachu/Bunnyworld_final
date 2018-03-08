@@ -142,6 +142,18 @@ public class GShape {
 		return this.height;
 	}
 
+	public String getText() { return this.text; }
+
+	public String getPictureName() { return this.pictureName; }
+
+	public String getScript() { return this.script; }
+
+	public int getFontSize() { return this.fontSize; }
+
+	public boolean getHidden() { return this.hidden; }
+
+	public boolean getMovable() { return this.movable; }
+
 	public void setName(String name) {
 		this.name = name;
 	}
