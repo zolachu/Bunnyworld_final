@@ -131,12 +131,11 @@ public class GameView extends View {
         return null;
     }
 
-    
+
     public void testMergeConflict() {
         System.out.println("nick's way");
 
     }
-
 
 }
 // nick and ricky's comments will be here too
