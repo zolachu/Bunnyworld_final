@@ -195,4 +195,13 @@ public class GShape {
 		return this.name.toLowerCase().equals(
 				shape.getName().toLowerCase());
 	}
+
+	/* This function checks whether a shape has an onDrop.
+	 * If so, it checks to see if the sender for that onDrop
+	 * is the same as the currently selected shape being dragged
+	 * in the game, and returns true if so.
+	 */
+	public boolean isOnDropTarget(GShape selectedShape) {
+		return false;
+	}
 }

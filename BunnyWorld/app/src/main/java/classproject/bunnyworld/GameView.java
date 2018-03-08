@@ -95,6 +95,16 @@ public class GameView extends View {
                     // check if dropShape (as in on drop <dropShape>)
                     // matches the selectedShape, then highlight (green outline)
 
+                    //you're checking whether the selectedshape is the same as
+                    //the targetshapes of shapes in the page
+
+                    for(GShape shape: game.getCurrPage().getShapes()) {
+                        if(!shape.equals(selectedShape)) {
+                            if(shape.isOnDropTarget(selectedShape)) {
+                                // highlight shape
+                            }
+                        }
+                    }
                 }
 
                 //Update items that match on drop script

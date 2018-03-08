@@ -26,6 +26,10 @@ public class GPage {
 		return null;
 	}
 
+	public List<GShape> getShapes() {
+		return shapes;
+	}
+
 	/*
 	 * returns a top GShape object pointed by the mouse
 	 * at coordinates (x,y), if there is one. If not,
