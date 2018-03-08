@@ -130,12 +130,11 @@ public class GameView extends View {
         // TODO someone needs to write this
         return null;
     }
-    
+
     public void testMergeConflict() {
         System.out.println("nick's way");
 
     }
-
 }
 // nick and ricky's comments will be here too
 // nick and ricky's comments will be here too
