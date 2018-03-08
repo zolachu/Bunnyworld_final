@@ -148,19 +148,6 @@ public class GameView extends View {
     }
 
 }
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-// nick and ricky's comments will be here too
-
-
-//for git merge practice
 
 
 

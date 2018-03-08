@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="20sp"/>
 
     <classproject.bunnyworld.GameView
         android:id="@+id/myCanvas"
@@ -66,7 +67,8 @@
                 android:inputType="text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -86,7 +88,8 @@
                 android:inputType="text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -106,7 +109,8 @@
                 android:inputType="numberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -115,39 +119,60 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X: " />
+
             <EditText
                 android:id="@+id/shape_X_editText"
                 android:inputType="numberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="X"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Y: " />
 
             <EditText
                 android:id="@+id/shape_Y_editText"
                 android:inputType="numberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Y"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="W: " />
 
             <EditText
                 android:id="@+id/shape_W_editText"
                 android:inputType="numberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="W"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="H: " />
 
             <EditText
                 android:id="@+id/shape_H_editText"
                 android:inputType="numberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="H"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
 
         </LinearLayout>
+
 
         <LinearLayout
             android:orientation="horizontal"
@@ -165,9 +190,30 @@
                 android:inputType="text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="13sp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/shape_hidden_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hidden" />
+
+            <CheckBox
+                android:id="@+id/shape_movable_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Movable" />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:orientation="horizontal"
@@ -223,7 +269,6 @@
         <EditText
             android:id="@+id/page_name_editText"
             android:inputType="text"
-            android:text="Page2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
