@@ -125,15 +125,4 @@ public class GameView extends View {
     public GShape getSelectedShape() {
         return selectedShape;
     }
-<<<<<<< HEAD
-
 }
-
-
-
-
-
-/// betternick test
-=======
-}
->>>>>>> touch
