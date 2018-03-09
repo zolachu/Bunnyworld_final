@@ -1,8 +1,11 @@
 package classproject.bunnyworld;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 
 import java.util.*;
 
@@ -17,6 +20,10 @@ public class GShape {
 
 	private static Paint fillPaint;
 	private static Paint textPaint;
+	Paint selectedPaint;  //Paints an outline on shape selected in the editor
+	Paint onDropPaint;    //Paints an outline of a different color for on drop actions
+
+
 
 
 	private String name;
@@ -42,6 +49,11 @@ public class GShape {
 		fillPaint.setColor(Color.GRAY);
 		textPaint = new Paint();
 		textPaint.setColor(Color.BLACK);
+
+		selectedPaint = new Paint();
+		selectedPaint.setColor(Color.BLUE);
+		onDropPaint   = new Paint();
+		onDropPaint.setColor(Color.GREEN);
 
 		this.name = name;
 		this.pictureName = "";
@@ -92,11 +104,16 @@ public class GShape {
 		if (isHidden()) {
 			return;
 		}
-
 		if (this.getState() == TEXT) {
 			canvas.drawText(this.text, this.x, this.y, textPaint);
 		} else if (this.getState() == IMAGE) {
-			//canvas.drawBitmap(something...)
+			Context cont = GameManager.getInstance().getGameView().getContext();
+			int resID = cont.getResources().getIdentifier(this.getPictureName(),
+					"drawable", cont.getPackageName());
+
+			BitmapDrawable picToDraw = (BitmapDrawable) cont.getResources().getDrawable(resID);
+			Bitmap bitmap = picToDraw.getBitmap();
+			canvas.drawBitmap(bitmap, x, y, null);
 		} else {
 			float left   = this.x;
 			float right  = this.x + this.width;

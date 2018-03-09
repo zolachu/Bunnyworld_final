@@ -27,7 +27,7 @@ class GameManager {
 
     private GameManager() {
         allGames = new HashSet<Game>();
-        //gameView = ((Activity)(GameView) findViewById(R.id.myCanvas);
+        gameView = null;
         //deepLoad();
     }
 
