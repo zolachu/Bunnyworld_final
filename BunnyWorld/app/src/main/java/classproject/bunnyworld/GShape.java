@@ -6,7 +6,6 @@ import android.graphics.Paint;
 
 import java.util.*;
 
-
 public class GShape {
 
 	private static final int RECT = 0;
@@ -67,12 +66,23 @@ public class GShape {
 		}
 	}
 
+
+	/*
+	 * Checks whether some point (touchX, touchY) is cointained in a
+	 * bounding box, with dimension (x,y,width,height) and
+	 * returns true if the box contains the point
+	 */
 	public static boolean containsPoints(float x, float y, float width, float height,
 										 float touchX, float touchY) {
 		return (touchX >= x && touchX <= x + width &&
 				touchY >= y && touchY <= y + height);
 	}
 
+
+	/*
+	 * Checks whether the shape contains some point (x, y)
+	 *  and returns true if the shape contains the point.
+	 */
 	public boolean containsPoint(Float x, Float y) {
 		return (x >= this.x && x <= this.x + this.width &&
 				y >= this.y && y <= this.y + this.height);
@@ -215,8 +225,47 @@ public class GShape {
 	 */
 	public boolean isOnDropTarget(GShape selectedShape) {
 		String[] onDropActionArray = scriptMap.get(Script.ON_DROP);
-		if(onDropActionArray == null) return false;
-		String possibleSender = onDropActionArray[Script.ON_DROP_SENDER_INDEX];
-		return possibleSender.equals(selectedShape.getName());
+		if(onDropActionArray == null) {
+			return false;
+		} else {
+			String possibleSender = onDropActionArray[Script.ON_DROP_SENDER_INDEX];
+			return possibleSender.equals(selectedShape.getName());
+		}
+	}
+
+	public boolean hasOnDrop() {
+		return (this.scriptMap.containsKey(Script.ON_DROP));
+	}
+
+	public boolean hasOnClick() {
+		return (this.scriptMap.containsKey(Script.ON_CLICK));
+	}
+
+	public boolean hasOnEnter() {
+		return (this.scriptMap.containsKey(Script.ON_ENTER));
+	}
+
+	public String[] getOnDropActionArray() {
+		if (this.hasOnDrop()) {
+			return this.scriptMap.get(Script.ON_DROP);
+		} else {
+			return null;
+		}
+	}
+
+	public String[] getOnClickActionArray() {
+		if (this.hasOnClick()) {
+			return this.scriptMap.get(Script.ON_CLICK);
+		} else {
+			return null;
+		}
+	}
+
+	public String[] getOnEnterActionArray() {
+		if (this.hasOnDrop()) {
+			return this.scriptMap.get(Script.ON_ENTER);
+		} else {
+			return null;
+		}
 	}
 }
