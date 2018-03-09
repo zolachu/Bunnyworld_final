@@ -22,12 +22,13 @@ public class GameView extends View {
 
     //Declare instance variables
     Game game;            //Game object(assuming this is intialized somehow...)
-    Paint selectedPaint;  //Paints an outline on shape selected in the editor
-    Paint onDropPaint;    //Paints an outline of a different color for on drop actions
+    Paint possessionPaint;
     GShape selectedShape; //currently selected shape (selection triggered by clicks (action up/down)
 
     float x, y;
     float downX, downY;
+
+    private static final float POSS_OFFSET = 100.0f; //vertical coordinate of possession boundary
 
     //Constructor
     public GameView(Context context, AttributeSet attrs) {
@@ -37,17 +38,31 @@ public class GameView extends View {
 
     //Helper method to initialize instance variables
     private void init() {
-        selectedPaint = new Paint();
-        selectedPaint.setColor(Color.BLUE);
-        onDropPaint   = new Paint();
-        onDropPaint.setColor(Color.GREEN);
+//        selectedPaint = new Paint();
+//        selectedPaint.setColor(Color.BLUE);
+//        onDropPaint   = new Paint();
+//        onDropPaint.setColor(Color.GREEN);
+        possessionPaint = new Paint();
+        possessionPaint.setColor(Color.BLACK);
         selectedShape = null;
+    }
+
+    int viewWidth, viewHeight;
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        viewWidth = w;
+        viewHeight = h;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //TODO Iterate over list of shapes in the current page and draw items
+        //Draw the possession area boundary line
+        canvas.drawLine(0.0f, viewHeight - POSS_OFFSET, viewWidth,
+                viewHeight-POSS_OFFSET, possessionPaint);
+        game.getCurrPage().draw(canvas);
 
     }
 
