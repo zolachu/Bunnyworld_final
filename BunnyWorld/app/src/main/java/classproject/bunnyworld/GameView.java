@@ -81,31 +81,26 @@ public class GameView extends View {
             /*
              * Handles dragging. If the selectedShape is movable, then
              * the position of the selectedShape is updated.
-             * Also highlights the 
+             * Also highlights the shapes in the page with green paint
+             * if a shape's dropTarget is the selectedShape
              */
             case MotionEvent.ACTION_MOVE:
-                if (selectedShape != null && selectedShape.isMovable()) {
-                    selectedShape.setPosition(
-                            event.getX() - distX,
-                            event.getY() - distY);
+                if (selectedShape != null) {
+                    if (selectedShape.isMovable()) {
+                        selectedShape.setPosition(
+                                event.getX() - distX,
+                                event.getY() - distY);
 
-                    // iterate over the shapes in the currpage,
-                    // and for the shapes whose map contains on drop,
-                    // check if dropShape (as in on drop <dropShape>)
-                    // matches the selectedShape, then highlight (green outline)
+                        for (GShape shape : game.getCurrPage().getShapes()) {
+                            if (!shape.equals(selectedShape)) {
+                                if (shape.isOnDropTarget(selectedShape)) {
+                                    // TODO highlight shape
 
-                    //you're checking whether the selectedshape is the same as
-                    //the targetshapes of shapes in the page
-
-                    for (GShape shape : game.getCurrPage().getShapes()) {
-                        if (!shape.equals(selectedShape)) {
-                            if (shape.isOnDropTarget(selectedShape)) {
-                                // TODO highlight shape
-
+                                }
                             }
                         }
+                        invalidate();
                     }
-                    invalidate();
                 }
                 break;
 

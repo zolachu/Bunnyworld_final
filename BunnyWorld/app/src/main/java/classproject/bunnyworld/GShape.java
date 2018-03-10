@@ -218,33 +218,47 @@ public class GShape {
 				shape.getName().toLowerCase());
 	}
 
-	/* This function checks whether a shape has an onDrop.
+	/*
+	 * This function checks whether a shape has an onDrop.
 	 * If so, it checks to see if the sender for that onDrop
 	 * is the same as the currently selected shape being dragged
 	 * in the game, and returns true if so.
 	 */
 	public boolean isOnDropTarget(GShape selectedShape) {
-		String[] onDropActionArray = scriptMap.get(Script.ON_DROP);
-		if(onDropActionArray == null) {
-			return false;
-		} else {
+		String[] onDropActionArray = this.getOnDropActionArray();
+		if(onDropActionArray != null) {
 			String possibleSender = onDropActionArray[Script.ON_DROP_SENDER_INDEX];
-			return possibleSender.equals(selectedShape.getName());
+			return possibleSender.toLowerCase().equals(selectedShape.getName().toLowerCase());
+		} else {
+			return false;
 		}
 	}
 
+	/*
+	 * Returns true if the shape has an OnDrop Trigger
+	 */
 	public boolean hasOnDrop() {
 		return (this.scriptMap.containsKey(Script.ON_DROP));
 	}
 
+	/*
+	 * Returns true if the shape has an OnClick Trigger
+	 */
 	public boolean hasOnClick() {
 		return (this.scriptMap.containsKey(Script.ON_CLICK));
 	}
 
+	/*
+	 * Returns true if the shape has an OnEnter Trigger
+	 */
 	public boolean hasOnEnter() {
 		return (this.scriptMap.containsKey(Script.ON_ENTER));
 	}
 
+	/*
+	 * Returns the action array for the onDrop Trigger if the shape has an OnDrop Trigger.
+	 * Else, return null
+	 */
 	public String[] getOnDropActionArray() {
 		if (this.hasOnDrop()) {
 			return this.scriptMap.get(Script.ON_DROP);
@@ -253,6 +267,10 @@ public class GShape {
 		}
 	}
 
+	/*
+	 * Returns the action array for the onClick Trigger if the shape has an OnClick Trigger.
+	 * Else, return null
+	 */
 	public String[] getOnClickActionArray() {
 		if (this.hasOnClick()) {
 			return this.scriptMap.get(Script.ON_CLICK);
@@ -261,6 +279,10 @@ public class GShape {
 		}
 	}
 
+	/*
+	 * Returns the action array for the onEnter Trigger if the shape has an OnEnter Trigger.
+	 * Else, return null
+	 */
 	public String[] getOnEnterActionArray() {
 		if (this.hasOnEnter()) {
 			return this.scriptMap.get(Script.ON_ENTER);
