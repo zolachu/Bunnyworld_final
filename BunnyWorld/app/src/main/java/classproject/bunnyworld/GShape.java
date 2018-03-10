@@ -18,7 +18,6 @@ public class GShape {
 	private static Paint fillPaint;
 	private static Paint textPaint;
 
-
 	private String name;
 	private String pictureName;
 	private String text;
@@ -33,10 +32,6 @@ public class GShape {
 	private Map<String, String[]> scriptMap;
 
 	public GShape(String name, float x, float y) {
-		//checking whether the name is valid (not taken already)
-		//should somehow be check before the constructor is run by the game object?
-		// From the game object we look at the shape array and assign the default name
-		// later this name can be changed.
 
 		fillPaint = new Paint();
 		fillPaint.setColor(Color.GRAY);
@@ -66,7 +61,6 @@ public class GShape {
 		}
 	}
 
-
 	/*
 	 * Checks whether some point (touchX, touchY) is cointained in a
 	 * bounding box, with dimension (x,y,width,height) and
@@ -78,10 +72,9 @@ public class GShape {
 				touchY >= y && touchY <= y + height);
 	}
 
-
 	/*
 	 * Checks whether the shape contains some point (x, y)
-	 *  and returns true if the shape contains the point.
+	 * and returns true if the shape contains the point.
 	 */
 	public boolean containsPoint(Float x, Float y) {
 		return (x >= this.x && x <= this.x + this.width &&
@@ -120,7 +113,8 @@ public class GShape {
 		}
 	}
 
-	/* Uses its current x and y and the passed in canvasBottom
+	/*
+	 * Uses its current x and y and the passed in canvasBottom
 	 * to figure out whether half of itself is within possessions
 	 * Returns true if yes
 	 */
