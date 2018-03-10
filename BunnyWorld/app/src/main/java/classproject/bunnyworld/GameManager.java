@@ -11,7 +11,6 @@ import java.util.Set;
  * Zola, I wrote some basic functions that I think the game will need but left
  * the more involved ones empty. Please feel free to change variable names, or
  * to change/add functions. This was just what I thought of off the top of my head.
- *
  */
 
 class GameManager {
@@ -31,7 +30,8 @@ class GameManager {
         //deepLoad();
     }
 
-    /* saves all of its games
+    /*
+     * Saves all of its games
      */
     public void deepSave() {
         for(Game game: allGames) {
@@ -74,7 +74,9 @@ class GameManager {
      */
     public Game getGame(String gameName) {
         for (Game game : allGames) {
-            if(game.getName().equals(gameName)) return game;
+            if(game.getName().toLowerCase().equals(gameName.toLowerCase())) {
+                return game;
+            }
         }
         return null;
     }
@@ -95,8 +97,8 @@ class GameManager {
     // set the current game
     public void setCurGame(String gameName) {
         for (Game game : allGames) {
-            String curGameName = game.getName();
-            if (curGameName.equals(gameName)) {
+            String curGameName = game.getName().toLowerCase();
+            if (curGameName.equals(gameName.toLowerCase())) {
                 curGame = game;
                 return;
             }
@@ -121,14 +123,13 @@ class GameManager {
      */
     public boolean duplicateGameName(String name) {
         for (Game game : allGames) {
-            String curGameName = game.getName();
-            if (curGameName.equals(name)) {
+            String curGameName = game.getName().toLowerCase();
+            if (curGameName.equals(name.toLowerCase())) {
                 return true;
             }
         }
         return false;
     }
-
 
     //zola adds her stuff here
 

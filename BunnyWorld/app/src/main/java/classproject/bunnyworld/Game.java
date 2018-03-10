@@ -1,12 +1,8 @@
 package classproject.bunnyworld;
 
-import java.io.FileDescriptor;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.lang.String;
-
-//import javax.imageio.ImageIO;
 
 public class Game {
 
