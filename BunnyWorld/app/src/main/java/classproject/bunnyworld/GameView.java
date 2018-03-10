@@ -26,8 +26,10 @@ public class GameView extends View {
     float downX, downY; // x and y of the shape when the action_down is detected
     float distX, distY; // distance of a click location (inside a shape) from x and y fo the shape
 
+    int viewWidth, viewHeight;
+
     private static final float VERT_OFFSET = 300.0f; //vertical coordinate of possession boundary
-    private static final float HOR_OFFSET = 500.0f;
+    private static final float HOR_OFFSET  = 500.0f;
 
     //Constructor
     public GameView(Context context, AttributeSet attrs) {
@@ -46,12 +48,10 @@ public class GameView extends View {
         selectedShape = null;
     }
 
-    int viewWidth, viewHeight;
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        viewWidth = w;
+        viewWidth  = w;
         viewHeight = h;
     }
 
@@ -60,6 +60,7 @@ public class GameView extends View {
         super.onDraw(canvas);
         String curPage = game.getCurrPage().getName();
         //Draw the possession area boundary line
+        //canvas.drawLine(0.0f, viewHeight - VERT_OFFSET, viewWidth - HOR_OFFSET,
         canvas.drawLine(0.0f, viewHeight - VERT_OFFSET, viewWidth - HOR_OFFSET,
                 viewHeight-VERT_OFFSET, possessionPaint);
         game.getCurrPage().draw(canvas);
@@ -111,7 +112,6 @@ public class GameView extends View {
                         selectedShape.setPosition(
                                 event.getX() - distX,
                                 event.getY() - distY);
-
 
                         for (GShape shape : game.getCurrPage().getShapes()) {
                             if (!shape.equals(selectedShape)) {
@@ -189,7 +189,7 @@ public class GameView extends View {
                         }
                     }
                 }
-                    invalidate();
+                invalidate();
 
                 for (GShape shape : game.getCurrPage().getShapes()) {
                     shape.unselectOnDrop();
