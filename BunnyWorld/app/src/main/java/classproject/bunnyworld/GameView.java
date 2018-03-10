@@ -56,7 +56,11 @@ public class GameView extends View {
 
         switch (event.getAction()) {
 
-            //Handles beginning of a click or a drag
+            /*
+             * Handles beginning of a click or a drag
+             * Click is not detected in action_down, but when the mouse is released
+             * So we only determine selectedShape and save x,y variables
+             */
             case MotionEvent.ACTION_DOWN:
                 x = event.getX();
                 y = event.getY();
@@ -70,12 +74,16 @@ public class GameView extends View {
 
                     //TODO highlight the selected shape with the select paint
 
-
                     invalidate();
                 }
                 break;
 
-            case MotionEvent.ACTION_MOVE: //Handles dragging
+            /*
+             * Handles dragging. If the selectedShape is movable, then
+             * the position of the selectedShape is updated.
+             * Also highlights the 
+             */
+            case MotionEvent.ACTION_MOVE:
                 if (selectedShape != null && selectedShape.isMovable()) {
                     selectedShape.setPosition(
                             event.getX() - distX,
