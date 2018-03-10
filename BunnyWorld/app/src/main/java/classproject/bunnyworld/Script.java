@@ -38,13 +38,13 @@ public class Script {
     // Access to TRIGGERS
     static final String ON_CLICK = "onClick";
     static final String ON_ENTER = "onEnter";
-    static final String ON_DROP = "onDrop";
+    static final String ON_DROP  = "onDrop";
 
     // Access to actions
     static final String GO_TO = "goto"; // format different because goto is a keyword in Java apparently
-    static final String PLAY = "play";
-    static final String HIDE = "hide";
-    static final String SHOW = "show";
+    static final String PLAY  = "play";
+    static final String HIDE  = "hide";
+    static final String SHOW  = "show";
 
 
     // ondrop has extra string in argument which is the thing being dropped on the object
