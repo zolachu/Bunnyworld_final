@@ -4,7 +4,8 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 import java.util.HashMap;
-
+import java.util.Map;
+import java.lang.String;
 /**
  * Created by nicholasseay on 3/6/18.
  */
@@ -52,10 +53,11 @@ public class Script {
      * keys will be one of the Triggers above, and the value will be the complete
      * list of instructions to be completed in the event of the trigger.
      */
-    static void parse(String scriptText, HashMap<String, String[]> scriptMap) { // <trigger, instruction>
+    static void parse(String scriptText, Map<String, String[]> scriptMap) { // <trigger, instruction>
         String[] allInstructions = scriptText.split(";");
 
         for (String instruct : allInstructions) {
+            instruct.trim();
             int spaceIndex = instruct.indexOf(' ');
             String trigger = instruct.substring(0, spaceIndex);
             String action = instruct.substring(spaceIndex + 1); // eliminate space at the beginning
