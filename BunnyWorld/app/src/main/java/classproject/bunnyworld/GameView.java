@@ -18,7 +18,7 @@ import java.util.Set;
 public class GameView extends View {
 
     //Declare instance variables
-    Game game;            //Game object(assuming this is intialized somehow...)
+    Game game = GameManager.getInstance().getCurGame();
     Paint possessionPaint;
     GShape selectedShape; //currently selected shape (selection triggered by clicks (action up/down)
 
@@ -26,7 +26,8 @@ public class GameView extends View {
     float downX, downY; // x and y of the shape when the action_down is detected
     float distX, distY; // distance of a click location (inside a shape) from x and y fo the shape
 
-    private static final float POSS_OFFSET = 100.0f; //vertical coordinate of possession boundary
+    private static final float VERT_OFFSET = 300.0f; //vertical coordinate of possession boundary
+    private static final float HOR_OFFSET = 500.0f;
 
     //Constructor
     public GameView(Context context, AttributeSet attrs) {
@@ -57,9 +58,10 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        String curPage = game.getCurrPage().getName();
         //Draw the possession area boundary line
-        canvas.drawLine(0.0f, viewHeight - POSS_OFFSET, viewWidth,
-                viewHeight-POSS_OFFSET, possessionPaint);
+        canvas.drawLine(0.0f, viewHeight - VERT_OFFSET, viewWidth - HOR_OFFSET,
+                viewHeight-VERT_OFFSET, possessionPaint);
         game.getCurrPage().draw(canvas);
 
     }
@@ -80,17 +82,21 @@ public class GameView extends View {
                 x = event.getX();
                 y = event.getY();
 
+                for (GShape shape : game.getCurrPage().getShapes()) {
+                    shape.unselectShape();
+                }
+
+
                 selectedShape = game.getCurrPage().getTopShape(x, y);
                 if (selectedShape != null) {
                     downX = selectedShape.getX();
                     downY = selectedShape.getY();
                     distX = x - downX;
                     distY = y - downY;
-
-                    //TODO highlight the selected shape with the select paint
-
-                    invalidate();
+                    //invalidate();
+                    selectedShape.selectShape();
                 }
+                invalidate();
                 break;
 
             /*
@@ -106,14 +112,16 @@ public class GameView extends View {
                                 event.getX() - distX,
                                 event.getY() - distY);
 
+
                         for (GShape shape : game.getCurrPage().getShapes()) {
                             if (!shape.equals(selectedShape)) {
                                 if (shape.isOnDropTarget(selectedShape)) {
-                                    // TODO highlight shape
+                                    selectedShape.selectOnDrop();
 
                                 }
                             }
                         }
+
                         invalidate();
                     }
                 }
@@ -122,68 +130,70 @@ public class GameView extends View {
             case MotionEvent.ACTION_UP:
                 x = event.getX();
                 y = event.getY();
-                if (selectedShape != null) {
-                    if (!selectedShape.isMovable() &&
-                            GShape.containsPoints(downX, downY,
-                                    selectedShape.getWidth(), selectedShape.getHeight(), x, y)) {
-                        //this means it was a click so trigger on click here
+
+                if (selectedShape != null && !selectedShape.isMovable() &&
+                        GShape.containsPoints(downX, downY,
+                                selectedShape.getWidth(), selectedShape.getHeight(), x, y)) {
+                    //this means it was a click so trigger on click here
+                    if (selectedShape.hasOnClick()) {
+                        Script.perform(game, selectedShape.getOnClickActionArray());
+                    }
+
+                } else if (selectedShape != null && selectedShape.isMovable()) {
+                    // it's either a click or a release after a drag.
+                    // To be able to drag the shape has to be movable.
+
+                    // if the shape was dragged (moved) by less than
+                    // 5% of the width and height, then detect it as a click
+                    // rather than a drag.
+                    if (Math.abs(downX + distX - x) <= 0.05 * selectedShape.getWidth() &&
+                            Math.abs(downY + distY - y) <= 0.05 * selectedShape.getHeight()) {
                         if (selectedShape.hasOnClick()) {
                             Script.perform(game, selectedShape.getOnClickActionArray());
                         }
 
-                    } else if (selectedShape.isMovable()) {
-                        // it's either a click or a release after a drag.
-                        // To be able to drag the shape has to be movable.
+                    } else {
+                        // it's a drag
 
-                        // if the shape was dragged (moved) by less than
-                        // 5% of the width and height, then detect it as a click
-                        // rather than a drag.
-                        if (Math.abs(downX + distX - x) <= 0.05 * selectedShape.getWidth() &&
-                                Math.abs(downY + distY - y) <= 0.05 * selectedShape.getHeight()) {
-                            if (selectedShape.hasOnClick()) {
-                                Script.perform(game, selectedShape.getOnClickActionArray());
-                            }
-                        } else {
-                            // it's a drag
+                        // iterate over the shapes in the page,
+                        // check if their shapes overlap with the currently selected shape
+                        // at its current position, and if it does, and contains ondrop,
+                        // and the drop target matches the selected shape,
+                        // perform on drop action
+                        for (GShape shape : game.getCurrPage().getShapes()) {
 
-                            // iterate over the shapes in the page,
-                            // check if their shapes overlap with the currently selected shape
-                            // at its current position, and if it does, and contains ondrop,
-                            // and the drop target matches the selected shape,
-                            // perform on drop action
-                            for (GShape shape : game.getCurrPage().getShapes()) {
+                            //left:   x
+                            //right:  x + width
+                            //top:    y
+                            //bottom: y + height
 
-                                //left:   x
-                                //right:  x + width
-                                //top:    y
-                                //bottom: y + height
+                            //left or right
+                            // if selectedShape's left is greater than shape's right
+                            // if selectedShape's right is less than shape's left
+                            //above or below
+                            // if selectedShape's top is greater than shape's bottom
+                            // if selectedShape's bottom is less than shape's top
+                            // then there is no overlap
 
-                                //left or right
-                                // if selectedShape's left is greater than shape's right
-                                // if selectedShape's right is less than shape's left
-                                //above or below
-                                // if selectedShape's top is greater than shape's bottom
-                                // if selectedShape's bottom is less than shape's top
-                                // then there is no overlap
-
-                                if (!(selectedShape.getX() > shape.getX() + shape.getWidth() ||
-                                        selectedShape.getX() + selectedShape.getWidth() < shape.getX() ||
-                                        selectedShape.getY() > shape.getY() + shape.getHeight() ||
-                                        selectedShape.getY() + selectedShape.getHeight() < shape.getY())) {
-                                    if (!shape.equals(selectedShape) &&
-                                            shape.isOnDropTarget(selectedShape)){
-                                        Script.perform(game, shape.getOnDropActionArray());
-                                    }
+                            if (!(selectedShape.getX() > shape.getX() + shape.getWidth() ||
+                                    selectedShape.getX() + selectedShape.getWidth() < shape.getX() ||
+                                    selectedShape.getY() > shape.getY() + shape.getHeight() ||
+                                    selectedShape.getY() + selectedShape.getHeight() < shape.getY())) {
+                                if (!shape.equals(selectedShape) &&
+                                        shape.isOnDropTarget(selectedShape)){
+                                    Script.perform(game, shape.getOnDropActionArray());
                                 }
                             }
+
+                         //   selectedShape.setPosition(x, y);
                         }
                     }
-                    invalidate();
                 }
+                    invalidate();
 
-                //TODO also un-highlight the selected shape and the highlighted shapes
-                // (triggered by ondrop clause) upon release (action up)
-
+                for (GShape shape : game.getCurrPage().getShapes()) {
+                    shape.unselectOnDrop();
+                }
 
                 break;
         } //end of switch

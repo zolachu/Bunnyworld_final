@@ -118,7 +118,7 @@ public class Game {
 		int length = pages.size();
 		StringBuilder pageName = new StringBuilder();
 		pageName.append("Page");
-		pageName.append(Integer.valueOf(length));
+		pageName.append(Integer.valueOf(length+1));
 		String name = pageName.toString();
 
 		while (duplicatePageName(name)) {

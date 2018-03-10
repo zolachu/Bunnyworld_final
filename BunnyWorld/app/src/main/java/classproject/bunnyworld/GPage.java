@@ -7,10 +7,13 @@ public class GPage {
 
 	private String name;
 	private List<GShape> shapes;
+	private GShape selectedShape;
 
 	public GPage(String name) {
 		this.name = name.toLowerCase();
 		this.shapes = new ArrayList<GShape>();
+		selectedShape = null;
+
 	}
 
 	/*
