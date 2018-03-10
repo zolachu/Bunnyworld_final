@@ -25,7 +25,6 @@ public class GShape {
 
 
 
-
 	private String name;
 	private String pictureName;
 	private String text;
@@ -40,10 +39,6 @@ public class GShape {
 	private Map<String, String[]> scriptMap;
 
 	public GShape(String name, float x, float y) {
-		//checking whether the name is valid (not taken already)
-		//should somehow be check before the constructor is run by the game object?
-		// From the game object we look at the shape array and assign the default name
-		// later this name can be changed.
 
 		fillPaint = new Paint();
 		fillPaint.setColor(Color.GRAY);
@@ -78,7 +73,6 @@ public class GShape {
 		}
 	}
 
-
 	/*
 	 * Checks whether some point (touchX, touchY) is cointained in a
 	 * bounding box, with dimension (x,y,width,height) and
@@ -90,10 +84,9 @@ public class GShape {
 				touchY >= y && touchY <= y + height);
 	}
 
-
 	/*
 	 * Checks whether the shape contains some point (x, y)
-	 *  and returns true if the shape contains the point.
+	 * and returns true if the shape contains the point.
 	 */
 	public boolean containsPoint(Float x, Float y) {
 		return (x >= this.x && x <= this.x + this.width &&
@@ -137,7 +130,8 @@ public class GShape {
 		}
 	}
 
-	/* Uses its current x and y and the passed in canvasBottom
+	/*
+	 * Uses its current x and y and the passed in canvasBottom
 	 * to figure out whether half of itself is within possessions
 	 * Returns true if yes
 	 */
@@ -235,33 +229,47 @@ public class GShape {
 				shape.getName().toLowerCase());
 	}
 
-	/* This function checks whether a shape has an onDrop.
+	/*
+	 * This function checks whether a shape has an onDrop.
 	 * If so, it checks to see if the sender for that onDrop
 	 * is the same as the currently selected shape being dragged
 	 * in the game, and returns true if so.
 	 */
 	public boolean isOnDropTarget(GShape selectedShape) {
-		String[] onDropActionArray = scriptMap.get(Script.ON_DROP);
-		if(onDropActionArray == null) {
-			return false;
-		} else {
+		String[] onDropActionArray = this.getOnDropActionArray();
+		if(onDropActionArray != null) {
 			String possibleSender = onDropActionArray[Script.ON_DROP_SENDER_INDEX];
-			return possibleSender.equals(selectedShape.getName());
+			return possibleSender.toLowerCase().equals(selectedShape.getName().toLowerCase());
+		} else {
+			return false;
 		}
 	}
 
+	/*
+	 * Returns true if the shape has an OnDrop Trigger
+	 */
 	public boolean hasOnDrop() {
 		return (this.scriptMap.containsKey(Script.ON_DROP));
 	}
 
+	/*
+	 * Returns true if the shape has an OnClick Trigger
+	 */
 	public boolean hasOnClick() {
 		return (this.scriptMap.containsKey(Script.ON_CLICK));
 	}
 
+	/*
+	 * Returns true if the shape has an OnEnter Trigger
+	 */
 	public boolean hasOnEnter() {
 		return (this.scriptMap.containsKey(Script.ON_ENTER));
 	}
 
+	/*
+	 * Returns the action array for the onDrop Trigger if the shape has an OnDrop Trigger.
+	 * Else, return null
+	 */
 	public String[] getOnDropActionArray() {
 		if (this.hasOnDrop()) {
 			return this.scriptMap.get(Script.ON_DROP);
@@ -270,6 +278,10 @@ public class GShape {
 		}
 	}
 
+	/*
+	 * Returns the action array for the onClick Trigger if the shape has an OnClick Trigger.
+	 * Else, return null
+	 */
 	public String[] getOnClickActionArray() {
 		if (this.hasOnClick()) {
 			return this.scriptMap.get(Script.ON_CLICK);
@@ -278,6 +290,10 @@ public class GShape {
 		}
 	}
 
+	/*
+	 * Returns the action array for the onEnter Trigger if the shape has an OnEnter Trigger.
+	 * Else, return null
+	 */
 	public String[] getOnEnterActionArray() {
 		if (this.hasOnEnter()) {
 			return this.scriptMap.get(Script.ON_ENTER);

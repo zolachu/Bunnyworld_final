@@ -13,12 +13,20 @@ public class GPage {
 		this.shapes = new ArrayList<GShape>();
 	}
 
-	/* returns a GShape object given its name
+	/*
+	 * Returns the shapes list
+	 */
+	public List<GShape> getShapes() {
+		return this.shapes;
+	}
+
+	/*
+	 * Returns a GShape object given its name
      * or returns null if a GShape by that name does not
  	 * exist.
  	 */
 	public GShape getShape(String name) {
-		for(GShape shape: shapes) {
+		for(GShape shape: this.shapes) {
 			if (shape.getName().toLowerCase().equals(name.toLowerCase())) {
 				return shape;
 			}
@@ -26,12 +34,8 @@ public class GPage {
 		return null;
 	}
 
-	public List<GShape> getShapes() {
-		return shapes;
-	}
-
 	/*
-	 * returns a top GShape object pointed by the mouse
+	 * Returns a top GShape object pointed by the mouse
 	 * at coordinates (x,y), if there is one. If not,
 	 * returns null.
 	 */

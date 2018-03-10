@@ -34,29 +34,24 @@ public class Script {
      * @author nicholasseay
      */
 
-
-    // Access to TRIGGERS
     static final String ON_CLICK = "onClick";
     static final String ON_ENTER = "onEnter";
     static final String ON_DROP  = "onDrop";
 
-    // Access to actions
     static final String GO_TO = "goto"; // format different because goto is a keyword in Java apparently
     static final String PLAY  = "play";
     static final String HIDE  = "hide";
     static final String SHOW  = "show";
 
-
     // ondrop has extra string in argument which is the thing being dropped on the object
     // it will be the first element of the actionArray as denoted below
     static final int ON_DROP_SENDER_INDEX = 0;
 
-
-
-    /* Populates the given map using the string of raw script text
-         * keys will be one of the Triggers above, and the value will be the complete
-         * list of instructions to be completed in the event of the trigger.
-         */
+    /*
+     * Populates the given map using the string of raw script text
+     * keys will be one of the Triggers above, and the value will be the complete
+     * list of instructions to be completed in the event of the trigger.
+     */
     static void parse(String scriptText, HashMap<String, String[]> scriptMap) { // <trigger, instruction>
         String[] allInstructions = scriptText.split(";");
 
@@ -69,8 +64,9 @@ public class Script {
         }
     }
 
-    /* Given an array of actions and targets, the Script decides what the action is and what its inputs
-     * are, then performs the desired action
+    /*
+     * Given an array of actions and targets, the Script decides what the action is
+     * and what its inputs are, then performs the desired action
      */
     static void perform(Game game, String[] actionArray) {
         if (actionArray == null) return;
@@ -108,7 +104,8 @@ public class Script {
         }
     }
 
-    /* switches game's current page
+    /*
+     * Switches game's current page
      * this function assumes only one page
      */
     static void goTo(Game game, String pageName) {
@@ -116,7 +113,8 @@ public class Script {
         if (page != null) game.setCurrPage(page);
     }
 
-    /* plays the sounds given by param
+    /*
+     * Plays the sounds given by param
      * assumes there are no spaces within file names
      */
     static void play(String sound) {
@@ -142,7 +140,8 @@ public class Script {
         }
     }
 
-    /* hides or shows the shapes given by param
+    /*
+     * Hides or shows the shapes given by param
      * based on the boolean passed into hide.
      * If hide is true, shape will be hidden.
      * (switches their hidden boolean to true)

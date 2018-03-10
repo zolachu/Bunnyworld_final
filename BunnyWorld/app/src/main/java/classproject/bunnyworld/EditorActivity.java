@@ -47,19 +47,19 @@ public class EditorActivity extends AppCompatActivity {
         displayGameName.append(curGame.getName());
         gameName.setText(displayGameName.toString());
 
-        myView = findViewById(R.id.myCanvas);
-        shapeName = findViewById(R.id.shape_name_editText);
+        myView       = findViewById(R.id.myCanvas);
+        shapeName    = findViewById(R.id.shape_name_editText);
         x_coordinate = findViewById(R.id.shape_X_editText);
         y_coordinate = findViewById(R.id.shape_Y_editText);
-        width = findViewById(R.id.shape_W_editText);
-        height = findViewById(R.id.shape_H_editText);
-        texts = findViewById(R.id.shape_text_editText);
-        images = findViewById(R.id.shape_imgName_editText);
-        scripts = findViewById(R.id.shape_script_editText);
-        fontSizes = findViewById(R.id.shape_fontSize_editText);
-        hidden_box = findViewById(R.id.shape_hidden_checkBox);
-        movable_box = findViewById(R.id.shape_movable_checkBox);
-        pageName = findViewById(R.id.page_name_editText);
+        width        = findViewById(R.id.shape_W_editText);
+        height       = findViewById(R.id.shape_H_editText);
+        texts        = findViewById(R.id.shape_text_editText);
+        images       = findViewById(R.id.shape_imgName_editText);
+        scripts      = findViewById(R.id.shape_script_editText);
+        fontSizes    = findViewById(R.id.shape_fontSize_editText);
+        hidden_box   = findViewById(R.id.shape_hidden_checkBox);
+        movable_box  = findViewById(R.id.shape_movable_checkBox);
+        pageName     = findViewById(R.id.page_name_editText);
 
         displayCurPageName();
     }
