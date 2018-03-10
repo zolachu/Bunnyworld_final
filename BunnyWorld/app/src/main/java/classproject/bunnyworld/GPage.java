@@ -111,8 +111,8 @@ public class GPage {
 
 	public boolean duplicateShapeName(String shapeName) {
 		for (GShape shape : shapes) {
-			String curName = shape.getName();
-			if (curName.equals(shapeName)) {
+			String curName = shape.getName().toLowerCase();
+			if (curName.equals(shapeName.toLowerCase())) {
 				return true;
 			}
 		}
