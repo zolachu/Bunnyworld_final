@@ -279,7 +279,7 @@ public class GShape {
 	}
 
 	public String[] getOnEnterActionArray() {
-		if (this.hasOnDrop()) {
+		if (this.hasOnEnter()) {
 			return this.scriptMap.get(Script.ON_ENTER);
 		} else {
 			return null;
