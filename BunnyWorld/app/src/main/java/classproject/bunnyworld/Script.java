@@ -34,7 +34,6 @@ public class Script {
      * @author nicholasseay
      */
 
-
     // Access to TRIGGERS
     static final String ON_CLICK = "onClick";
     static final String ON_ENTER = "onEnter";

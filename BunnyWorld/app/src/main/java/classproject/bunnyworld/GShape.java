@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 
 import java.util.*;
@@ -15,8 +17,8 @@ public class GShape {
 	public static final int IMAGE = 1;
 	public static final int TEXT  = 2;
 
-	private static final float INITIAL_WIDTH  = 5;
-	private static final float INITIAL_HEIGHT = 5;
+	private static final float INITIAL_WIDTH  = 100;
+	private static final float INITIAL_HEIGHT = 100;
 
 	private static Paint fillPaint;
 	private static Paint textPaint;
@@ -24,6 +26,8 @@ public class GShape {
 	Paint onDropPaint;    //Paints an outline of a different color for on drop actions
 
 
+	private boolean isSelected;
+	private boolean isOnDrop;
 
 
 	private String name;
@@ -52,8 +56,11 @@ public class GShape {
 
 		selectedPaint = new Paint();
 		selectedPaint.setColor(Color.BLUE);
+		selectedPaint.setStyle(Paint.Style.STROKE);
+
 		onDropPaint   = new Paint();
 		onDropPaint.setColor(Color.GREEN);
+		onDropPaint.setStyle(Paint.Style.STROKE);
 
 		this.name = name;
 		this.pictureName = "";
@@ -78,7 +85,6 @@ public class GShape {
 		}
 	}
 
-
 	/*
 	 * Checks whether some point (touchX, touchY) is cointained in a
 	 * bounding box, with dimension (x,y,width,height) and
@@ -100,7 +106,12 @@ public class GShape {
 				y >= this.y && y <= this.y + this.height);
 	}
 
-	public void draw(Canvas canvas ) {
+	public void draw(Canvas canvas) {
+		float left   = this.x;
+		float right  = this.x + this.width;
+		float top    = this.y;
+		float bottom = this.y + this.height;
+
 		if (isHidden()) {
 			return;
 		}
@@ -110,16 +121,17 @@ public class GShape {
 			Context cont = GameManager.getInstance().getGameView().getContext();
 			int resID = cont.getResources().getIdentifier(this.getPictureName(),
 					"drawable", cont.getPackageName());
-
 			BitmapDrawable picToDraw = (BitmapDrawable) cont.getResources().getDrawable(resID);
 			Bitmap bitmap = picToDraw.getBitmap();
-			canvas.drawBitmap(bitmap, x, y, null);
+			canvas.drawBitmap(bitmap, null, new RectF(left, top, right, bottom), null);
+			//canvas.drawBitmap(bitmap, x, y, null);
 		} else {
-			float left   = this.x;
-			float right  = this.x + this.width;
-			float top    = this.y;
-			float bottom = this.y + this.height;
 			canvas.drawRect(left, top, right, bottom, fillPaint);
+		}
+		if (this.getOnDrop() == true) {
+			canvas.drawRect(left, top, right, bottom, onDropPaint);
+		} else if(this.getSelected() == true) {
+			canvas.drawRect(left, top, right, bottom, selectedPaint);
 		}
 	}
 
@@ -217,10 +229,22 @@ public class GShape {
 		this.y = y;
 	}
 
-	public void setPosition(float x, float y) {
-		this.x = x;
-		this.y = y;
+	public void setPosition(float x1, float y1) {
+		this.x = x1;
+		this.y = y1;
 	}
+
+	public void selectShape() { this.isSelected = true; }
+
+	public void unselectShape() { this.isSelected = false; }
+
+	public boolean getSelected() { return this.isSelected; }
+
+	public void selectOnDrop() { this.isOnDrop = true; }
+
+	public void unselectOnDrop() { this.isOnDrop = false; }
+
+	public boolean getOnDrop() { return this.isOnDrop; }
 
 	public void setWidth(float width) {
 		this.width = width;

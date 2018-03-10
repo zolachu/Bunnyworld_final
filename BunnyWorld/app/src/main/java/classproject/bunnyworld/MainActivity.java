@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         GameManager gameManager = GameManager.getInstance();
         EditText gameName = findViewById(R.id.game_name_editText);
         String name = gameName.getText().toString();
-
-        gameManager.setGameView(this);
         boolean duplicate = gameManager.duplicateGameName(name);
         if (duplicate) {
             Toast toast = Toast.makeText(getApplicationContext(),

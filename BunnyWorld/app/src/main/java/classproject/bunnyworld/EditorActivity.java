@@ -42,12 +42,15 @@ public class EditorActivity extends AppCompatActivity {
         curGame = gameManager.getCurGame();
         curPage = curGame.getCurrPage();
 
+        gameManager.setGameView(this);
+
         TextView gameName = findViewById(R.id.gameName_textView);
         StringBuilder displayGameName = new StringBuilder("Current Game: ");
         displayGameName.append(curGame.getName());
         gameName.setText(displayGameName.toString());
 
         myView = findViewById(R.id.myCanvas);
+
         shapeName = findViewById(R.id.shape_name_editText);
         x_coordinate = findViewById(R.id.shape_X_editText);
         y_coordinate = findViewById(R.id.shape_Y_editText);
@@ -102,6 +105,8 @@ public class EditorActivity extends AppCompatActivity {
         if (hidden_box.isChecked()) curShape.setHidden(true);
         if (movable_box.isChecked()) curShape.setMovable(true);
 
+        myView.invalidate();
+
     }
 
     /*
@@ -124,6 +129,9 @@ public class EditorActivity extends AppCompatActivity {
         String x = x_coordinate.getText().toString();
         String y = y_coordinate.getText().toString();
 
+        String w = width.getText().toString();
+        String h = height.getText().toString();
+
         if (x.isEmpty() || y.isEmpty()) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Must enter X and Y coordinate!",
@@ -131,6 +139,7 @@ public class EditorActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
 
         String text = texts.getText().toString();
         String image = images.getText().toString();
@@ -150,6 +159,14 @@ public class EditorActivity extends AppCompatActivity {
         if (!script.isEmpty()) newShape.setScriptText(script);
         if (!image.isEmpty()) newShape.setPictureName(image);
         if (!fontSize.isEmpty()) newShape.setFontSize(Integer.valueOf(fontSize));
+
+        if (!h.isEmpty()) { newShape.setHeight(Float.parseFloat(h)); }
+
+        if(!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
+
+        CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
+
+        if (movableBox.isChecked()) { newShape.setMovable(true); }
 
         // add newShape to the current page's list of shapes
         curPage.addShape(newShape);
@@ -177,9 +194,12 @@ public class EditorActivity extends AppCompatActivity {
         String pageName = curGame.assignDefaultPageName();
         GPage newPage = new GPage(pageName);
 
+
         // step 1: add a new page to the current game
         curGame.addPage(newPage);
         curGame.setCurrPage(newPage);
+        curPage = curGame.getCurrPage();
+
         displayCurPageName();
 
         // step 2: ask the custom view to redraw the new empty page
@@ -193,6 +213,7 @@ public class EditorActivity extends AppCompatActivity {
         // step 1: get the previous page from the current game's list of pages
         GPage prevGPage = curGame.prePage();
         curGame.setCurrPage(prevGPage);
+        curPage = curGame.getCurrPage();
         displayCurPageName();
 
         // step 2: ask the custom view to redraw the previous page
@@ -206,6 +227,7 @@ public class EditorActivity extends AppCompatActivity {
         // step 1: get the previous page from the current game's list of pages
         GPage nextGPage = curGame.nextPage();
         curGame.setCurrPage(nextGPage);
+        curPage = curGame.getCurrPage();
         displayCurPageName();
 
         // step 2: ask the custom view to redraw the previous page
@@ -241,6 +263,7 @@ public class EditorActivity extends AppCompatActivity {
         if (!curGame.isFirstPage(curPage)) {
             curGame.removePage(curPage);
             curGame.setCurrPage(curGame.getFirstPage());
+            curPage = curGame.getCurrPage();
             displayCurPageName();
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
@@ -293,7 +316,7 @@ public class EditorActivity extends AppCompatActivity {
      * Displays current page name
      */
     public void displayCurPageName() {
-        String curPageName = curPage.getName();
+        String curPageName = curGame.getCurrPage().getName();
         pageName.setText(curPageName);
     }
 
