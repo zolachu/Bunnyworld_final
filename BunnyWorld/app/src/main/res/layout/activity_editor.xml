@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="20sp"/>
+        android:textSize="15sp"/>
 
 
 
@@ -277,6 +277,13 @@
                 android:onClick="addPage" />
 
             <Button
+                android:id="@+id/page_delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:onClick="deletePage" />
+
+            <Button
                 android:id="@+id/page_left_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -303,13 +310,6 @@
                 android:layout_height="wrap_content"
                 android:text="Update"
                 android:onClick="updatePage" />
-
-            <Button
-                android:id="@+id/page_delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delete"
-                android:onClick="deletePage" />
 
             <Button
                 android:id="@+id/save_button"

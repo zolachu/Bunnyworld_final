@@ -13,7 +13,7 @@ import java.util.*;
 
 public class GShape {
 
-	private static final int RECT = 0;
+	public static final int RECT  = 0;
 	public static final int IMAGE = 1;
 	public static final int TEXT  = 2;
 
@@ -76,6 +76,12 @@ public class GShape {
 		this(name, x, y);
 		if (type == TEXT) {
 			this.text = text;
+
+			Rect textBounds = new Rect();
+			textPaint.getTextBounds(text, 0, text.length(), textBounds);
+			this.width  = (float) (textBounds.right - textBounds.left);
+			this.height = (float) (textBounds.bottom - textBounds.top);
+
 		} else if (type == IMAGE) {
 			this.pictureName = text;
 		}
@@ -100,7 +106,9 @@ public class GShape {
 
 		//draw
 		if (this.getState() == TEXT) {
-			canvas.drawText(text, x, y, textPaint);
+			Rect textBounds = new Rect();
+			textPaint.getTextBounds(text, 0, text.length(), textBounds);
+			canvas.drawText(this.text, this.x, this.y + this.height, textPaint);
 		} else if (this.getState() == IMAGE) {
 			Context cont = GameManager.getInstance().getGameView().getContext();
 			int resID = cont.getResources().getIdentifier(this.getPictureName(),
@@ -206,6 +214,12 @@ public class GShape {
 
 	public void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
+		textPaint.setTextSize(fontSize);
+
+		Rect textBounds = new Rect();
+		textPaint.getTextBounds(text, 0, text.length(), textBounds);
+		this.setWidth((float) (textBounds.right - textBounds.left));
+		this.setHeight((float) (textBounds.bottom - textBounds.top));
 	}
 
 	public void setX(float x) {

@@ -7,9 +7,12 @@ public class GPage {
 
 	private String name;
 	private List<GShape> shapes;
+	//private float initX, initY;
+	//private static int viewWidth  = GameManager.getInstance().getGameView().getViewWidth();
+	//private static int viewHeight = GameManager.getInstance().getGameView().getViewHeight();
 
 	public GPage(String name) {
-		this.name = name.toLowerCase();
+		this.name = name;
 		this.shapes = new ArrayList<GShape>();
 	}
 
@@ -39,7 +42,7 @@ public class GPage {
 	}
 
 	public void setName(String name) {
-		this.name = name.toLowerCase();
+		this.name = name;
 	}
 
 
@@ -67,15 +70,6 @@ public class GPage {
 		}
 	}
 
-	public void removeShape(String name) {
-		for (GShape shape : this.shapes) {
-			if (shape.getName().toLowerCase().equals(
-					name.toLowerCase())) {
-				this.shapes.remove(shape);
-			}
-		}
-	}
-
 	public boolean equals(GPage page) {
 		return this.name.toLowerCase().equals(
 				page.getName().toLowerCase());
@@ -83,14 +77,16 @@ public class GPage {
 
 	public String assignDefaultShapeName() {
 		int length = shapes.size();
-		StringBuilder shapeName = new StringBuilder();
-		shapeName.append("Shape");
-		shapeName.append(Integer.valueOf(length));
+		StringBuilder shapeName = new StringBuilder("Shape");
+		shapeName.append(Integer.valueOf(length + 1));
 		String name = shapeName.toString();
 
+		int offset = 1;
 		while (duplicateShapeName(name)) {
-			shapeName.append(Integer.valueOf(length));
+			shapeName = new StringBuilder("Shape");
+			shapeName.append(Integer.valueOf(length + 1 + offset));
 			name = shapeName.toString();
+			offset++;
 		}
 		return name;
 	}
