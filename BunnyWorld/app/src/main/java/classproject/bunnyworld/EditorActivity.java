@@ -73,6 +73,8 @@ public class EditorActivity extends AppCompatActivity {
         // step 1: get currently selected shape, in shape class
         GShape curShape = myView.getSelectedShape();
 
+        if (curShape == null) return;
+
         // step 2: check which shape views are nonempty and update those fields using setters
         String name = shapeName.getText().toString();
         if (!name.isEmpty()) curShape.setName(name);

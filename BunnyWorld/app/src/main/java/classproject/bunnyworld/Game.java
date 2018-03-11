@@ -18,7 +18,7 @@ public class Game {
 		this.name  = name;
 		this.pages = new ArrayList<GPage>();
 		this.possessions = new ArrayList<GShape>();
-		this.firstPage = new GPage("page1");
+		this.firstPage = new GPage(assignDefaultPageName());
 		this.currPage  = firstPage;
 		this.pages.add(firstPage);
 	}
@@ -56,16 +56,6 @@ public class Game {
 
 	public void removePage(GPage page) {
 		this.pages.remove(page);
-	}
-
-	public void removePage(String name) {
-		for (GPage page : this.pages) {
-			if (page.getName().toLowerCase().equals(
-					name.toLowerCase())) {
-				this.pages.remove(page);
-				break;
-			}
-		}
 	}
 
 	/*
@@ -159,27 +149,26 @@ public class Game {
 		return null;
 	}
 
-
-
 	public String assignDefaultPageName() {
 		int length = pages.size();
-		StringBuilder pageName = new StringBuilder();
-		pageName.append("Page");
+		StringBuilder pageName = new StringBuilder("Page");
 		pageName.append(Integer.valueOf(length+1));
 		String name = pageName.toString();
 
+		int offset = 1;
 		while (duplicatePageName(name)) {
-			pageName.append(Integer.valueOf(length));
+			pageName = new StringBuilder("Page");
+			pageName.append(Integer.valueOf(length + 1 + offset));
 			name = pageName.toString();
+			offset++;
 		}
-
 		return name;
 	}
 
 	public boolean duplicatePageName(String pageName) {
 		for (GPage page : pages) {
-			String curName = page.getName();
-			if (curName.equals(pageName)) {
+			String curName = page.getName().toLowerCase();
+			if (curName.equals(pageName.toLowerCase())) {
 				return true;
 			}
 		}
