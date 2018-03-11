@@ -325,7 +325,6 @@ public class EditorActivity extends AppCompatActivity {
         movable_box.setChecked(movable);
     }
 
-
     /*
      * Displays current page name
      */
