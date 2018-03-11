@@ -124,7 +124,7 @@ public class GameView extends View {
                         for (GShape shape : game.getCurrPage().getShapes()) {
                             if (!shape.equals(selectedShape)) {
                                 if (shape.isOnDropTarget(selectedShape)) {
-                                    selectedShape.selectOnDrop();
+                                    shape.selectOnDrop();
                                 }
                             }
                         }
