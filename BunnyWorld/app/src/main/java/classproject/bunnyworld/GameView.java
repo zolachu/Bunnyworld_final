@@ -17,8 +17,6 @@ import java.util.Set;
 
 public class GameView extends View {
 
-    private static final float HOR_OFFSET = 650.0f;
-
     private Game game = GameManager.getInstance().getCurGame();
     private Paint possessionPaint;
     private GShape selectedShape; //currently selected shape (selection triggered by clicks (action up/down)
@@ -28,7 +26,7 @@ public class GameView extends View {
     private float distX, distY; // distance of a click location (inside a shape) from x and y fo the shape
 
     private int viewWidth, viewHeight;
-    private static float possessionAreaProportion = 0.3f;
+    private static float possessionAreaProportion = 0.2f;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,7 +53,7 @@ public class GameView extends View {
 
         //Draw the possession area boundary line
         canvas.drawLine(0.0f, (1 - possessionAreaProportion) * viewHeight,
-                viewWidth - HOR_OFFSET, (1 - possessionAreaProportion) * viewHeight,
+                viewWidth, (1 - possessionAreaProportion) * viewHeight,
                 possessionPaint);
 
         //draw game
