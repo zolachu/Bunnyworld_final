@@ -19,6 +19,7 @@ public class GShape {
 
 	private static final float INITIAL_WIDTH  = 100;
 	private static final float INITIAL_HEIGHT = 100;
+	private static final int DEFAULT_FONT_SIZE = 50;
 
 	private Paint textPaint;
 	private static Paint fillPaint;     //Paints a gray box for a RECT type
@@ -75,6 +76,7 @@ public class GShape {
 		this(name, x, y);
 		if (type == TEXT) {
 			this.text = text;
+			setFontSize(DEFAULT_FONT_SIZE);
 
 			Rect textBounds = new Rect();
 			textPaint.getTextBounds(text, 0, text.length(), textBounds);
