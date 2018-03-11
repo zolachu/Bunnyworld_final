@@ -29,6 +29,9 @@ public class EditorActivity extends AppCompatActivity {
     private CheckBox movable_box;
     private EditText pageName;
 
+    public static int viewWidth, viewHeight;
+    private static float initX, initY;
+
 
     /*
      * Initializes the editor activity
@@ -62,6 +65,9 @@ public class EditorActivity extends AppCompatActivity {
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
         movable_box  = findViewById(R.id.shape_movable_checkBox);
         pageName     = findViewById(R.id.page_name_editText);
+
+        initX = 0.1f * (float) viewWidth;
+        initY = 0.1f * (float) viewHeight;
 
         displayCurPageName();
     }
@@ -145,11 +151,14 @@ public class EditorActivity extends AppCompatActivity {
         String h = height.getText().toString();
 
         if (x.isEmpty() || y.isEmpty()) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Must enter X and Y coordinate!",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-            return;
+            //Toast toast = Toast.makeText(getApplicationContext(),
+            //        "Must enter X and Y coordinate!",
+            //        Toast.LENGTH_SHORT);
+            //toast.show();
+
+            x = Float.toString(initX);
+            y = Float.toString(initY);
+            updateInitialPosition();
         }
 
 
@@ -183,6 +192,8 @@ public class EditorActivity extends AppCompatActivity {
         // add newShape to the current page's list of shapes
         curPage.addShape(newShape);
         myView.invalidate();
+        clearShapeInfo();
+        shapeName.setText(curGame.getCurrPage().assignDefaultShapeName());
 
     }
 
@@ -214,6 +225,7 @@ public class EditorActivity extends AppCompatActivity {
         curPage = curGame.getCurrPage();
 
         displayCurPageName();
+        resetInitialPosition();
 
         // step 2: ask the custom view to redraw the new empty page
         myView.invalidate();
@@ -229,6 +241,8 @@ public class EditorActivity extends AppCompatActivity {
         curPage = curGame.getCurrPage();
         displayCurPageName();
 
+        resetInitialPosition();
+
         // step 2: ask the custom view to redraw the previous page
         myView.invalidate();
     }
@@ -242,6 +256,7 @@ public class EditorActivity extends AppCompatActivity {
         curGame.setCurrPage(nextGPage);
         curPage = curGame.getCurrPage();
         displayCurPageName();
+        resetInitialPosition();
 
         // step 2: ask the custom view to redraw the previous page
         myView.invalidate();
@@ -278,6 +293,7 @@ public class EditorActivity extends AppCompatActivity {
             curGame.setCurrPage(curGame.getFirstPage());
             curPage = curGame.getCurrPage();
             displayCurPageName();
+            resetInitialPosition();
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Cannot delete the first page!",
@@ -295,34 +311,78 @@ public class EditorActivity extends AppCompatActivity {
         gameManager.addGameToList(curGame);
     }
 
+    public void clearShapeInfo() {
+        shapeName.setText("");
+        x_coordinate.setText("");
+        y_coordinate.setText("");
+        width.setText("");
+        height.setText("");
+        texts.setText("");
+        images.setText("");
+        scripts.setText("");
+        fontSizes.setText("");
+        hidden_box.setChecked(false);
+        movable_box.setChecked(false);
+    }
+
     /*
      * Displays info for the currently selected shape
      */
     public void displayShapeInfo(GShape shape) {
-        String name = shape.getName();
-        float x = shape.getX();
-        float y = shape.getY();
-        float w = shape.getWidth();
-        float h = shape.getHeight();
-        String text = shape.getText();
-        String imgName = shape.getPictureName();
-        String script = shape.getScript();
-        int fontSize = shape.getFontSize();
-        boolean hidden = shape.getHidden();
-        boolean movable = shape.getMovable();
 
-        shapeName.setText(name);
-        x_coordinate.setText(Float.toString(x));
-        y_coordinate.setText(Float.toString(y));
-        width.setText(Float.toString(w));
-        height.setText(Float.toString(h));
-        texts.setText(text);
-        images.setText(imgName);
-        scripts.setText(script);
-        fontSizes.setText(Integer.valueOf(fontSize));
+        if (shape == null) {
+            clearShapeInfo();
+        } else {
+            String name = shape.getName();
+            float x = shape.getX();
+            float y = shape.getY();
+            float w = shape.getWidth();
+            float h = shape.getHeight();
+            String text = shape.getText();
+            String imgName = shape.getPictureName();
+            String script = shape.getScript();
+            int fontSize = shape.getFontSize();
+            boolean hidden = shape.getHidden();
+            boolean movable = shape.getMovable();
 
-        hidden_box.setChecked(hidden);
-        movable_box.setChecked(movable);
+            shapeName.setText(name);
+            x_coordinate.setText(Float.toString(x));
+            y_coordinate.setText(Float.toString(y));
+            width.setText(Float.toString(w));
+            height.setText(Float.toString(h));
+            texts.setText(text);
+            images.setText(imgName);
+            scripts.setText(script);
+            fontSizes.setText(Integer.valueOf(fontSize));
+
+            hidden_box.setChecked(hidden);
+            movable_box.setChecked(movable);
+        }
+    }
+
+    public void updateCoordinates(GShape shape) {
+        if (shape != null) {
+            x_coordinate.setText(Float.toString(shape.getX()));
+            y_coordinate.setText(Float.toString(shape.getY()));
+        }
+    }
+
+    public void updateInitialPosition() {
+
+        initX += 0.05f * (float) viewWidth;
+        initY += 0.1f * (float) viewHeight;
+
+        if (initX > 0.9f * (float) viewWidth) {
+            initX = 0.1f * (float) viewWidth;
+        }
+        if (initY > 0.7f * (float) viewHeight) {
+            initY = 0.1f * (float) viewHeight;
+        }
+    }
+
+    public void resetInitialPosition() {
+        initX = 0.1f * (float) viewWidth;
+        initY = 0.1f * (float) viewHeight;
     }
 
     /*

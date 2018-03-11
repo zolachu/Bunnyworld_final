@@ -7,9 +7,7 @@ public class GPage {
 
 	private String name;
 	private List<GShape> shapes;
-	//private float initX, initY;
-	//private static int viewWidth  = GameManager.getInstance().getGameView().getViewWidth();
-	//private static int viewHeight = GameManager.getInstance().getGameView().getViewHeight();
+
 
 	public GPage(String name) {
 		this.name = name;
