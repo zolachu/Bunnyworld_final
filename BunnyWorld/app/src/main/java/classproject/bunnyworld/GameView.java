@@ -1,5 +1,6 @@
 package classproject.bunnyworld;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -44,6 +45,9 @@ public class GameView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         viewWidth  = w;
         viewHeight = h;
+
+        EditorActivity.viewWidth  = viewWidth;
+        EditorActivity.viewHeight = viewHeight;
     }
 
     @Override
@@ -92,8 +96,14 @@ public class GameView extends View {
                     distX = x - downX;
                     distY = y - downY;
                     selectedShape.selectShape();
+
+                }
+                try {
+                    ((EditorActivity) getContext()).displayShapeInfo(selectedShape);
+                } catch (Exception e) {
                 }
                 invalidate();
+
                 break;
 
             /*
@@ -115,6 +125,10 @@ public class GameView extends View {
                                     selectedShape.selectOnDrop();
                                 }
                             }
+                        }
+                        try {
+                            ((EditorActivity) getContext()).updateCoordinates(selectedShape);
+                        } catch (Exception e) {
                         }
                         invalidate();
                     }

@@ -96,11 +96,9 @@ public class Script {
                     break;
                 case HIDE:
                     hideOrShow(game, param, true);
-                    //updateCanvas();
                     break;
                 case SHOW:
                     hideOrShow(game, param, false);
-                    //updateCanvas();
                     break;
             }
         }
