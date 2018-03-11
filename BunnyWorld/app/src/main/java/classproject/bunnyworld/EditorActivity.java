@@ -1,5 +1,6 @@
 package classproject.bunnyworld;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -325,8 +326,14 @@ public class EditorActivity extends AppCompatActivity {
      * Saves the current game to database by calling the singleton's write method
      */
     public void saveGame(View view) {
+        curGame.setCurrPage(curGame.getFirstPage());
         gameManager.saveGame(curGame);
         gameManager.addGameToList(curGame);
+        Toast toast = Toast.makeText( getApplicationContext(),
+                curGame.getName() + " was saved", Toast.LENGTH_SHORT);
+                toast.show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void clearShapeInfo() {
