@@ -59,12 +59,16 @@ public class GameView extends View {
         game.draw(canvas);
     }
 
+
+    private boolean inBounds(float x, float y) {
+        return x - distX >= 0 && x - distX + selectedShape.getWidth() < viewWidth
+                && y - distY >= 0 && y - distY + selectedShape.getHeight() < viewHeight;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         game = GameManager.getInstance().getCurGame();
-
-        System.err.println("On touch");
 
         switch (event.getAction()) {
 
@@ -117,22 +121,24 @@ public class GameView extends View {
             case MotionEvent.ACTION_MOVE:
                 if (selectedShape != null) {
                     if (selectedShape.isMovable()) {
-                        selectedShape.setPosition(
-                                event.getX() - distX,
-                                event.getY() - distY);
+                        if (inBounds(event.getX(), event.getY())) {
+                            selectedShape.setPosition(
+                                    event.getX() - distX,
+                                    event.getY() - distY);
 
-                        for (GShape shape : game.getCurrPage().getShapes()) {
-                            if (!shape.equals(selectedShape)) {
-                                if (shape.isOnDropTarget(selectedShape)) {
-                                    shape.selectOnDrop();
+                            for (GShape shape : game.getCurrPage().getShapes()) {
+                                if (!shape.equals(selectedShape)) {
+                                    if (shape.isOnDropTarget(selectedShape)) {
+                                        shape.selectOnDrop();
+                                    }
                                 }
                             }
+                            try {
+                                ((EditorActivity) getContext()).updateCoordinates(selectedShape);
+                            } catch (Exception e) {
+                            }
+                            invalidate();
                         }
-                        try {
-                            ((EditorActivity) getContext()).updateCoordinates(selectedShape);
-                        } catch (Exception e) {
-                        }
-                        invalidate();
                     }
                 }
                 break;
