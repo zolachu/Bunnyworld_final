@@ -310,6 +310,13 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
+    public void clearPage(View view) {
+        curPage.removeAllShapes();
+        resetInitialPosition();
+        myView.invalidate();
+    }
+
+
     /*
      * Saves the current game to database by calling the singleton's write method
      */

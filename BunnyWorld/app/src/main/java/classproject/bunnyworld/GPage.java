@@ -68,6 +68,10 @@ public class GPage {
 		}
 	}
 
+	public void removeAllShapes( ){
+		this.shapes.clear();
+	}
+
 	public void bringToTop(GShape shape) {
 		if (this.shapes.contains(shape)) {
 			this.shapes.remove(shape);
