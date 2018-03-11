@@ -133,9 +133,9 @@ public class EditorActivity extends AppCompatActivity {
     public void addShape(View view) {
         String name = shapeName.getText().toString();
         if (name.isEmpty()) {
-            name = curPage.assignDefaultShapeName();
+            name = curGame.assignDefaultShapeName();
         } else {
-            if (curPage.duplicateShapeName(name)) {
+            if (curGame.duplicateShapeName(name)) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Shape name already exists!",
                         Toast.LENGTH_SHORT);
@@ -201,7 +201,7 @@ public class EditorActivity extends AppCompatActivity {
         movable_box.setChecked(movableBoxValue);
 
         //display a default name for a shape to be created next
-        shapeName.setText(curGame.getCurrPage().assignDefaultShapeName());
+        shapeName.setText(curGame.assignDefaultShapeName());
     }
 
     /*
@@ -310,12 +310,16 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * Clear the shapes in the page, not including the possession area
+     */
     public void clearPage(View view) {
         curPage.removeAllShapes();
+        clearShapeInfo();
         resetInitialPosition();
+        shapeName.setText(curGame.assignDefaultShapeName());
         myView.invalidate();
     }
-
 
     /*
      * Saves the current game to database by calling the singleton's write method

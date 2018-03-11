@@ -173,6 +173,40 @@ public class Game {
 		return false;
 	}
 
+	public String assignDefaultShapeName() {
+		int length = this.currPage.getShapes().size();
+		StringBuilder shapeName = new StringBuilder("Shape");
+		shapeName.append(Integer.valueOf(length + 1));
+		String name = shapeName.toString();
+
+		int offset = 1;
+		while (duplicateShapeName(name)) {
+			shapeName = new StringBuilder("Shape");
+			shapeName.append(Integer.valueOf(length + 1 + offset));
+			name = shapeName.toString();
+			offset++;
+		}
+		return name;
+	}
+
+	public boolean duplicateShapeName(String shapeName) {
+
+		for (GPage page : this.pages) {
+			if (page.duplicateShapeName(shapeName)) {
+				return true;
+			}
+
+		}
+		for (GShape shape : this.possessions) {
+			String curName = shape.getName().toLowerCase();
+			if (curName.equals(shapeName.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 	public GPage prePage() {
 		int currentPageIndex = indexOfPage(this.currPage);
 		if (currentPageIndex == 0) {
