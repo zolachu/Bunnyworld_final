@@ -1,5 +1,7 @@
 package classproject.bunnyworld;
 
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
@@ -34,7 +36,9 @@ public class Game {
 	}
 
 	public void setCurrPage(GPage page) {
+		//View myView = GameManager.getInstance().getGameView();
 		this.currPage = page;
+		//myView.invalidate();
 	}
 
 	public List<GPage> getPages() {

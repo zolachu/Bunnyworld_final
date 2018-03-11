@@ -72,6 +72,8 @@ public class GameView extends View {
 
         game = GameManager.getInstance().getCurGame();
 
+        System.err.println("On touch");
+
         switch (event.getAction()) {
 
             /*
@@ -146,6 +148,7 @@ public class GameView extends View {
                     // if the shape was dragged (moved) by less than
                     // 5% of the width and height, then detect it as a click
                     // rather than a drag.
+                    Script.perform(game, selectedShape.getOnClickActionArray());
                     if (Math.abs(downX + distX - x) <= 0.05 * selectedShape.getWidth() &&
                             Math.abs(downY + distY - y) <= 0.05 * selectedShape.getHeight()) {
                         if (selectedShape.hasOnClick()) {
@@ -154,6 +157,8 @@ public class GameView extends View {
 
                     } else {
                         // it's a drag
+
+                        selectedShape.selectOnDrop();
 
                         // iterate over the shapes in the page,
                         // check if their shapes overlap with the currently selected shape
@@ -181,6 +186,8 @@ public class GameView extends View {
                                     selectedShape.getY() + selectedShape.getHeight() < shape.getY())) {
                                 if (!shape.equals(selectedShape) &&
                                         shape.isOnDropTarget(selectedShape)){
+
+                                    shape.selectOnDrop();
                                     Script.perform(game, shape.getOnDropActionArray());
                                 }
                             }

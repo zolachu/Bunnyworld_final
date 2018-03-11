@@ -118,7 +118,6 @@ public class GShape {
 			BitmapDrawable picToDraw = (BitmapDrawable) cont.getResources().getDrawable(resID);
 			Bitmap bitmap = picToDraw.getBitmap();
 			canvas.drawBitmap(bitmap, null, new RectF(left, top, right, bottom), null);
-			//canvas.drawBitmap(bitmap, x, y, null);
 		} else {
 			canvas.drawRect(left, top, right, bottom, fillPaint);
 		}
@@ -210,6 +209,7 @@ public class GShape {
 
 	public void setScriptText(String scriptText) {
 		this.script = scriptText;
+		Script.parse(scriptText, scriptMap);
 	}
 
 	public void setFontSize(int fontSize) {
