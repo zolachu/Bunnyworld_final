@@ -1,11 +1,6 @@
 package classproject.bunnyworld;
 
 import android.graphics.Canvas;
-
-import java.util.ArrayList;
-import android.view.View;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
@@ -28,7 +23,9 @@ public class Game {
 	}
 
 	void draw(Canvas canvas){
+		//draw page
 		this.getCurrPage().draw(canvas);
+		//draw possession area
 		for (GShape shape : this.possessions) {
 			shape.draw(canvas);
 		}
@@ -47,9 +44,7 @@ public class Game {
 	}
 
 	public void setCurrPage(GPage page) {
-		//View myView = GameManager.getInstance().getGameView();
 		this.currPage = page;
-		//myView.invalidate();
 	}
 
 	public List<GPage> getPages() {
@@ -110,13 +105,10 @@ public class Game {
 		}
 	}
 
-	public void removePossession(String name) {
-		for (GShape shape : this.possessions) {
-			if (shape.getName().toLowerCase().equals(
-					name.toLowerCase())) {
-				this.possessions.remove(shape);
-				break;
-			}
+	public void bringToTop(GShape shape) {
+		if (this.possessions.contains(shape)) {
+			this.possessions.remove(shape);
+			this.possessions.add(shape);
 		}
 	}
 

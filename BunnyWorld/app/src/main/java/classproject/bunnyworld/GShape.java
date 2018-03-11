@@ -20,8 +20,8 @@ public class GShape {
 	private static final float INITIAL_WIDTH  = 100;
 	private static final float INITIAL_HEIGHT = 100;
 
-	private static Paint fillPaint;
-	private static Paint textPaint;
+	private Paint textPaint;
+	private static Paint fillPaint;     //Paints a gray box for a RECT type
 	private static Paint selectedPaint; //Paints an outline on shape selected in the editor
 	private static Paint onDropPaint;   //Paints an outline of a different color for on drop actions
 
@@ -62,7 +62,6 @@ public class GShape {
 		this.pictureName = "";
 		this.text   = "";
 		this.script = "";
-		this.fontSize = 20;
 		this.x = x;
 		this.y = y;
 		this.width  = INITIAL_WIDTH;
@@ -140,15 +139,6 @@ public class GShape {
 		} else {
 			return RECT;
 		}
-	}
-
-	/*
-	 * Uses its current x and y and the passed in canvasBottom
-	 * to figure out whether half of itself is within possessions
-	 * Returns true if yes
-	 */
-	public boolean inPossessions(Float canvasBottom) {
-		return false;
 	}
 
 	public boolean isHidden() {
