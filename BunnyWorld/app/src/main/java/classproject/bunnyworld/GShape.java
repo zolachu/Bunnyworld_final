@@ -100,7 +100,7 @@ public class GShape {
 
 		//draw
 		if (this.getState() == TEXT) {
-			canvas.drawText(this.text, this.x, this.y, textPaint);
+			canvas.drawText(text, x, y, textPaint);
 		} else if (this.getState() == IMAGE) {
 			Context cont = GameManager.getInstance().getGameView().getContext();
 			int resID = cont.getResources().getIdentifier(this.getPictureName(),
