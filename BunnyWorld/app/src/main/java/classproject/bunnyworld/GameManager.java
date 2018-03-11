@@ -18,6 +18,8 @@ class GameManager {
     private GameView gameView;
     private Game curGame;
 
+    private String curScript = "";
+
     private static final GameManager ourInstance = new GameManager();
 
     static GameManager getInstance() {
@@ -129,6 +131,14 @@ class GameManager {
             }
         }
         return false;
+    }
+
+    public void setCurScript(String script) {
+        curScript = script;
+    }
+
+    public String getCurScript() {
+        return curScript;
     }
 
     //zola adds her stuff here
