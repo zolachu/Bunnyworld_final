@@ -27,6 +27,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
 
     private StringBuilder curScript;
     private Game curGame;
+    private GShape curShape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,11 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         String script = gameManager.getCurScript();
         curScript = new StringBuilder(script);
         curGame = gameManager.getCurGame();
+
+        GameView myView = gameManager.getGameView();
+        curShape = myView.getSelectedShape();
+        TextView curShapeTextView = findViewById(R.id.curShape_textView);
+        curShapeTextView.setText("Current Shape: " + curShape.getName());
 
         spinnerSetUp1();
         spinnerSetUp2();
@@ -127,12 +133,9 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
     private List<String> makeAdaptorList() {
         List<String> adapterList = new ArrayList<>();
         List<GShape> shapeList = curGame.getAllShapes();
-        List<GPage> shapesPageList = curGame.getAllShapesPages();
         adapterList.add("");
-        for (int i = 0; i<shapeList.size();i++) {
-            GShape shape = shapeList.get(i);
-            String pageName = shapesPageList.get(i).getName();
-            String shapeName = pageName + ": " + shape.getName();
+        for (GShape shape: shapeList) {
+            String shapeName = shape.getName();
             adapterList.add(shapeName);
         }
         return adapterList;
@@ -143,7 +146,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
         String item = parent.getItemAtPosition(pos).toString();
-        curScript.append(item);
+        curScript.append(item + " ");
         displayScript();
     }
 
@@ -197,6 +200,8 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void addSemicolon(View view) {
+        int len = curScript.length();
+        curScript.deleteCharAt(len-1);
         curScript.append("; ");
         displayScript();
     }
@@ -204,6 +209,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
     public void saveScript(View view) {
         GameManager gameManager = GameManager.getInstance();
         gameManager.setCurScript(curScript.toString());
+        curShape.setScriptText(curScript.toString());
     }
 
 

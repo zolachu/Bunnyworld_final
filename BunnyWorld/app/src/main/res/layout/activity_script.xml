@@ -164,6 +164,12 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/curShape_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20dp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20dp"

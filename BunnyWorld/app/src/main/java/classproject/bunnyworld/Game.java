@@ -255,14 +255,5 @@ public class Game {
 		return shapeList;
 	}
 
-	public List<GPage> getAllShapesPages() {
-		List<GPage> pageList = new ArrayList<>();
-		for (GPage page: pages) {
-			List<GShape> curPageShapeList = page.getShapes();
-			for (GShape shape: curPageShapeList) {
-				pageList.add(page);
-			}
-		}
-		return pageList;
-	}
+
 }
