@@ -68,6 +68,17 @@ public class GPage {
 		}
 	}
 
+	public void removeAllShapes( ){
+		this.shapes.clear();
+	}
+
+	public void bringToTop(GShape shape) {
+		if (this.shapes.contains(shape)) {
+			this.shapes.remove(shape);
+			this.shapes.add(shape);
+		}
+	}
+
 	public boolean equals(GPage page) {
 		return this.name.toLowerCase().equals(
 				page.getName().toLowerCase());

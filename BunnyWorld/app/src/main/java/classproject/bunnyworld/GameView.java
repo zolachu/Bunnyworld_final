@@ -1,6 +1,5 @@
 package classproject.bunnyworld;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,9 +7,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by vihan on 3/4/18.
@@ -45,7 +41,6 @@ public class GameView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         viewWidth  = w;
         viewHeight = h;
-
         EditorActivity.viewWidth  = viewWidth;
         EditorActivity.viewHeight = viewHeight;
     }
@@ -96,6 +91,13 @@ public class GameView extends View {
                     distX = x - downX;
                     distY = y - downY;
                     selectedShape.selectShape();
+
+                    if (isInPossessionArea(selectedShape)) {
+                        game.bringToTop(selectedShape);
+                        game.addPossession(selectedShape);
+                    } else {
+                        game.getCurrPage().bringToTop(selectedShape);
+                    }
 
                 }
                 try {
@@ -203,9 +205,9 @@ public class GameView extends View {
 
                 invalidate();
                 break;
-        } //end of switch
+        }
         return true;
-    } // end of method
+    }
 
     /*
      * Returns the shape that's currently selected by the user
@@ -220,13 +222,5 @@ public class GameView extends View {
         } else {
             return false;
         }
-    }
-
-    public int getViewWidth() {
-        return this.viewWidth;
-    }
-
-    public int getViewHeight() {
-        return this.viewHeight;
     }
 }

@@ -151,16 +151,10 @@ public class EditorActivity extends AppCompatActivity {
         String h = height.getText().toString();
 
         if (x.isEmpty() || y.isEmpty()) {
-            //Toast toast = Toast.makeText(getApplicationContext(),
-            //        "Must enter X and Y coordinate!",
-            //        Toast.LENGTH_SHORT);
-            //toast.show();
-
             x = Float.toString(initX);
             y = Float.toString(initY);
             updateInitialPosition();
         }
-
 
         String text = texts.getText().toString();
         String image = images.getText().toString();
@@ -186,15 +180,28 @@ public class EditorActivity extends AppCompatActivity {
         if(!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
 
         CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
-
         if (movableBox.isChecked()) { newShape.setMovable(true); }
 
         // add newShape to the current page's list of shapes
         curPage.addShape(newShape);
         myView.invalidate();
-        clearShapeInfo();
-        shapeName.setText(curGame.getCurrPage().assignDefaultShapeName());
 
+        // save these values before clear
+        text  = texts.getText().toString();
+        image = images.getText().toString();
+        boolean movableBoxValue = movableBox.isChecked();
+
+        // clear the shape info panel
+        clearShapeInfo();
+
+        // left these items since I found this to be more convenient
+        // user can clear these fields by clicking a background
+        texts.setText(text);
+        images.setText(image);
+        movable_box.setChecked(movableBoxValue);
+
+        //display a default name for a shape to be created next
+        shapeName.setText(curGame.getCurrPage().assignDefaultShapeName());
     }
 
     /*
@@ -302,6 +309,13 @@ public class EditorActivity extends AppCompatActivity {
         }
 
     }
+
+    public void clearPage(View view) {
+        curPage.removeAllShapes();
+        resetInitialPosition();
+        myView.invalidate();
+    }
+
 
     /*
      * Saves the current game to database by calling the singleton's write method
