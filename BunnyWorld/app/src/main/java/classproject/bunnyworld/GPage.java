@@ -7,13 +7,10 @@ public class GPage {
 
 	private String name;
 	private List<GShape> shapes;
-	private GShape selectedShape;
 
 	public GPage(String name) {
 		this.name = name.toLowerCase();
 		this.shapes = new ArrayList<GShape>();
-		selectedShape = null;
-
 	}
 
 	/*
@@ -37,21 +34,6 @@ public class GPage {
 		return null;
 	}
 
-	/*
-	 * Returns a top GShape object pointed by the mouse
-	 * at coordinates (x,y), if there is one. If not,
-	 * returns null.
-	 */
-	public GShape getTopShape(float x, float y) {
-		for (int i = shapes.size()-1; i >= 0; i--) {
-			if (shapes.get(i).containsPoint(x,y) &&
-					!shapes.get(i).isHidden()) {
-				return shapes.get(i);
-			}
-		}
-		return null;
-	}
-
 	public String getName() {
 		return this.name;
 	}
@@ -67,7 +49,9 @@ public class GPage {
 	 */
 	public void draw(Canvas canvas) {
 		for (GShape shape: shapes) {
-			shape.draw(canvas);
+			if (!shape.isPossession()) {
+				shape.draw(canvas);
+			}
 		}
 	}
 
@@ -108,7 +92,6 @@ public class GPage {
 			shapeName.append(Integer.valueOf(length));
 			name = shapeName.toString();
 		}
-
 		return name;
 	}
 

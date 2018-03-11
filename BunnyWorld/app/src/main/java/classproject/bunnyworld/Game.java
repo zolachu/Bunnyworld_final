@@ -1,6 +1,10 @@
 package classproject.bunnyworld;
 
+import android.graphics.Canvas;
+
+import java.util.ArrayList;
 import android.view.View;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,13 @@ public class Game {
 		this.firstPage = new GPage("page1");
 		this.currPage  = firstPage;
 		this.pages.add(firstPage);
+	}
+
+	void draw(Canvas canvas){
+		this.getCurrPage().draw(canvas);
+		for (GShape shape : this.possessions) {
+			shape.draw(canvas);
+		}
 	}
 
 	public String getName() {
@@ -63,7 +74,8 @@ public class Game {
 		}
 	}
 
-	/* returns pointer to GPage given its name
+	/*
+	 * Returns GPage object given its name
 	 * or returns null if a GPage by that name does not
 	 * exist.
 	 */
@@ -76,7 +88,8 @@ public class Game {
 		return null;
 	}
 
-	/* searches pages for and returns a GShape
+	/*
+	 * Searches pages for and returns a GShape
 	 * by the name or null if none exists
  	 */
 	GShape getShape(String name) {
@@ -87,12 +100,24 @@ public class Game {
 		return null;
 	}
 
+	public List<GShape> getPossessions() {
+		return possessions;
+	}
+
 	public void addPossession(GShape shape) {
-		this.possessions.add(shape);
+		if (!this.possessions.contains(shape)) {
+			this.possessions.add(shape);
+			this.currPage.removeShape(shape);
+			shape.setPossession(true);
+		}
 	}
 
 	public void removePossession(GShape shape) {
-		this.possessions.remove(shape);
+		if (this.possessions.contains(shape)) {
+			this.possessions.remove(shape);
+			this.currPage.addShape(shape);
+			shape.setPossession(false);
+		}
 	}
 
 	public void removePossession(String name) {
@@ -113,6 +138,34 @@ public class Game {
 	public String toString() {
 		return this.name;
 	}
+
+	/*
+	 * Returns a top GShape object pointed by the mouse
+	 * at coordinates (x,y), if there is one. If not,
+	 * returns null.
+	 */
+	public GShape getTopShape(float x, float y) {
+
+		// Search in the possessions first
+		for (int i = this.possessions.size()-1; i >= 0; i--) {
+			if (this.possessions.get(i).containsPoint(x,y) &&
+					!this.possessions.get(i).isHidden()) {
+				return this.possessions.get(i);
+			}
+		}
+
+		// Search in the current page
+		for (int i = this.currPage.getShapes().size()-1; i >= 0; i--) {
+			if (this.currPage.getShapes().get(i).containsPoint(x,y) &&
+					!this.currPage.getShapes().get(i).isHidden()) {
+				return this.currPage.getShapes().get(i);
+			}
+		}
+
+		return null;
+	}
+
+
 
 	public String assignDefaultPageName() {
 		int length = pages.size();

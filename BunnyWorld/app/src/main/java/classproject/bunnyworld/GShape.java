@@ -22,10 +22,11 @@ public class GShape {
 
 	private static Paint fillPaint;
 	private static Paint textPaint;
-	Paint selectedPaint;  //Paints an outline on shape selected in the editor
-	Paint onDropPaint;    //Paints an outline of a different color for on drop actions
+	private static Paint selectedPaint; //Paints an outline on shape selected in the editor
+	private static Paint onDropPaint;   //Paints an outline of a different color for on drop actions
 
 
+	private boolean isPossession;
 	private boolean isSelected;
 	private boolean isOnDrop;
 
@@ -81,17 +82,6 @@ public class GShape {
 	}
 
 	/*
-	 * Checks whether some point (touchX, touchY) is cointained in a
-	 * bounding box, with dimension (x,y,width,height) and
-	 * returns true if the box contains the point
-	 */
-	public static boolean containsPoints(float x, float y, float width, float height,
-										 float touchX, float touchY) {
-		return (touchX >= x && touchX <= x + width &&
-				touchY >= y && touchY <= y + height);
-	}
-
-	/*
 	 * Checks whether the shape contains some point (x, y)
 	 * and returns true if the shape contains the point.
 	 */
@@ -106,9 +96,9 @@ public class GShape {
 		float top    = this.y;
 		float bottom = this.y + this.height;
 
-		if (isHidden()) {
-			return;
-		}
+		if (isHidden()) return;
+
+		//draw
 		if (this.getState() == TEXT) {
 			canvas.drawText(this.text, this.x, this.y, textPaint);
 		} else if (this.getState() == IMAGE) {
@@ -121,10 +111,12 @@ public class GShape {
 		} else {
 			canvas.drawRect(left, top, right, bottom, fillPaint);
 		}
-		if (this.getOnDrop() == true) {
-			canvas.drawRect(left, top, right, bottom, onDropPaint);
-		} else if(this.getSelected() == true) {
+
+		//highlight accordingly
+		if (isSelected()) {
 			canvas.drawRect(left, top, right, bottom, selectedPaint);
+		} else if(isOnDrop()) {
+			canvas.drawRect(left, top, right, bottom, onDropPaint);
 		}
 	}
 
@@ -233,13 +225,17 @@ public class GShape {
 
 	public void unselectShape() { this.isSelected = false; }
 
-	public boolean getSelected() { return this.isSelected; }
+	public boolean isSelected() { return this.isSelected; }
+
+	public void setPossession(boolean possession) { this.isPossession = possession; }
+
+	public boolean isPossession() { return this.isPossession; }
 
 	public void selectOnDrop() { this.isOnDrop = true; }
 
 	public void unselectOnDrop() { this.isOnDrop = false; }
 
-	public boolean getOnDrop() { return this.isOnDrop; }
+	public boolean isOnDrop() { return this.isOnDrop; }
 
 	public void setWidth(float width) {
 		this.width = width;
