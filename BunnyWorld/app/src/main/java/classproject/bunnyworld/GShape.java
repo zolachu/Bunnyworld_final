@@ -324,7 +324,6 @@ public class GShape {
 			return null;
 		}
 	}
-
 	/*
 	 * Returns the action array for the onEnter Trigger if the shape has an OnEnter Trigger.
 	 * Else, return null
