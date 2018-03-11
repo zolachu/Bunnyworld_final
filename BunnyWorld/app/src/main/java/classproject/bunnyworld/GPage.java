@@ -7,6 +7,9 @@ public class GPage {
 
 	private String name;
 	private List<GShape> shapes;
+	private float initX, initY;
+	private static int viewWidth  = GameManager.getInstance().getGameView().getViewWidth();
+	private static int viewHeight = GameManager.getInstance().getGameView().getViewHeight();
 
 	public GPage(String name) {
 		this.name = name.toLowerCase();
@@ -64,15 +67,6 @@ public class GPage {
 	public void removeShape(GShape shape) {
 		if (shapes.contains(shape)) {
 			this.shapes.remove(shape);
-		}
-	}
-
-	public void removeShape(String name) {
-		for (GShape shape : this.shapes) {
-			if (shape.getName().toLowerCase().equals(
-					name.toLowerCase())) {
-				this.shapes.remove(shape);
-			}
 		}
 	}
 

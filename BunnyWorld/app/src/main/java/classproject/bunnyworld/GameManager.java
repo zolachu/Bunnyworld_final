@@ -15,7 +15,7 @@ import java.util.Set;
 
 class GameManager {
     private Set<Game> allGames; // essentially active games for edit or play
-    public GameView gameView;
+    private GameView gameView;
     private Game curGame;
 
     private static final GameManager ourInstance = new GameManager();
