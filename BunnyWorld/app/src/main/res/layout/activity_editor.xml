@@ -130,7 +130,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="10sp" />
+                        android:textSize="10sp" />c
 
                 </LinearLayout>
 
@@ -199,27 +199,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/shape_script_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Script: " />
-
-                    <EditText
-                        android:id="@+id/shape_script_editText"
-                        android:inputType="text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                     <CheckBox
                         android:id="@+id/shape_hidden_checkBox"
                         android:layout_width="wrap_content"
@@ -241,18 +220,28 @@
                     android:layout_height="wrap_content">
 
                     <Button
+                        android:id="@+id/shape_script_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edit script"
+                        android:onClick="editScript"
+                        android:layout_weight="1"/>
+
+                    <Button
                         android:id="@+id/shape_add_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add"
-                        android:onClick="addShape" />
+                        android:onClick="addShape"
+                        android:layout_weight="1"/>
 
                     <Button
                         android:id="@+id/shape_remove_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Remove"
-                        android:onClick="removeShape" />
+                        android:onClick="removeShape"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
 
