@@ -102,8 +102,16 @@ public class EditorActivity extends AppCompatActivity {
         String fontSize = fontSizes.getText().toString();
         if (!fontSize.isEmpty()) curShape.setFontSize(Integer.valueOf(fontSize));
 
-        if (hidden_box.isChecked()) curShape.setHidden(true);
-        if (movable_box.isChecked()) curShape.setMovable(true);
+        if (hidden_box.isChecked()) {
+            curShape.setHidden(true);
+        } else {
+            curShape.setHidden(false);
+        }
+        if (movable_box.isChecked()) {
+            curShape.setMovable(true);
+        } else {
+            curShape.setMovable(false);
+        }
 
         myView.invalidate();
 
@@ -185,6 +193,7 @@ public class EditorActivity extends AppCompatActivity {
         if (curShape != null) {
             curPage.removeShape(curShape);
         }
+        myView.invalidate();
     }
 
     /*
@@ -311,6 +320,7 @@ public class EditorActivity extends AppCompatActivity {
         hidden_box.setChecked(hidden);
         movable_box.setChecked(movable);
     }
+
 
     /*
      * Displays current page name
