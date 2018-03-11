@@ -49,7 +49,6 @@ public class EditorActivity extends AppCompatActivity {
         displayGameName.append(curGame.getName());
         gameName.setText(displayGameName.toString());
 
-
         myView       = findViewById(R.id.myCanvas);
         shapeName    = findViewById(R.id.shape_name_editText);
         x_coordinate = findViewById(R.id.shape_X_editText);
@@ -73,6 +72,8 @@ public class EditorActivity extends AppCompatActivity {
     public void updateShape(View view) {
         // step 1: get currently selected shape, in shape class
         GShape curShape = myView.getSelectedShape();
+
+        if (curShape == null) return;
 
         // step 2: check which shape views are nonempty and update those fields using setters
         String name = shapeName.getText().toString();
@@ -332,5 +333,4 @@ public class EditorActivity extends AppCompatActivity {
         String curPageName = curGame.getCurrPage().getName();
         pageName.setText(curPageName);
     }
-
 }

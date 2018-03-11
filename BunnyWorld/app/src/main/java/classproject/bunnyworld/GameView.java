@@ -207,4 +207,12 @@ public class GameView extends View {
             return false;
         }
     }
+
+    public int getViewWidth() {
+        return this.viewWidth;
+    }
+
+    public int getViewHeight() {
+        return this.viewHeight;
+    }
 }
