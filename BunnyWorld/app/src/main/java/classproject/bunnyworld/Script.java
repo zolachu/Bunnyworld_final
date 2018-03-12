@@ -2,6 +2,7 @@ package classproject.bunnyworld;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,7 +83,6 @@ public class Script {
         // loop used to check actions and parameters
         for(int j = i; j < actionArray.length; j+=2) {
 
-
             //int index = instruct.indexOf(' ');
             //String action = instruct.substring(0, index);
             //String param = instruct.substring(index + 1); // eliminate space at the end
@@ -140,6 +140,11 @@ public class Script {
         } catch (Exception e) {
             // file by that name does not exist
             //toast maybe
+            //This shouldn't happen now with our fancy script editor
+//            Toast toast = Toast.makeText(GameManager.getInstance().getGameView().getContext(),
+//                    "Hmm...we can't find a sound file with that name",
+//                    Toast.LENGTH_SHORT);
+//            toast.show();
         }
     }
 

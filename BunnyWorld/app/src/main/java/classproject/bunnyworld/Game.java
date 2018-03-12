@@ -134,7 +134,7 @@ public class Game {
 		// Search in the possessions first
 		for (int i = this.possessions.size()-1; i >= 0; i--) {
 			if (this.possessions.get(i).containsPoint(x,y) &&
-					!this.possessions.get(i).isHidden()) {
+					(!this.possessions.get(i).isHidden() || this.getEditMode())) {
 				return this.possessions.get(i);
 			}
 		}
@@ -142,7 +142,7 @@ public class Game {
 		// Search in the current page
 		for (int i = this.currPage.getShapes().size()-1; i >= 0; i--) {
 			if (this.currPage.getShapes().get(i).containsPoint(x,y) &&
-					!this.currPage.getShapes().get(i).isHidden()) {
+					(!this.currPage.getShapes().get(i).isHidden() || this.getEditMode())) {
 				return this.currPage.getShapes().get(i);
 			}
 		}

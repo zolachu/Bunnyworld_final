@@ -176,10 +176,6 @@ public class GShape {
 
 	public int getFontSize() { return this.fontSize; }
 
-	public boolean getHidden() { return this.hidden; }
-
-	public boolean getMovable() { return this.movable; }
-
 	public void setName(String name) {
 		this.name = name;
 	}
