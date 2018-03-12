@@ -35,7 +35,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // Shapes Table Column names
-    private static final String GAMENAME ="gameName";
+    private static final String GAMENAME = "gameName";
     private static final String SHAPE = "shape";
     private static final String PAGENAME = "pageName";
     private static final String IMAGENAME = "imageName";
@@ -57,7 +57,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // Create Game table
 
-          // gameName | page  | currPage | firstPage
+        // gameName | page  | currPage | firstPage
 //        // game1    | page1 |  YES     |  YES
 //        // game1    | page2 |  NO      |   NO
 //        // game1    | page3 |  NO      |   NO
@@ -83,7 +83,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // game2    | shape1 |  page3  |        | "something"|          |   |   |   |
         // game2    | shape2 |  page1  |        | "something"|          |   |   |   |
 
-        String CREATE_SHAPES_TABLE= "CREATE TABLE " + SHAPE_TABLE + "("
+        String CREATE_SHAPES_TABLE = "CREATE TABLE " + SHAPE_TABLE + "("
                 + KEY_PRIMARY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + GAMENAME + " TEXT,"
                 + SHAPE + " TEXT,"
@@ -117,17 +117,16 @@ public class DBHandler extends SQLiteOpenHelper {
      *
      */
     // Adding new Game information
-    void addGame(Game game, GPage page) {
+    void addGameHandler(Game game, GPage page, String isCurrentPage, String isFirstPage) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-
         values.put(GAME, game.getName());
         values.put(PAGE, page.getName());
-        values.put(CURR_PAGE, game.getCurrPage().getName());
-        values.put(FIRST_PAGE, game.getFirstPage().getName());
+        values.put(CURR_PAGE, isCurrentPage);
+        values.put(FIRST_PAGE, isFirstPage);
 
 
         // Inserting Row
@@ -135,12 +134,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    /* Add Shape to game in database
+    /* Add Shape to game
      *
      */
 
-    void addShape(Game game, GShape shape, GShape page, String imageName, String script,
-                  Integer font, float x, float y, float w, float h) {
+    void addShapeHandler(Game game, GShape shape, GPage page, String imageName, String script,
+                         Integer font, float x, float y, float w, float h) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -160,31 +159,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    /* Find Game from database
-     *
+
+
+    /* Load data
+     * Returns null if a game with the given name does not exist in the database
      */
-
-    public Game findGame(String gameName) {
-        String query = "Select * FROM " + GAME_TABLE + " WHERE " + GAME + " = " + "'" + gameName + "'";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        Game game;
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            game = loadGame(gameName);
-            cursor.close();
-        } else {
-            game = null;
-        }
-        db.close();
-        return game;
-    }
-
-
-    /*
-     *  load data
-     */
-    public Game loadGame(String gameName) {
+    public Game loadGameHandler(String gameName) {
         Game game = new Game(gameName);
         List<GPage> pages = new ArrayList<GPage>();
 
@@ -192,8 +172,16 @@ public class DBHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db1 = this.getWritableDatabase();
         Cursor cursor1 = db1.rawQuery(query1, null);
+        if (!cursor1.moveToFirst()) {
+            cursor1.close();
+            game = null;
+
+            return game;
+        }
         while (cursor1.moveToNext()) {
-            String pageName = cursor1.getString(1);
+            String pageName = cursor1.getString(2);
+            String currPage = cursor1.getString(3);
+            String firstPage = cursor1.getString(4);
             GPage page = new GPage(pageName);
             pages.add(page);
             game.addPage(new GPage(pageName));
@@ -240,7 +228,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // delete a game
-    public boolean deleteGame(String gameName) {
+    public boolean deleteGameHandler(String gameName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -250,7 +238,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // delete a shape in game with gameName
-    public boolean deleteShape(String gameName, String shapeName) {
+    public boolean deleteShapeHandler(String gameName, String shapeName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         return db.delete(SHAPE_TABLE, GAMENAME + "=" + gameName + " AND " + SHAPE + "=" + shapeName, null) > 0;

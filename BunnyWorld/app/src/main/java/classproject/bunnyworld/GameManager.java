@@ -3,7 +3,9 @@ package classproject.bunnyworld;
 import android.view.View;
 import android.app.Activity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,11 +38,12 @@ class GameManager {
     public void setDb(DBHandler db) {
         this.db = db;
     }
+
     /*
      * Saves all of its games
      */
     public void deepSave() {
-        for(Game game: allGames) {
+        for (Game game : allGames) {
             saveGame(game);
         }
     }
@@ -48,6 +51,34 @@ class GameManager {
     /* Probably used by Editor to save games
      */
     public void saveGame(Game game) {
+        String gameName = game.getName();
+        List<GPage>  pageList = game.getPages();
+        GPage currPage = game.getCurrPage();
+        String isCurrentPage = "YES";
+        String isFirstPage = "YES";
+        for (GPage page : pageList) {
+            String pageName = page.getName();
+            if (!page.equals(currPage)) {
+                isCurrentPage = "NO";
+            }
+            if(!game.isFirstPage(page)) {
+                isFirstPage = "NO";
+            }
+
+            db.addGameHandler(game, page, isCurrentPage, isFirstPage);
+            List<GShape> shapes = page.getShapes();
+            for (GShape shape : shapes) {
+                String shapeName = shape.getName();
+                String imageName = shape.getPictureName();
+                String script = shape.getScript();
+                Integer font = shape.getFontSize();
+                Float x = shape.getX();
+                Float y = shape.getY();
+                Float w = shape.getWidth();
+                Float h = shape.getHeight();
+                db.addShapeHandler(game, shape, page, imageName, script, font, x, y, w, h);
+            }
+        }
 
     }
 
@@ -69,9 +100,12 @@ class GameManager {
      * game if it exists, putting it in its set of
      * games. Returns game or null or none exists
      */
-    public void loadGame(String gameName) {
+    public Game loadGame(String gameName) {
         // load from database
-        getGame(gameName);
+        Game game = db.loadGameHandler(gameName);
+        return game;
+
+//        getGame(gameName);
     }
 
     /* returns a game referred to by gameName
@@ -80,7 +114,7 @@ class GameManager {
      */
     public Game getGame(String gameName) {
         for (Game game : allGames) {
-            if(game.getName().toLowerCase().equals(gameName.toLowerCase())) {
+            if (game.getName().toLowerCase().equals(gameName.toLowerCase())) {
                 return game;
             }
         }
@@ -109,11 +143,16 @@ class GameManager {
                 return;
             }
         }
-        curGame = db.findGame(gameName);
-//        curGame = new Game(gameName);
+
+        curGame = loadGame(gameName);
+        if (curGame == null) {
+            curGame = new Game(gameName);
+        }
         GPage firstPage = curGame.getFirstPage();
+        db.addGameHandler(curGame, firstPage, "YES", "YES");
+
 //        allGames.add(curGame);
-        db.addGame(curGame, firstPage);
+
     }
 
     public void addGameToList(Game game) {
@@ -132,7 +171,7 @@ class GameManager {
      */
     public boolean duplicateGameName(String name) {
 
-        Game game = db.findGame(name);
+        Game game = db.loadGameHandler(name);
         if (game != null) {
             return true;
         }
