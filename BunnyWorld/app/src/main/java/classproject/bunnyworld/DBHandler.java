@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Zolbuu on 3/11/18.
@@ -20,7 +22,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "myDatabase";
+    private static final String DATABASE_NAME = "myDB";
 
     // Games and Shapes table name
     private static final String GAME_TABLE = "gameTable";
@@ -91,10 +93,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 + IMAGENAME + " TEXT,"
                 + SCRIPT + " TEXT,"
                 + FONT + " INTEGER"
-                + X + " REAL,"
-                + Y + " REAL,"
-                + W + " REAL,"
-                + H + " REAL" + ")";
+                + X + " NUMERIC,"
+                + Y + " NUMERIC,"
+                + W + " NUMERIC,"
+                + H + " NUMERIC" + ")";
 
         db.execSQL(CREATE_SHAPES_TABLE);
 
@@ -113,11 +115,45 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    /* Add Game
+    public void saveGame(Game game) {
+        String gameName = game.getName();
+        List<GPage> pageList = game.getPages();
+        GPage currPage = game.getCurrPage();
+        String isCurrentPage = "YES";
+        String isFirstPage = "YES";
+        for (GPage page : pageList) {
+            String pageName = page.getName();
+            if (!page.equals(currPage)) {
+                isCurrentPage = "NO";
+            }
+            if (!game.isFirstPage(page)) {
+                isFirstPage = "NO";
+            }
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            addPageHandler(game, page, isCurrentPage, isFirstPage);
+            List<GShape> shapes = page.getShapes();
+            for (GShape shape : shapes) {
+                String shapeName = shape.getName();
+                String imageName = shape.getPictureName();
+                String script = shape.getScript();
+                Integer font = shape.getFontSize();
+                Float x = shape.getX();
+                Float y = shape.getY();
+                Float w = shape.getWidth();
+                Float h = shape.getHeight();
+                addShapeHandler(game, shape, page, imageName, script, font, x, y, w, h);
+            }
+        }
+    }
+
+
+    /* addPageHandler and addShapeHandler are helper methods for saveGame(Game game).
      *
      */
+
     // Adding new Game information
-    void addGameHandler(Game game, GPage page, String isCurrentPage, String isFirstPage) {
+    void addPageHandler(Game game, GPage page, String isCurrentPage, String isFirstPage) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -180,9 +216,14 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         while (cursor1.moveToNext()) {
             String pageName = cursor1.getString(2);
+            GPage page = new GPage(pageName);
             String currPage = cursor1.getString(3);
             String firstPage = cursor1.getString(4);
-            GPage page = new GPage(pageName);
+            if (currPage == "YES") {
+                game.setCurrPage(page);
+            }
+
+
             pages.add(page);
             game.addPage(new GPage(pageName));
         }
@@ -243,6 +284,22 @@ public class DBHandler extends SQLiteOpenHelper {
 
         return db.delete(SHAPE_TABLE, GAMENAME + "=" + gameName + " AND " + SHAPE + "=" + shapeName, null) > 0;
     }
+
+    // Set of all games
+    public Set<Game> setAllGames() {
+        Set<Game> gameSet = new HashSet<>();
+        String query = "Select * FROM " + SHAPE_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            String gameName = cursor.getString(1);
+            Game game = loadGameHandler(gameName);
+            gameSet.add(game);
+        }
+        return gameSet;
+    }
+
 
 
 }

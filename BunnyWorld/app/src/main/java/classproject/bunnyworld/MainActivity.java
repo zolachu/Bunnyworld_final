@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         boolean duplicate = gameManager.duplicateGameName(name);
 
-        if (duplicate == true) {
+        if (duplicate) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Game already exists! Please change game name.",
                     Toast.LENGTH_SHORT);
@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
         GameManager gameManager = GameManager.getInstance();
         db = new DBHandler(this);
         gameManager.setDb(db);
+
         EditText gameName = findViewById(R.id.game_existingName_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
         if (duplicate) {
             gameManager.setCurGame(name);
-            gameManager.loadGame(name);
 
             Intent intent = new Intent(this, EditorActivity.class);
             startActivity(intent);

@@ -51,35 +51,9 @@ class GameManager {
     /* Probably used by Editor to save games
      */
     public void saveGame(Game game) {
-        String gameName = game.getName();
-        List<GPage>  pageList = game.getPages();
-        GPage currPage = game.getCurrPage();
-        String isCurrentPage = "YES";
-        String isFirstPage = "YES";
-        for (GPage page : pageList) {
-            String pageName = page.getName();
-            if (!page.equals(currPage)) {
-                isCurrentPage = "NO";
-            }
-            if(!game.isFirstPage(page)) {
-                isFirstPage = "NO";
-            }
-
-            db.addGameHandler(game, page, isCurrentPage, isFirstPage);
-            List<GShape> shapes = page.getShapes();
-            for (GShape shape : shapes) {
-                String shapeName = shape.getName();
-                String imageName = shape.getPictureName();
-                String script = shape.getScript();
-                Integer font = shape.getFontSize();
-                Float x = shape.getX();
-                Float y = shape.getY();
-                Float w = shape.getWidth();
-                Float h = shape.getHeight();
-                db.addShapeHandler(game, shape, page, imageName, script, font, x, y, w, h);
-            }
-        }
-
+//        String gameName = game.getName();
+        allGames.add(game);
+        db.saveGame(game);
     }
 
 
@@ -91,7 +65,9 @@ class GameManager {
      * necessarily when playing a single game.
      */
     private void deepLoad() {
-
+        for(Game game : allGames) {
+            loadGame(game.getName());
+        }
 
     }
 
@@ -143,15 +119,15 @@ class GameManager {
                 return;
             }
         }
-
         curGame = loadGame(gameName);
+        allGames.add(curGame);
         if (curGame == null) {
             curGame = new Game(gameName);
         }
         GPage firstPage = curGame.getFirstPage();
-        db.addGameHandler(curGame, firstPage, "YES", "YES");
+        db.addPageHandler(curGame, firstPage, "YES", "YES");
 
-//        allGames.add(curGame);
+
 
     }
 
