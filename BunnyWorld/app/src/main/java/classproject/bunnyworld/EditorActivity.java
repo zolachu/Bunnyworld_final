@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class EditorActivity extends AppCompatActivity {
 
     private Game curGame;
@@ -25,7 +27,7 @@ public class EditorActivity extends AppCompatActivity {
     private EditText height;
     private EditText texts;
     private EditText images;
-//    private EditText scripts;
+    private TextView scripts;
     private EditText fontSizes;
     private CheckBox hidden_box;
     private CheckBox movable_box;
@@ -73,7 +75,7 @@ public class EditorActivity extends AppCompatActivity {
         height       = findViewById(R.id.shape_H_editText);
         texts        = findViewById(R.id.shape_text_editText);
         images       = findViewById(R.id.shape_imgName_editText);
-//        scripts      = findViewById(R.id.shape_script_editText);
+        scripts      = findViewById(R.id.shape_script_text);
         fontSizes    = findViewById(R.id.shape_fontSize_editText);
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
         movable_box  = findViewById(R.id.shape_movable_checkBox);
@@ -112,10 +114,16 @@ public class EditorActivity extends AppCompatActivity {
         if (!image.isEmpty()) curShape.setPictureName(image);
 
         String script = gameManager.getCurScript();
-        if (!script.isEmpty()) curShape.setScriptText(script);
+        if (!script.isEmpty()) {
+            curShape.setScriptText(script);
+            scripts.setText(script);
+        } else {
+            scripts.setText("Script");
+        }
 
         String fontSize = fontSizes.getText().toString();
         if (!fontSize.isEmpty()) curShape.setFontSize(Integer.valueOf(fontSize));
+
 
         if (hidden_box.isChecked()) {
             curShape.setHidden(true);
@@ -357,7 +365,7 @@ public class EditorActivity extends AppCompatActivity {
         height.setText("");
         texts.setText("");
         images.setText("");
-//        scripts.setText("");
+        scripts.setText("Script");
         fontSizes.setText("");
         hidden_box.setChecked(false);
         movable_box.setChecked(false);
@@ -378,6 +386,7 @@ public class EditorActivity extends AppCompatActivity {
             String text = shape.getText();
             String imgName = shape.getPictureName();
             int fontSize = shape.getFontSize();
+            String script = gameManager.getCurScript();
             boolean hidden = shape.isHidden();
             boolean movable = shape.isMovable();
 
@@ -389,6 +398,11 @@ public class EditorActivity extends AppCompatActivity {
             texts.setText(text);
             images.setText(imgName);
             fontSizes.setText(Integer.valueOf(fontSize));
+            if (!script.isEmpty()) {
+                scripts.setText(script);
+            } else {
+                scripts.setText("Script");
+            }
             hidden_box.setChecked(hidden);
             movable_box.setChecked(movable);
         }

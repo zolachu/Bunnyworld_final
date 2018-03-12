@@ -44,7 +44,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:orientation="vertical"
-                android:layout_width="180dp"
+                android:layout_width="176dp"
                 android:layout_height="match_parent"
                 android:id="@+id/linearLayout2">
 
@@ -211,43 +211,53 @@
                     android:textSize="9sp"
                     android:onClick="editScript" />
 
+                <TextView
+                    android:id="@+id/shape_script_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Script"
+                    android:textSize="9sp"/>
+
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp">
 
                         <CheckBox
                             android:id="@+id/shape_hidden_checkBox"
-                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="Hidden"
-                            android:textSize="10sp"/>
+                            android:textSize="11sp"/>
 
                         <CheckBox
                             android:id="@+id/shape_movable_checkBox"
-                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="Movable"
-                            android:textSize="10sp"/>
+                            android:textSize="11sp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
 
                         <Button
                             android:id="@+id/shape_add_button"
                             android:layout_width="wrap_content"
-                            android:layout_height="0sp"
+                            android:layout_height="32sp"
                             android:text="ADD"
                             android:textSize="11sp"
                             android:onClick="addShape"
@@ -256,7 +266,7 @@
                         <Button
                             android:id="@+id/shape_remove_button"
                             android:layout_width="wrap_content"
-                            android:layout_height="0sp"
+                            android:layout_height="32sp"
                             android:text="REMOVE"
                             android:textSize="11sp"
                             android:onClick="removeShape"
