@@ -2,6 +2,7 @@ package classproject.bunnyworld;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -17,6 +18,11 @@ public class PlayActivity extends AppCompatActivity {
         curGame = gameManager.getCurGame();
         curGame.setCurrPage(curGame.getFirstPage());
         curGame.setEditOff();
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Edit Mode Off",
+                Toast.LENGTH_SHORT);
+        toast.show();
 
     }
 }

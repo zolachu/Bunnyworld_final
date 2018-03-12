@@ -64,7 +64,12 @@ public class EditorActivity extends AppCompatActivity {
 
         displayCurPageName();
 
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Edit Mode Enabled",
+                Toast.LENGTH_SHORT);
+        toast.show();
     }
+
 
     private void initViews() {
         myView       = findViewById(R.id.myCanvas);
@@ -390,6 +395,14 @@ public class EditorActivity extends AppCompatActivity {
             boolean hidden = shape.isHidden();
             boolean movable = shape.isMovable();
 
+            hidden_box.setChecked(hidden);
+            movable_box.setChecked(movable);
+            if (!script.isEmpty()) {
+                scripts.setText(script);
+            } else {
+                scripts.setText("Script");
+            }
+
             shapeName.setText(name);
             x_coordinate.setText(Float.toString(x));
             y_coordinate.setText(Float.toString(y));
@@ -398,13 +411,6 @@ public class EditorActivity extends AppCompatActivity {
             texts.setText(text);
             images.setText(imgName);
             fontSizes.setText(Integer.valueOf(fontSize));
-            if (!script.isEmpty()) {
-                scripts.setText(script);
-            } else {
-                scripts.setText("Script");
-            }
-            hidden_box.setChecked(hidden);
-            movable_box.setChecked(movable);
         }
     }
 
