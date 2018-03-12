@@ -244,26 +244,5 @@ public class DBHandler extends SQLiteOpenHelper {
         return db.delete(SHAPE_TABLE, GAMENAME + "=" + gameName + " AND " + SHAPE + "=" + shapeName, null) > 0;
     }
 
-//    // List of all games
-//    public List<Game> getAllGames(){
-//        List<Game> gameList = new ArrayList<Game>();
-//
-//        String Query = "SELECT  * FROM " + GAME_TABLE;
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursor = db.rawQuery(Query, null);
-//        if (cursor.moveToFirst()) {
-//            do {
-//                String gameName = cursor.getString(0);
-//                Game game = new Game(gameName);
-//
-//
-//                game.
-//
-//
-//            } while (cursor.moveToNext());
-//        }
-//
-//        return gameList;
-//
-//    }
+
 }
