@@ -19,6 +19,13 @@ public class PlayActivity extends AppCompatActivity {
         curGame.setCurrPage(curGame.getFirstPage());
         curGame.setEditOff();
 
+        for(GPage page: curGame.getPages()) {
+            for (GShape shape: page.getShapes()) {
+                shape.unselectShape();
+                shape.unselectOnDrop();
+            }
+        }
+
         Toast toast = Toast.makeText(getApplicationContext(),
                 "Edit Mode Off",
                 Toast.LENGTH_SHORT);
