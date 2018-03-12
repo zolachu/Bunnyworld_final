@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onEditGame(View view) {
         GameManager gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
         EditText gameName = findViewById(R.id.game_existingName_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPlayGame(View view) {
+        GameManager gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
         Intent intent = new Intent(this,PlayActivity.class);
         startActivity(intent);
     }

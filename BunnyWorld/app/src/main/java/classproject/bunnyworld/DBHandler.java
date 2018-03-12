@@ -188,7 +188,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Game game = new Game(gameName);
         List<GPage> pages = new ArrayList<GPage>();
 
-        String query1 = "Select * FROM " + GAME_TABLE + " WHERE " + GAME + " = " + "'" + gameName + "'";
+        String query1 = "Select * FROM " + GAME_TABLE + " WHERE " + GAME + "=" + "'" + gameName + "'";
 
         SQLiteDatabase db1 = this.getWritableDatabase();
         Cursor cursor1 = db1.rawQuery(query1, null);
@@ -255,4 +255,27 @@ public class DBHandler extends SQLiteOpenHelper {
 
         return db.delete(SHAPE_TABLE, GAMENAME + "=" + gameName + " AND " + SHAPE + "=" + shapeName, null) > 0;
     }
+
+//    // List of all games
+//    public List<Game> getAllGames(){
+//        List<Game> gameList = new ArrayList<Game>();
+//
+//        String Query = "SELECT  * FROM " + GAME_TABLE;
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor = db.rawQuery(Query, null);
+//        if (cursor.moveToFirst()) {
+//            do {
+//                String gameName = cursor.getString(0);
+//                Game game = new Game(gameName);
+//
+//
+//                game.
+//
+//
+//            } while (cursor.moveToNext());
+//        }
+//
+//        return gameList;
+//
+//    }
 }

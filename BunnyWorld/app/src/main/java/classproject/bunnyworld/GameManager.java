@@ -109,7 +109,8 @@ class GameManager {
                 return;
             }
         }
-        curGame = new Game(gameName);
+        curGame = db.findGame(gameName);
+//        curGame = new Game(gameName);
         GPage firstPage = curGame.getFirstPage();
 //        allGames.add(curGame);
         db.addGame(curGame, firstPage);
