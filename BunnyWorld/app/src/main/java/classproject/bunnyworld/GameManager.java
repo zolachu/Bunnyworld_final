@@ -1,11 +1,8 @@
 package classproject.bunnyworld;
 
-import android.view.View;
 import android.app.Activity;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,7 +29,7 @@ class GameManager {
     private GameManager() {
         allGames = new HashSet<Game>();
         gameView = null;
-        //deepLoad();
+        deepLoad();
     }
 
     public void setDb(DBHandler db) {
@@ -65,7 +62,7 @@ class GameManager {
      * necessarily when playing a single game.
      */
     private void deepLoad() {
-        for(Game game : allGames) {
+        for (Game game : allGames) {
             loadGame(game.getName());
         }
 
@@ -119,15 +116,13 @@ class GameManager {
                 return;
             }
         }
-        curGame = loadGame(gameName);
+//        curGame = loadGame(gameName);
+//        allGames.add(curGame);
+//        if (curGame == null) {
+        curGame = new Game(gameName);
+//        }
+        db.saveGame(curGame);
         allGames.add(curGame);
-        if (curGame == null) {
-            curGame = new Game(gameName);
-        }
-        GPage firstPage = curGame.getFirstPage();
-        db.addPageHandler(curGame, firstPage, "YES", "YES");
-
-
 
     }
 

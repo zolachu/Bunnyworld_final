@@ -22,7 +22,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "myDB";
+    private static final String DATABASE_NAME = "database";
 
     // Games and Shapes table name
     private static final String GAME_TABLE = "gameTable";
@@ -130,8 +130,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 isFirstPage = "NO";
             }
 
-            SQLiteDatabase db = this.getWritableDatabase();
-            addPageHandler(game, page, isCurrentPage, isFirstPage);
+            addPages(game, page, isCurrentPage, isFirstPage);
             List<GShape> shapes = page.getShapes();
             for (GShape shape : shapes) {
                 String shapeName = shape.getName();
@@ -142,18 +141,18 @@ public class DBHandler extends SQLiteOpenHelper {
                 Float y = shape.getY();
                 Float w = shape.getWidth();
                 Float h = shape.getHeight();
-                addShapeHandler(game, shape, page, imageName, script, font, x, y, w, h);
+                addShapes(game, shape, page, imageName, script, font, x, y, w, h);
             }
         }
     }
 
 
-    /* addPageHandler and addShapeHandler are helper methods for saveGame(Game game).
+    /* addPages and addShapes are helper methods for saveGame(Game game).
      *
      */
 
     // Adding new Game information
-    void addPageHandler(Game game, GPage page, String isCurrentPage, String isFirstPage) {
+    private void addPages(Game game, GPage page, String isCurrentPage, String isFirstPage) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -170,11 +169,11 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    /* Add Shape to game
+    /* Add Shapes to game
      *
      */
 
-    void addShapeHandler(Game game, GShape shape, GPage page, String imageName, String script,
+    private void addShapes(Game game, GShape shape, GPage page, String imageName, String script,
                          Integer font, float x, float y, float w, float h) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -278,7 +277,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    // delete a shape in game with gameName
+    // delete a shape in game with name gameName
     public boolean deleteShapeHandler(String gameName, String shapeName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
