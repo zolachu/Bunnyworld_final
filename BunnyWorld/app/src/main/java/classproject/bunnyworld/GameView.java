@@ -105,6 +105,12 @@ public class GameView extends View {
 
     }
 
+    /*
+     * Handles dragging. If the selectedShape is movable, then
+     * the position of the selectedShape is updated.
+     * Also highlights the shapes in the page with green paint
+     * if a shape's dropTarget is the selectedShape
+     */
     private void handleActionMove(MotionEvent event) {
         if (selectedShape != null) {
             if (selectedShape.isMovable()) {
@@ -130,12 +136,6 @@ public class GameView extends View {
         }
     }
 
-    /*
-     * Handles dragging. If the selectedShape is movable, then
-     * the position of the selectedShape is updated.
-     * Also highlights the shapes in the page with green paint
-     * if a shape's dropTarget is the selectedShape
-     */
     private void handleActionUp(MotionEvent event) {
         x = event.getX();
         y = event.getY();
@@ -149,7 +149,6 @@ public class GameView extends View {
         for (GShape shape : game.getCurrPage().getShapes()) {
             shape.unselectOnDrop();
         }
-
         invalidate();
     }
 
@@ -215,7 +214,7 @@ public class GameView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        game = GameManager.getInstance().getCurGame();
+        //game = GameManager.getInstance().getCurGame();
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -231,7 +230,6 @@ public class GameView extends View {
         return true;
     }
 
-
     /*
      * Returns the shape that's currently selected by the user
      */
@@ -239,6 +237,10 @@ public class GameView extends View {
         return selectedShape;
     }
 
+
+    /*
+     * Returns true if the center of the shape is in possession area
+     */
     public boolean isInPossessionArea(GShape shape) {
         if (shape.getY() + 0.5f * shape.getHeight() > (1 - possessionAreaProportion) * viewHeight) {
             return true;

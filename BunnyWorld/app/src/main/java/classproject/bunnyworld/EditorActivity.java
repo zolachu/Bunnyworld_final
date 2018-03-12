@@ -129,9 +129,6 @@ public class EditorActivity extends AppCompatActivity {
             curShape.setMovable(false);
         }
 
-//        if (!hidden_box.isChecked()) curShape.setHidden(false);
-//        if (!movable_box.isChecked()) curShape.setMovable(false);
-
         myView.invalidate();
 
     }
