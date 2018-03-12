@@ -111,7 +111,6 @@ public class EditorActivity extends AppCompatActivity {
         String image = images.getText().toString();
         if (!image.isEmpty()) curShape.setPictureName(image);
 
-//        String script = scripts.getText().toString();
         String script = gameManager.getCurScript();
         if (!script.isEmpty()) curShape.setScriptText(script);
 
@@ -164,7 +163,6 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         String text = texts.getText().toString();
-        String image = images.getText().toString();
 
         int type;
         if (!text.isEmpty()) {
@@ -181,8 +179,8 @@ public class EditorActivity extends AppCompatActivity {
     //Use view parameters to set properties of the shape object
     private void setNewShape(GShape newShape) {
 
+        String text  = texts.getText().toString();
         String image = images.getText().toString();
-//        String script = scripts.getText().toString();
         String script = gameManager.getCurScript();
         String fontSize = fontSizes.getText().toString();
 
@@ -204,8 +202,6 @@ public class EditorActivity extends AppCompatActivity {
         myView.invalidate();
 
         // save these values before clear
-        String text  = texts.getText().toString();
-        image = images.getText().toString();
         boolean movableBoxValue = movable_box.isChecked();
         boolean hiddenboxValue = hidden_box.isChecked();
 
