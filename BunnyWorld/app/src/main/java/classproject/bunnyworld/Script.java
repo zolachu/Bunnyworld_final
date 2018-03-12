@@ -73,6 +73,9 @@ public class Script {
     static void perform(Game game, String[] actionArray) {
         if (actionArray == null) return;
 
+        //Do not perform scripts if the game is in edit mode
+        if (GameManager.getInstance().getCurGame().getEditMode()) return;
+
         int i = 0;
         if(actionArray.length % 2 == 1) i++; // [0] was dragged and dropped item aka sender from ondrop trigger
 

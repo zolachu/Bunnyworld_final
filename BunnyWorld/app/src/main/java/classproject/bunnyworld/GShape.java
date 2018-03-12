@@ -103,7 +103,8 @@ public class GShape {
 		float top    = this.y;
 		float bottom = this.y + this.height;
 
-		if (isHidden()) return;
+		//Show hidden shapes in edit mode
+		if (isHidden() && !GameManager.getInstance().getCurGame().getEditMode()) return;
 
 		//draw
 		if (this.getState() == TEXT) {

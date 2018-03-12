@@ -16,6 +16,7 @@ public class PlayActivity extends AppCompatActivity {
         gameManager = GameManager.getInstance();
         curGame = gameManager.getCurGame();
         curGame.setCurrPage(curGame.getFirstPage());
+        curGame.setEditOff();
 
     }
 }

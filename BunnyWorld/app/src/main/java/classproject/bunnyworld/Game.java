@@ -13,6 +13,8 @@ public class Game {
 	private List<GPage> pages;
 	private List<GShape> possessions;
 
+	private boolean editMode;
+
 	Game(String name) {
 		this.name  = name;
 		this.pages = new ArrayList<GPage>();
@@ -20,6 +22,7 @@ public class Game {
 		this.firstPage = new GPage(assignDefaultPageName());
 		this.currPage  = firstPage;
 		this.pages.add(firstPage);
+		this.editMode = true;
 	}
 
 	void draw(Canvas canvas){
@@ -139,7 +142,7 @@ public class Game {
 		// Search in the current page
 		for (int i = this.currPage.getShapes().size()-1; i >= 0; i--) {
 			if (this.currPage.getShapes().get(i).containsPoint(x,y) &&
-					!this.currPage.getShapes().get(i).isHidden()) {
+					(!this.currPage.getShapes().get(i).isHidden() || this.getEditMode())) {
 				return this.currPage.getShapes().get(i);
 			}
 		}
@@ -253,6 +256,18 @@ public class Game {
 			shapeList.addAll(curPageShapeList);
 		}
 		return shapeList;
+	}
+
+	public void setEditOff() {
+		this.editMode = false;
+	}
+
+	public void setEditOn() {
+		this.editMode = true;
+	}
+
+	public boolean getEditMode() {
+		return this.editMode;
 	}
 
 

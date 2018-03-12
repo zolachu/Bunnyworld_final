@@ -1,6 +1,7 @@
 package classproject.bunnyworld;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,6 +46,7 @@ public class EditorActivity extends AppCompatActivity {
         gameManager = GameManager.getInstance();
         curGame = gameManager.getCurGame();
         curPage = curGame.getCurrPage();
+        curGame.setEditOn();
 
         gameManager.setGameView(this);
 
@@ -59,6 +61,7 @@ public class EditorActivity extends AppCompatActivity {
         initY = 0.1f * (float) viewHeight;
 
         displayCurPageName();
+
     }
 
     private void initViews() {
@@ -126,8 +129,8 @@ public class EditorActivity extends AppCompatActivity {
             curShape.setMovable(false);
         }
 
-        if (!hidden_box.isChecked()) curShape.setHidden(false);
-        if (!movable_box.isChecked()) curShape.setMovable(false);
+//        if (!hidden_box.isChecked()) curShape.setHidden(false);
+//        if (!movable_box.isChecked()) curShape.setMovable(false);
 
         myView.invalidate();
 
@@ -151,7 +154,6 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         GShape newShape = createNewShape(name);
-
         setNewShape(newShape);
 
     }
@@ -181,6 +183,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
 
+    //Use view parameters to set properties of the shape object
     private void setNewShape(GShape newShape) {
 
         String image = images.getText().toString();
@@ -199,8 +202,8 @@ public class EditorActivity extends AppCompatActivity {
 
         if(!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
 
-        CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
-        if (movableBox.isChecked()) { newShape.setMovable(true); }
+//        CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
+//        if (movableBox.isChecked()) { newShape.setMovable(true); }
 
         // add newShape to the current page's list of shapes
         curPage.addShape(newShape);
@@ -209,7 +212,11 @@ public class EditorActivity extends AppCompatActivity {
         // save these values before clear
         String text  = texts.getText().toString();
         image = images.getText().toString();
-        boolean movableBoxValue = movableBox.isChecked();
+        boolean movableBoxValue = movable_box.isChecked();
+        boolean hiddenboxValue = hidden_box.isChecked();
+
+        newShape.setMovable(movableBoxValue);
+        newShape.setHidden(hiddenboxValue);
 
         // clear the shape info panel
         clearShapeInfo();
@@ -219,6 +226,7 @@ public class EditorActivity extends AppCompatActivity {
         texts.setText(text);
         images.setText(image);
         movable_box.setChecked(movableBoxValue);
+        hidden_box.setChecked(hiddenboxValue);
 
         //display a default name for a shape to be created next
         shapeName.setText(curGame.assignDefaultShapeName());
@@ -397,9 +405,9 @@ public class EditorActivity extends AppCompatActivity {
             images.setText(imgName);
 //            scripts.setText(script);
             fontSizes.setText(Integer.valueOf(fontSize));
-
             hidden_box.setChecked(hidden);
             movable_box.setChecked(movable);
+
         }
     }
 
@@ -435,7 +443,6 @@ public class EditorActivity extends AppCompatActivity {
         String curPageName = curGame.getCurrPage().getName();
         pageName.setText(curPageName);
     }
-
 
     public void editScript(View view) {
         GShape curShape = myView.getSelectedShape();
