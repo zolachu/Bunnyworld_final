@@ -48,8 +48,6 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        String curPage = game.getCurrPage().getName();
-
         //Draw the possession area boundary line
         canvas.drawLine(0.0f, (1 - possessionAreaProportion) * viewHeight,
                 viewWidth, (1 - possessionAreaProportion) * viewHeight,
@@ -102,7 +100,6 @@ public class GameView extends View {
         } catch (Exception e) {
         }
         invalidate();
-
     }
 
     /*
@@ -234,7 +231,7 @@ public class GameView extends View {
      * Returns the shape that's currently selected by the user
      */
     public GShape getSelectedShape() {
-        return selectedShape;
+        return this.selectedShape;
     }
 
 
@@ -242,7 +239,8 @@ public class GameView extends View {
      * Returns true if the center of the shape is in possession area
      */
     public boolean isInPossessionArea(GShape shape) {
-        if (shape.getY() + 0.5f * shape.getHeight() > (1 - possessionAreaProportion) * viewHeight) {
+        if (shape.getY() + 0.5f * shape.getHeight() >
+                (1 - possessionAreaProportion) * viewHeight) {
             return true;
         } else {
             return false;

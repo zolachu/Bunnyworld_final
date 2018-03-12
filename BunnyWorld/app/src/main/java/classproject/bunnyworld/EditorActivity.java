@@ -322,7 +322,6 @@ public class EditorActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT);
             toast.show();
         }
-
     }
 
     /*
@@ -378,7 +377,6 @@ public class EditorActivity extends AppCompatActivity {
             float h = shape.getHeight();
             String text = shape.getText();
             String imgName = shape.getPictureName();
-//            String script = shape.getScript();
             int fontSize = shape.getFontSize();
             boolean hidden = shape.isHidden();
             boolean movable = shape.isMovable();
@@ -390,11 +388,9 @@ public class EditorActivity extends AppCompatActivity {
             height.setText(Float.toString(h));
             texts.setText(text);
             images.setText(imgName);
-//            scripts.setText(script);
             fontSizes.setText(Integer.valueOf(fontSize));
             hidden_box.setChecked(hidden);
             movable_box.setChecked(movable);
-
         }
     }
 
