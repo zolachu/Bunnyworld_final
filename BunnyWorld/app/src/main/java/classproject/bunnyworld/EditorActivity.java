@@ -130,7 +130,6 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         myView.invalidate();
-
     }
 
     /*
@@ -152,7 +151,6 @@ public class EditorActivity extends AppCompatActivity {
 
         GShape newShape = createNewShape(name);
         setNewShape(newShape);
-
     }
 
     private GShape createNewShape(String name) {
@@ -191,16 +189,15 @@ public class EditorActivity extends AppCompatActivity {
         String w = width.getText().toString();
         String h = height.getText().toString();
 
-        if (!script.isEmpty()) newShape.setScriptText(script);
         if (!image.isEmpty()) newShape.setPictureName(image);
+        if (!script.isEmpty()) newShape.setScriptText(script);
         if (!fontSize.isEmpty()) newShape.setFontSize(Integer.valueOf(fontSize));
 
         if (!h.isEmpty()) { newShape.setHeight(Float.parseFloat(h)); }
+        if (!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
 
-        if(!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
-
-//        CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
-//        if (movableBox.isChecked()) { newShape.setMovable(true); }
+        newShape.setMovable(movable_box.isChecked());
+        newShape.setHidden(hidden_box.isChecked());
 
         // add newShape to the current page's list of shapes
         curPage.addShape(newShape);
@@ -211,9 +208,6 @@ public class EditorActivity extends AppCompatActivity {
         image = images.getText().toString();
         boolean movableBoxValue = movable_box.isChecked();
         boolean hiddenboxValue = hidden_box.isChecked();
-
-        newShape.setMovable(movableBoxValue);
-        newShape.setHidden(hiddenboxValue);
 
         // clear the shape info panel
         clearShapeInfo();
@@ -390,8 +384,8 @@ public class EditorActivity extends AppCompatActivity {
             String imgName = shape.getPictureName();
 //            String script = shape.getScript();
             int fontSize = shape.getFontSize();
-            boolean hidden = shape.getHidden();
-            boolean movable = shape.getMovable();
+            boolean hidden = shape.isHidden();
+            boolean movable = shape.isMovable();
 
             shapeName.setText(name);
             x_coordinate.setText(Float.toString(x));
