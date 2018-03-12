@@ -202,8 +202,13 @@ public class EditorActivity extends AppCompatActivity {
 
         if(!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
 
-//        CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
-//        if (movableBox.isChecked()) { newShape.setMovable(true); }
+        CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
+        if (movableBox.isChecked()) { newShape.setMovable(true); }
+
+        CheckBox hiddenBox = (CheckBox) findViewById(R.id.shape_hidden_checkBox);
+        if (hiddenBox.isChecked()) { newShape.setHidden(true); }
+
+
 
         // add newShape to the current page's list of shapes
         curPage.addShape(newShape);
@@ -381,6 +386,7 @@ public class EditorActivity extends AppCompatActivity {
      * Displays info for the currently selected shape
      */
     public void displayShapeInfo(GShape shape) {
+        System.err.println("in display shape info");
         if (shape == null) {
             clearShapeInfo();
         } else {
@@ -393,8 +399,8 @@ public class EditorActivity extends AppCompatActivity {
             String imgName = shape.getPictureName();
 //            String script = shape.getScript();
             int fontSize = shape.getFontSize();
-            boolean hidden = shape.getHidden();
-            boolean movable = shape.getMovable();
+            boolean hidden = shape.isHidden();
+            boolean movable = shape.isMovable();
 
             shapeName.setText(name);
             x_coordinate.setText(Float.toString(x));
@@ -405,6 +411,7 @@ public class EditorActivity extends AppCompatActivity {
             images.setText(imgName);
 //            scripts.setText(script);
             fontSizes.setText(Integer.valueOf(fontSize));
+
             hidden_box.setChecked(hidden);
             movable_box.setChecked(movable);
 

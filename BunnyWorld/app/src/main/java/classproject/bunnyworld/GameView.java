@@ -100,6 +100,7 @@ public class GameView extends View {
         try {
             ((EditorActivity) getContext()).displayShapeInfo(selectedShape);
         } catch (Exception e) {
+            System.err.println("Exception");
         }
         invalidate();
 

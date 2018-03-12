@@ -142,7 +142,7 @@ public class Game {
 		// Search in the current page
 		for (int i = this.currPage.getShapes().size()-1; i >= 0; i--) {
 			if (this.currPage.getShapes().get(i).containsPoint(x,y) &&
-					(!this.currPage.getShapes().get(i).isHidden() || this.getEditMode())) {
+					!this.currPage.getShapes().get(i).isHidden()) {
 				return this.currPage.getShapes().get(i);
 			}
 		}
