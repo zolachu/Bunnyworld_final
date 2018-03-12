@@ -23,7 +23,7 @@ public class GameView extends View {
     private float distX, distY; // distance of a click location (inside a shape) from x and y fo the shape
 
     private int viewWidth, viewHeight;
-    private static float possessionAreaProportion = 0.2f;
+    private static float possessionAreaProportion = 0.35f;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);

@@ -391,7 +391,7 @@ public class EditorActivity extends AppCompatActivity {
             String text = shape.getText();
             String imgName = shape.getPictureName();
             int fontSize = shape.getFontSize();
-            String script = gameManager.getCurScript();
+            String script = shape.getScript();
             boolean hidden = shape.isHidden();
             boolean movable = shape.isMovable();
 
