@@ -53,6 +53,15 @@ public class EditorActivity extends AppCompatActivity {
         displayGameName.append(curGame.getName());
         gameName.setText(displayGameName.toString());
 
+        initViews();
+
+        initX = 0.1f * (float) viewWidth;
+        initY = 0.1f * (float) viewHeight;
+
+        displayCurPageName();
+    }
+
+    private void initViews() {
         myView       = findViewById(R.id.myCanvas);
         shapeName    = findViewById(R.id.shape_name_editText);
         x_coordinate = findViewById(R.id.shape_X_editText);
@@ -66,11 +75,6 @@ public class EditorActivity extends AppCompatActivity {
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
         movable_box  = findViewById(R.id.shape_movable_checkBox);
         pageName     = findViewById(R.id.page_name_editText);
-
-        initX = 0.1f * (float) viewWidth;
-        initY = 0.1f * (float) viewHeight;
-
-        displayCurPageName();
     }
 
     /*
@@ -146,11 +150,15 @@ public class EditorActivity extends AppCompatActivity {
             }
         }
 
+        GShape newShape = createNewShape(name);
+
+        setNewShape(newShape);
+
+    }
+
+    private GShape createNewShape(String name) {
         String x = x_coordinate.getText().toString();
         String y = y_coordinate.getText().toString();
-
-        String w = width.getText().toString();
-        String h = height.getText().toString();
 
         if (x.isEmpty() || y.isEmpty()) {
             x = Float.toString(initX);
@@ -169,10 +177,19 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y), text, type);
+        return newShape;
+    }
 
+
+    private void setNewShape(GShape newShape) {
+
+        String image = images.getText().toString();
 //        String script = scripts.getText().toString();
         String script = gameManager.getCurScript();
         String fontSize = fontSizes.getText().toString();
+
+        String w = width.getText().toString();
+        String h = height.getText().toString();
 
         if (!script.isEmpty()) newShape.setScriptText(script);
         if (!image.isEmpty()) newShape.setPictureName(image);
@@ -190,7 +207,7 @@ public class EditorActivity extends AppCompatActivity {
         myView.invalidate();
 
         // save these values before clear
-        text  = texts.getText().toString();
+        String text  = texts.getText().toString();
         image = images.getText().toString();
         boolean movableBoxValue = movableBox.isChecked();
 
