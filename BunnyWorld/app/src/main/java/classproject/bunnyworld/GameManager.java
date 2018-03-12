@@ -19,6 +19,7 @@ class GameManager {
     private Game curGame;
 
     private String curScript = "";
+    private DBHandler db;
 
     private static final GameManager ourInstance = new GameManager();
 
@@ -32,6 +33,9 @@ class GameManager {
         //deepLoad();
     }
 
+    public void setDb(DBHandler db) {
+        this.db = db;
+    }
     /*
      * Saves all of its games
      */
@@ -106,7 +110,9 @@ class GameManager {
             }
         }
         curGame = new Game(gameName);
-        // allGames.add(curGame);
+        GPage firstPage = curGame.getFirstPage();
+//        allGames.add(curGame);
+        db.addGame(curGame, firstPage);
     }
 
     public void addGameToList(Game game) {
@@ -124,13 +130,20 @@ class GameManager {
      * returns false when game name has no duplicates
      */
     public boolean duplicateGameName(String name) {
-        for (Game game : allGames) {
-            String curGameName = game.getName().toLowerCase();
-            if (curGameName.equals(name.toLowerCase())) {
-                return true;
-            }
+
+        Game game = db.findGame(name);
+        if (game != null) {
+            return true;
         }
         return false;
+
+//        for (Game game : allGames) {
+//            String curGameName = game.getName().toLowerCase();
+//            if (curGameName.equals(name.toLowerCase())) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     public void setCurScript(String script) {

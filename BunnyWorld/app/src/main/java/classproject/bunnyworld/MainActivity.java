@@ -10,30 +10,38 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    SQLiteDatabase db;
+    DBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//         Game game = new Game("g1");
-//         System.err.println(game);
+        db = new DBHandler(this);
     }
 
     public void onNewGame(View view) {
         GameManager gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
+
         EditText gameName = findViewById(R.id.game_name_editText);
         String name = gameName.getText().toString();
+
         boolean duplicate = gameManager.duplicateGameName(name);
-        if (duplicate) {
+
+        if (duplicate == true) {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Game already exists!",
+                    "Game already exists! Please change game name.",
                     Toast.LENGTH_SHORT);
             toast.show();
+
         } else {
             gameManager.setCurGame(name);
 
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Game added", Toast.LENGTH_SHORT);
+            toast.show();
             Intent intent = new Intent(this, EditorActivity.class);
             startActivity(intent);
         }
