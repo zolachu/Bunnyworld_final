@@ -201,7 +201,9 @@ public class GShape {
 
 	public void setScriptText(String scriptText) {
 		this.script = scriptText;
-		Script.parse(scriptText, scriptMap);
+		if (!scriptText.isEmpty()) {
+			Script.parse(scriptText, scriptMap);
+		}
 	}
 
 	public void setFontSize(int fontSize) {
