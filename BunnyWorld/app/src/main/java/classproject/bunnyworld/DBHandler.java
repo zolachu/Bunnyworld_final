@@ -40,6 +40,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String PAGENAME = "pageName";
     private static final String IMAGENAME = "imageName";
     private static final String SCRIPT = "script";
+    private static final String FONT = "font";
     private static final String X = "x";
     private static final String Y = "y";
     private static final String W = "w";
@@ -74,13 +75,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_GAME_TABLE);
 
-        // gameName | shape  |  page   |script  |imagename   | x | y | w | h
-        // game1    | shape1 |  page1  |"hoho"  | "something"| 1 |   |   |
-        // game1    | shape2 |  page1  |        | "something"|   |   |   |
-        // game1    | shape3 |  page2  |        | "something"|   |   |   |
-        // game1    | shape4 |  page1  |        | "something"|   |   |   |
-        // game2    | shape1 |  page3  |        | "something"|   |   |   |
-        // game2    | shape2 |  page1  |        | "something"|   |   |   |
+        // gameName | shape  |  page   |script  |imagename   | fontSize | x | y | w | h
+        // game1    | shape1 |  page1  |"hoho"  | "something"|   10     | 1 |   |   |
+        // game1    | shape2 |  page1  |        | "something"|          |   |   |   |
+        // game1    | shape3 |  page2  |        | "something"|          |   |   |   |
+        // game1    | shape4 |  page1  |        | "something"|          |   |   |   |
+        // game2    | shape1 |  page3  |        | "something"|          |   |   |   |
+        // game2    | shape2 |  page1  |        | "something"|          |   |   |   |
 
         String CREATE_SHAPES_TABLE= "CREATE TABLE " + SHAPE_TABLE + "("
                 + KEY_PRIMARY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -89,6 +90,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + PAGENAME + " TEXT,"
                 + IMAGENAME + " TEXT,"
                 + SCRIPT + " TEXT,"
+                + FONT + " INTEGER"
                 + X + " REAL,"
                 + Y + " REAL,"
                 + W + " REAL,"
@@ -137,7 +139,8 @@ public class DBHandler extends SQLiteOpenHelper {
      *
      */
 
-    void addShape(Game game, GShape shape, GShape page, String imageName, String script, float x, float y, float w, float h) {
+    void addShape(Game game, GShape shape, GShape page, String imageName, String script,
+                  Integer font, float x, float y, float w, float h) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -146,6 +149,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(PAGENAME, page.getName());
         values.put(IMAGENAME, imageName);
         values.put(SCRIPT, script);
+        values.put(FONT, font);
         values.put(X, x);
         values.put(Y, y);
         values.put(W, w);
@@ -164,11 +168,10 @@ public class DBHandler extends SQLiteOpenHelper {
         String query = "Select * FROM " + GAME_TABLE + " WHERE " + GAME + " = " + "'" + gameName + "'";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Game game = new Game(gameName);
+        Game game;
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-//            game.setCurrPage(cursor.getString(3));
-            game.setName(cursor.getString(1));
+            game = loadGame(gameName);
             cursor.close();
         } else {
             game = null;
@@ -176,26 +179,6 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
         return game;
     }
-
-
-
-    // delete a game
-    public boolean deleteGame(String gameName) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        return db.delete(GAME_TABLE, GAME + "=" + gameName, null) > 0;
-
-    }
-
-
-    // delete a shape in game with gameName
-    public boolean deleteShape(String gameName, String shapeName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        return db.delete(SHAPE_TABLE, GAMENAME + "=" + gameName + " AND " + SHAPE + "=" + shapeName, null) > 0;
-    }
-
 
 
     /*
@@ -219,7 +202,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db1.close();
 
 
-        String query2 = "Select * FROM " + SHAPE_TABLE + " WHERE" + GAMENAME + "=" + "'" + gameName + "'";
+        String query2 = "Select * FROM " + SHAPE_TABLE + " WHERE " + GAMENAME + "=" + "'" + gameName + "'";
 
         SQLiteDatabase db2 = this.getWritableDatabase();
         Cursor cursor2 = db2.rawQuery(query2, null);
@@ -228,18 +211,20 @@ public class DBHandler extends SQLiteOpenHelper {
             String pageName = cursor2.getString(2);
             String imageName = cursor2.getString(3); //  ??
             String script = cursor2.getString(4);
-            Float x = cursor2.getFloat(5);
-            Float y = cursor2.getFloat(6);
-            Float w = cursor2.getFloat(7);
-            Float h = cursor2.getFloat(8);
+            Integer font = cursor2.getInt(5);
+            Float x = cursor2.getFloat(6);
+            Float y = cursor2.getFloat(7);
+            Float w = cursor2.getFloat(8);
+            Float h = cursor2.getFloat(9);
 
             // shape of the coordinates (x,y) and the width and height of w,h, and the script of "script"
             GShape shape = new GShape(shapeName, x, y);
 //            shape.setName();   // ??
             shape.setWidth(w);
             shape.setHeight(h);
+            shape.setName(imageName);
             shape.setScriptText(script);
-            shape.setScriptText(script);
+            shape.setFontSize(font);
 
             game.getPage(pageName).addShape(shape);
 
@@ -254,4 +239,20 @@ public class DBHandler extends SQLiteOpenHelper {
         return game;
     }
 
+    // delete a game
+    public boolean deleteGame(String gameName) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        return db.delete(GAME_TABLE, GAME + "=" + gameName, null) > 0;
+
+    }
+
+
+    // delete a shape in game with gameName
+    public boolean deleteShape(String gameName, String shapeName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        return db.delete(SHAPE_TABLE, GAMENAME + "=" + gameName + " AND " + SHAPE + "=" + shapeName, null) > 0;
+    }
 }
