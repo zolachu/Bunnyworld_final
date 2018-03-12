@@ -57,17 +57,27 @@ public class GameView extends View {
         game.draw(canvas);
     }
 
-
-    private boolean inBounds(float x, float y) {
-        return x - distX >= 0 && x - distX + selectedShape.getWidth() < viewWidth
-                && y - distY >= 0 && y - distY + selectedShape.getHeight() < viewHeight;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                handleActionDown(event);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                handleActionMove(event);
+                break;
+            case MotionEvent.ACTION_UP:
+                handleActionUp(event);
+                break;
+        }
+        return true;
     }
 
     /*
-  * Handles beginning of a click or a drag
-  * Click is not detected in action_down, but when the mouse is released
-  * So we only determine selectedShape and save x,y variables
-  */
+     * Handles beginning of a click or a drag
+     * Click is not detected in action_down, but when the mouse is released
+     * So we only determine selectedShape and save x,y variables
+     */
     private void handleActionDown(MotionEvent event) {
         x = event.getX();
         y = event.getY();
@@ -97,8 +107,7 @@ public class GameView extends View {
         }
         try {
             ((EditorActivity) getContext()).displayShapeInfo(selectedShape);
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { }
         invalidate();
     }
 
@@ -125,14 +134,17 @@ public class GameView extends View {
                     }
                     try {
                         ((EditorActivity) getContext()).updateCoordinates(selectedShape);
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception e) { }
                     invalidate();
                 }
             }
         }
     }
 
+    /*
+     * Handles the events triggered when ACTION_UP is detected.
+     * All scripts are run when a shape is released.
+     */
     private void handleActionUp(MotionEvent event) {
         x = event.getX();
         y = event.getY();
@@ -149,8 +161,9 @@ public class GameView extends View {
         invalidate();
     }
 
-
-    //Helper method to capture logic of whether we have a click or drag on an action up event
+    /*
+     * Helper method to capture logic of whether we have a click or drag on an action up event
+     */
     private void checkClickOrDrag() {
         game.removePossession(selectedShape);
         if (!selectedShape.isMovable() && selectedShape.containsPoint(x, y)) {
@@ -208,25 +221,6 @@ public class GameView extends View {
 
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        //game = GameManager.getInstance().getCurGame();
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                handleActionDown(event);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                handleActionMove(event);
-                break;
-            case MotionEvent.ACTION_UP:
-                handleActionUp(event);
-                break;
-        }
-        return true;
-    }
-
     /*
      * Returns the shape that's currently selected by the user
      */
@@ -234,6 +228,13 @@ public class GameView extends View {
         return this.selectedShape;
     }
 
+    /*
+     * Returns true if the selectedShape is within the bounds of GameView
+     */
+    private boolean inBounds(float x, float y) {
+        return x - distX >= 0 && x - distX + selectedShape.getWidth() < viewWidth
+                && y - distY >= 0 && y - distY + selectedShape.getHeight() < viewHeight;
+    }
 
     /*
      * Returns true if the center of the shape is in possession area
