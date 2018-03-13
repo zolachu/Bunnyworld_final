@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     DBHandler db;
@@ -55,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
         if (duplicate) {
+            Game game = db.loadGameHandler(name);
+            List<GPage> pages = game.getPages();
+            for (GPage page: pages) {
+                System.out.println(page.toString());
+                for (GShape shape: page.getShapes()){
+                    System.out.println(shape.getX());
+                    System.out.println(shape.getY());
+                }
+
+            }
+
             gameManager.setCurGame(name);
 
             Intent intent = new Intent(this, EditorActivity.class);

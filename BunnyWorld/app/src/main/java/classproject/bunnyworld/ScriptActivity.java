@@ -49,6 +49,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         spinnerSetUp3();
         spinnerSetUp4();
         spinnerSetUp5();
+
     }
 
     private void spinnerSetUp1() {
@@ -191,7 +192,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void displayScript() {
         TextView scriptView = findViewById(R.id.script_editor_textView);
-        scriptView.setText(curScript);
+        scriptView.setText(curScript.toString().trim());
     }
 
     public void resetScript(View view) {
@@ -208,8 +209,8 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
 
     public void saveScript(View view) {
         GameManager gameManager = GameManager.getInstance();
-        gameManager.setCurScript(curScript.toString());
-        curShape.setScriptText(curScript.toString());
+        gameManager.setCurScript(curScript.toString().trim());
+        curShape.setScriptText(curScript.toString().trim());
     }
 
 

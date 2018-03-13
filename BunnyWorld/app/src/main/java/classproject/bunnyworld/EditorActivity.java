@@ -1,6 +1,7 @@
 package classproject.bunnyworld;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -24,7 +27,7 @@ public class EditorActivity extends AppCompatActivity {
     private EditText height;
     private EditText texts;
     private EditText images;
-//    private EditText scripts;
+    private TextView scripts;
     private EditText fontSizes;
     private CheckBox hidden_box;
     private CheckBox movable_box;
@@ -45,6 +48,7 @@ public class EditorActivity extends AppCompatActivity {
         gameManager = GameManager.getInstance();
         curGame = gameManager.getCurGame();
         curPage = curGame.getCurrPage();
+        curGame.setEditOn();
 
         gameManager.setGameView(this);
 
@@ -53,6 +57,21 @@ public class EditorActivity extends AppCompatActivity {
         displayGameName.append(curGame.getName());
         gameName.setText(displayGameName.toString());
 
+        initViews();
+
+        initX = 0.1f * (float) viewWidth;
+        initY = 0.1f * (float) viewHeight;
+
+        displayCurPageName();
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Edit Mode Enabled",
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    private void initViews() {
         myView       = findViewById(R.id.myCanvas);
         shapeName    = findViewById(R.id.shape_name_editText);
         x_coordinate = findViewById(R.id.shape_X_editText);
@@ -61,16 +80,11 @@ public class EditorActivity extends AppCompatActivity {
         height       = findViewById(R.id.shape_H_editText);
         texts        = findViewById(R.id.shape_text_editText);
         images       = findViewById(R.id.shape_imgName_editText);
-//        scripts      = findViewById(R.id.shape_script_editText);
+        scripts      = findViewById(R.id.shape_script_text);
         fontSizes    = findViewById(R.id.shape_fontSize_editText);
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
         movable_box  = findViewById(R.id.shape_movable_checkBox);
         pageName     = findViewById(R.id.page_name_editText);
-
-        initX = 0.1f * (float) viewWidth;
-        initY = 0.1f * (float) viewHeight;
-
-        displayCurPageName();
     }
 
     /*
@@ -104,12 +118,17 @@ public class EditorActivity extends AppCompatActivity {
         String image = images.getText().toString();
         if (!image.isEmpty()) curShape.setPictureName(image);
 
-//        String script = scripts.getText().toString();
         String script = gameManager.getCurScript();
-        if (!script.isEmpty()) curShape.setScriptText(script);
+        if (!script.isEmpty()) {
+            curShape.setScriptText(script);
+            scripts.setText(script);
+        } else {
+            scripts.setText("Script");
+        }
 
         String fontSize = fontSizes.getText().toString();
         if (!fontSize.isEmpty()) curShape.setFontSize(Integer.valueOf(fontSize));
+
 
         if (hidden_box.isChecked()) {
             curShape.setHidden(true);
@@ -122,11 +141,7 @@ public class EditorActivity extends AppCompatActivity {
             curShape.setMovable(false);
         }
 
-        if (!hidden_box.isChecked()) curShape.setHidden(false);
-        if (!movable_box.isChecked()) curShape.setMovable(false);
-
         myView.invalidate();
-
     }
 
     /*
@@ -146,11 +161,13 @@ public class EditorActivity extends AppCompatActivity {
             }
         }
 
+        GShape newShape = createNewShape(name);
+        setNewShape(newShape);
+    }
+
+    private GShape createNewShape(String name) {
         String x = x_coordinate.getText().toString();
         String y = y_coordinate.getText().toString();
-
-        String w = width.getText().toString();
-        String h = height.getText().toString();
 
         if (x.isEmpty() || y.isEmpty()) {
             x = Float.toString(initX);
@@ -159,7 +176,6 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         String text = texts.getText().toString();
-        String image = images.getText().toString();
 
         int type;
         if (!text.isEmpty()) {
@@ -169,30 +185,38 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y), text, type);
+        return newShape;
+    }
 
-//        String script = scripts.getText().toString();
+
+    //Use view parameters to set properties of the shape object
+    private void setNewShape(GShape newShape) {
+
+        String text  = texts.getText().toString();
+        String image = images.getText().toString();
         String script = gameManager.getCurScript();
         String fontSize = fontSizes.getText().toString();
 
-        if (!script.isEmpty()) newShape.setScriptText(script);
+        String w = width.getText().toString();
+        String h = height.getText().toString();
+
         if (!image.isEmpty()) newShape.setPictureName(image);
+        if (!script.isEmpty()) newShape.setScriptText(script);
         if (!fontSize.isEmpty()) newShape.setFontSize(Integer.valueOf(fontSize));
 
         if (!h.isEmpty()) { newShape.setHeight(Float.parseFloat(h)); }
+        if (!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
 
-        if(!w.isEmpty()) { newShape.setWidth(Float.parseFloat(w)); }
-
-        CheckBox movableBox = (CheckBox) findViewById(R.id.shape_movable_checkBox);
-        if (movableBox.isChecked()) { newShape.setMovable(true); }
+        newShape.setMovable(movable_box.isChecked());
+        newShape.setHidden(hidden_box.isChecked());
 
         // add newShape to the current page's list of shapes
         curPage.addShape(newShape);
         myView.invalidate();
 
         // save these values before clear
-        text  = texts.getText().toString();
-        image = images.getText().toString();
-        boolean movableBoxValue = movableBox.isChecked();
+        boolean movableBoxValue = movable_box.isChecked();
+        boolean hiddenboxValue = hidden_box.isChecked();
 
         // clear the shape info panel
         clearShapeInfo();
@@ -202,6 +226,7 @@ public class EditorActivity extends AppCompatActivity {
         texts.setText(text);
         images.setText(image);
         movable_box.setChecked(movableBoxValue);
+        hidden_box.setChecked(hiddenboxValue);
 
         //display a default name for a shape to be created next
         shapeName.setText(curGame.assignDefaultShapeName());
@@ -310,7 +335,6 @@ public class EditorActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT);
             toast.show();
         }
-
     }
 
     /*
@@ -346,7 +370,7 @@ public class EditorActivity extends AppCompatActivity {
         height.setText("");
         texts.setText("");
         images.setText("");
-//        scripts.setText("");
+        scripts.setText("Script");
         fontSizes.setText("");
         hidden_box.setChecked(false);
         movable_box.setChecked(false);
@@ -366,10 +390,18 @@ public class EditorActivity extends AppCompatActivity {
             float h = shape.getHeight();
             String text = shape.getText();
             String imgName = shape.getPictureName();
-//            String script = shape.getScript();
             int fontSize = shape.getFontSize();
-            boolean hidden = shape.getHidden();
-            boolean movable = shape.getMovable();
+            String script = shape.getScript();
+            boolean hidden = shape.isHidden();
+            boolean movable = shape.isMovable();
+
+            hidden_box.setChecked(hidden);
+            movable_box.setChecked(movable);
+            if (!script.isEmpty()) {
+                scripts.setText(script);
+            } else {
+                scripts.setText("Script");
+            }
 
             shapeName.setText(name);
             x_coordinate.setText(Float.toString(x));
@@ -378,11 +410,7 @@ public class EditorActivity extends AppCompatActivity {
             height.setText(Float.toString(h));
             texts.setText(text);
             images.setText(imgName);
-//            scripts.setText(script);
             fontSizes.setText(Integer.valueOf(fontSize));
-
-            hidden_box.setChecked(hidden);
-            movable_box.setChecked(movable);
         }
     }
 
@@ -418,7 +446,6 @@ public class EditorActivity extends AppCompatActivity {
         String curPageName = curGame.getCurrPage().getName();
         pageName.setText(curPageName);
     }
-
 
     public void editScript(View view) {
         GShape curShape = myView.getSelectedShape();

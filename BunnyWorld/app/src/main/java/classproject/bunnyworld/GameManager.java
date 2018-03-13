@@ -49,6 +49,7 @@ class GameManager {
      */
     public void saveGame(Game game) {
 //        String gameName = game.getName();
+
         allGames.add(game);
         db.saveGame(game);
     }
@@ -112,16 +113,15 @@ class GameManager {
         for (Game game : allGames) {
             String curGameName = game.getName().toLowerCase();
             if (curGameName.equals(gameName.toLowerCase())) {
+                loadGame(gameName);
                 curGame = game;
                 return;
             }
         }
-//        curGame = loadGame(gameName);
-//        allGames.add(curGame);
-//        if (curGame == null) {
+
         curGame = new Game(gameName);
-//        }
-        db.saveGame(curGame);
+
+//        db.saveGame(curGame);
         allGames.add(curGame);
 
     }

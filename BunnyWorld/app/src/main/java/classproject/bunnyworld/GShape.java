@@ -103,7 +103,8 @@ public class GShape {
 		float top    = this.y;
 		float bottom = this.y + this.height;
 
-		if (isHidden()) return;
+		//Show hidden shapes in edit mode
+		if (isHidden() && !GameManager.getInstance().getCurGame().getEditMode()) return;
 
 		//draw
 		if (this.getState() == TEXT) {
@@ -175,10 +176,6 @@ public class GShape {
 
 	public int getFontSize() { return this.fontSize; }
 
-	public boolean getHidden() { return this.hidden; }
-
-	public boolean getMovable() { return this.movable; }
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -201,7 +198,9 @@ public class GShape {
 
 	public void setScriptText(String scriptText) {
 		this.script = scriptText;
-		Script.parse(scriptText, scriptMap);
+		if (!scriptText.isEmpty()) {
+			Script.parse(scriptText, scriptMap);
+		}
 	}
 
 	public void setFontSize(int fontSize) {

@@ -2,6 +2,7 @@ package classproject.bunnyworld;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,12 +74,14 @@ public class Script {
     static void perform(Game game, String[] actionArray) {
         if (actionArray == null) return;
 
+        //Do not perform scripts if the game is in edit mode
+        if (GameManager.getInstance().getCurGame().getEditMode()) return;
+
         int i = 0;
         if(actionArray.length % 2 == 1) i++; // [0] was dragged and dropped item aka sender from ondrop trigger
 
         // loop used to check actions and parameters
         for(int j = i; j < actionArray.length; j+=2) {
-
 
             //int index = instruct.indexOf(' ');
             //String action = instruct.substring(0, index);
@@ -137,6 +140,11 @@ public class Script {
         } catch (Exception e) {
             // file by that name does not exist
             //toast maybe
+            //This shouldn't happen now with our fancy script editor
+//            Toast toast = Toast.makeText(GameManager.getInstance().getGameView().getContext(),
+//                    "Hmm...we can't find a sound file with that name",
+//                    Toast.LENGTH_SHORT);
+//            toast.show();
         }
     }
 
