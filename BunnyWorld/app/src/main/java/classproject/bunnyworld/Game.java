@@ -48,6 +48,16 @@ public class Game {
 
 	public void setCurrPage(GPage page) {
 		this.currPage = page;
+		GameManager gm = GameManager.getInstance();
+		GameView view = gm.getGameView();
+		view.invalidate();
+		if(editMode) {
+			for(GShape shape: currPage.getShapes()) {
+				if(shape.hasOnEnter()) {
+					Script.perform(this, shape.getOnEnterActionArray());
+				}
+			}
+		}
 	}
 
 	public List<GPage> getPages() {

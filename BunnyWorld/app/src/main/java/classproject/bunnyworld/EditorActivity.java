@@ -168,7 +168,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         String text = texts.getText().toString();
         curShape.setTextString(text);
 
-        String script = gameManager.getCurScript();
+        String script = curShape.getScript();
         if (!script.isEmpty()) {
             curShape.setScriptText(script);
             scripts.setText(script);

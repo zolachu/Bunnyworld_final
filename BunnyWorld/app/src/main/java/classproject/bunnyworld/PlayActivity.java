@@ -32,4 +32,11 @@ public class PlayActivity extends AppCompatActivity {
         toast.show();
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //gameManager.cleanMediaPlayers();
+        //System.err.print("media cleaned");
+    }
 }

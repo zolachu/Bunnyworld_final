@@ -213,7 +213,9 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         gameManager.setCurScript(curScript.toString().trim());
         curShape.setScriptText(curScript.toString().trim());
 
+
         Intent intent = new Intent(this, EditorActivity.class);
+        gameManager.setCurScript("");
         startActivity(intent);
     }
 
