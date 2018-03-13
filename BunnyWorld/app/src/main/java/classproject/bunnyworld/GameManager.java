@@ -141,6 +141,8 @@ class GameManager {
         return curScript;
     }
 
+    public Set<Game> getAllGames() { return allGames; }
+
     //zola adds her stuff here
 
 }

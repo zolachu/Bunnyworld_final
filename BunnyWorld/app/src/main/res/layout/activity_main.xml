@@ -42,26 +42,32 @@
             android:layout_height="wrap_content"
             android:text="Existing Game Name: " />
 
-        <EditText
-            android:id="@+id/game_existingName_editText"
-            android:inputType="text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        <Spinner
+            android:id="@+id/game_name_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <Button
             android:text="Edit Existing Game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onEditGame" />
+            android:onClick="onEditGame"
+            android:layout_weight="1"/>
+
+        <Button
+            android:text="Play Existing Game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onPlayGame"
+            android:layout_weight="1"/>
 
     </LinearLayout>
-
-
-    <Button
-        android:text="Play Existing Games"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onPlayGame"/>
 
 </LinearLayout>
