@@ -18,8 +18,8 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     SQLiteDatabase db;
-    Game selectedGame;
-    GameManager gameManager;
+    private Game selectedGame;
+    private GameManager gameManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

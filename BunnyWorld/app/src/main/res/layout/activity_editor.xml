@@ -97,13 +97,10 @@
                     android:text="Image Name: "
                     android:textSize="12sp"/>
 
-                <EditText
-                    android:id="@+id/shape_imgName_editText"
-                    android:inputType="text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="10sp" />
+                <Spinner
+                    android:id="@+id/shape_imgName_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
