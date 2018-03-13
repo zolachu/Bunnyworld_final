@@ -1,0 +1,108 @@
+Index: app/src/main/java/classproject/bunnyworld/GameManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/classproject/bunnyworld/GameManager.java	(revision )
++++ app/src/main/java/classproject/bunnyworld/GameManager.java	(revision )
+@@ -30,13 +30,18 @@
+     private GameManager() {
+         allGames = new HashSet<Game>();
+         gameView = null;
++//        curGame = null;
+         deepLoad();
+     }
+ 
+     public void setDb(DBHandler db) {
+         this.db = db;
++//        allGames = db.setAllGames();
+     }
+ 
++//    public void setGamesSet() {
++//        allGames = db.setAllGames();
++//    }
+     /*
+      * Saves all of its games
+      */
+@@ -51,17 +56,19 @@
+     public void saveGame(Game game) {
+ //        String gameName = game.getName();
+ 
+-        
++
++        System.out.println("game " + game.getName());
+         List<GPage> pages = game.getPages();
+         for (GPage page: pages) {
+-            System.out.println(page.toString());
++            System.out.println(page.getName());
++            System.out.println("page contains following shapes");
+             for (GShape shape: page.getShapes()){
+-                System.out.println(shape.getX());
+-                System.out.println(shape.getY());
++                System.out.println(shape.getName());
+             }
+ 
+         }
+         allGames.add(game);
++//        db.setAllGames().add(game);
+         db.saveGame(game);
+     }
+ 
+@@ -90,8 +97,6 @@
+         Game game = db.loadGameHandler(gameName);
+         allGames.add(game);
+         return game;
+-
+-//        getGame(gameName);
+     }
+ 
+     /* returns a game referred to by gameName
+@@ -125,32 +130,32 @@
+         for (Game game : allGames) {
+             String curGameName = game.getName().toLowerCase();
+             if (curGameName.equals(gameName.toLowerCase())) {
+-                loadGame(gameName);
++//                curGame = loadGame(gameName);
+                 curGame = game;
++                for (Game g : allGames) {
++                    System.out.println(g.getName());
++                }
+                 return;
+             }
+         }
+ 
+         curGame = new Game(gameName);
+ 
+-//        db.saveGame(curGame);
++        saveGame(curGame);
+         allGames.add(curGame);
++//
++//        curGame = loadGame(gameName);
++//        if (curGame == null) {
++//            curGame = new Game(gameName);
++//            allGames.add(curGame);
++//        }
+ 
+-    }
+-    public void setCurrent(Game game) {
+-        String gameName = game.getName();
+-        for (Game any : allGames) {
+-            String curGameName = any.getName().toLowerCase();
+-            if (curGameName.equals(gameName.toLowerCase())) {
+-                curGame = game;
+-                return;
+-            }
+-        }
++
++        for (Game g : allGames) {
++            System.out.println(g.getName());
++        }
++    }
+ 
+-        curGame = new Game(gameName);
+-
+-        allGames.add(curGame);
+-    }
+ 
+     public void addGameToList(Game game) {
+         allGames.add(game);

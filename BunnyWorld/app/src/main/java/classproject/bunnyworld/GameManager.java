@@ -3,6 +3,7 @@ package classproject.bunnyworld;
 import android.app.Activity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -110,20 +111,24 @@ class GameManager {
     // Below are Cindy's changes
     // set the current game
     public void setCurGame(String gameName) {
+
         for (Game game : allGames) {
             String curGameName = game.getName().toLowerCase();
             if (curGameName.equals(gameName.toLowerCase())) {
-                loadGame(gameName);
+
+//                curGame = loadGame(gameName);
                 curGame = game;
+
                 return;
             }
         }
-
         curGame = new Game(gameName);
+        saveGame(curGame);
 
-//        db.saveGame(curGame);
-        allGames.add(curGame);
+    }
 
+    public void setNewGame(String gameName) {
+        curGame = new Game(gameName);
     }
 
     public void addGameToList(Game game) {

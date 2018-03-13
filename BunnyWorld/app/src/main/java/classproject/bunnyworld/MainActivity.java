@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
 
         } else {
-            gameManager.setCurGame(name);
+            gameManager.setNewGame(name);
 
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Game added", Toast.LENGTH_SHORT);
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         db = new DBHandler(this);
         gameManager.setDb(db);
 
+
         EditText gameName = findViewById(R.id.game_existingName_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
@@ -60,15 +61,16 @@ public class MainActivity extends AppCompatActivity {
             Game game = db.loadGameHandler(name);
             List<GPage> pages = game.getPages();
             for (GPage page: pages) {
-                System.out.println(page.toString());
+                System.out.println("editing existing game : " + game.getName() + " has a page called " + page.getName());
+                System.out.println(" it has a shapes ");
                 for (GShape shape: page.getShapes()){
-                    System.out.println(shape.getX());
-                    System.out.println(shape.getY());
+                    System.out.println(" it has a shape " + shape.getName() );
                 }
 
             }
 
             gameManager.setCurGame(name);
+
 
             Intent intent = new Intent(this, EditorActivity.class);
             startActivity(intent);
