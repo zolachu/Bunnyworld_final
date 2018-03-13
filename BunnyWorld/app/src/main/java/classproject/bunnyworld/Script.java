@@ -55,6 +55,9 @@ public class Script {
      * list of instructions to be completed in the event of the trigger.
      */
     static void parse(String scriptText, Map<String, String[]> scriptMap) { // <trigger, instruction>
+        if(!scriptMap.isEmpty()) {
+            scriptMap = new HashMap<String, String[]>();
+        }
         String[] allInstructions = scriptText.split(";");
 
         for (String instruct : allInstructions) {
@@ -125,18 +128,8 @@ public class Script {
             Context cont = GameManager.getInstance().getGameView().getContext();
             int resID = cont.getResources().getIdentifier(sound, "raw", cont.getPackageName());
             MediaPlayer mp = MediaPlayer.create(cont, resID);
-            //AssetFileDescriptor descriptor = res.openRawResourceFd("R.raw." + sound);
-            //FileDescriptor fd = descriptor.getFileDescriptor();
-
-            //mp.setDataSource(fd);
-            //mp.prepare();
             mp.start();
-            while (mp.isPlaying()) {
-            } // for now freezes while sound plays
-            mp.stop();
-            mp.release();
 
-            // need to close data descriptor
         } catch (Exception e) {
             // file by that name does not exist
             //toast maybe

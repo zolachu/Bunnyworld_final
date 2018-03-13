@@ -118,7 +118,7 @@ public class EditorActivity extends AppCompatActivity {
         String image = images.getText().toString();
         if (!image.isEmpty()) curShape.setPictureName(image);
 
-        String script = gameManager.getCurScript();
+        String script = curShape.getScript();
         if (!script.isEmpty()) {
             curShape.setScriptText(script);
             scripts.setText(script);

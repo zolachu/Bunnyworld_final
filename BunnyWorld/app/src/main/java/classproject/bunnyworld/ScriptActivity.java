@@ -1,5 +1,6 @@
 package classproject.bunnyworld;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuInflater;
@@ -211,6 +212,11 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         GameManager gameManager = GameManager.getInstance();
         gameManager.setCurScript(curScript.toString().trim());
         curShape.setScriptText(curScript.toString().trim());
+
+        gameManager.setCurScript("");
+
+        Intent intent = new Intent(this,EditorActivity.class);
+        startActivity(intent);
     }
 
 
