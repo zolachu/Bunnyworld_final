@@ -16,22 +16,13 @@ public class Game {
 	private boolean editMode;
 
 	Game(String name) {
-
-//		if (name.isEmpty()) {
-//			try {
-//				throw new RuntimeException("Game name cannot be the empty string");
-//			} catch (Exception e) {
-//
-//			}
-//		} else
-			this.name = name;
-			this.pages = new ArrayList<GPage>();
-			this.possessions = new ArrayList<GShape>();
-			this.firstPage = new GPage(assignDefaultPageName());
-			this.currPage  = firstPage;
-			this.pages.add(firstPage);
-			this.editMode = true;
-
+		this.name = name;
+		this.pages = new ArrayList<GPage>();
+		this.possessions = new ArrayList<GShape>();
+		this.firstPage = new GPage(assignDefaultPageName());
+		this.currPage = firstPage;
+		this.pages.add(firstPage);
+		this.editMode = true;
 	}
 
 	void draw(Canvas canvas){
