@@ -56,7 +56,13 @@ public class Game {
 	}
 
 	public void setCurrPage(GPage page) {
+
+
 		this.currPage = page;
+
+		//Check if edit Mode is off
+		//Loop over shapes on page
+		//Check for actionArray
 	}
 
 	public List<GPage> getPages() {

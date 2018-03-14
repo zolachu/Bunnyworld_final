@@ -74,10 +74,9 @@ public class GShape {
 
 	public GShape(String name, float x, float y, String text, int type) {
 		this(name, x, y);
+		this.setFontSize(DEFAULT_FONT_SIZE);
 		if (type == TEXT) {
 			this.text = text;
-			setFontSize(DEFAULT_FONT_SIZE);
-
 			Rect textBounds = new Rect();
 			textPaint.getTextBounds(text, 0, text.length(), textBounds);
 			this.width  = (float) (textBounds.right - textBounds.left);
@@ -207,10 +206,12 @@ public class GShape {
 		this.fontSize = fontSize;
 		textPaint.setTextSize(fontSize);
 
-		Rect textBounds = new Rect();
-		textPaint.getTextBounds(text, 0, text.length(), textBounds);
-		this.setWidth((float) (textBounds.right - textBounds.left));
-		this.setHeight((float) (textBounds.bottom - textBounds.top));
+		if (this.getState() == TEXT) {
+			Rect textBounds = new Rect();
+			textPaint.getTextBounds(text, 0, text.length(), textBounds);
+			this.setWidth((float) (textBounds.right - textBounds.left));
+			this.setHeight((float) (textBounds.bottom - textBounds.top));
+		}
 	}
 
 	public void setX(float x) {

@@ -395,8 +395,8 @@ public class EditorActivity extends AppCompatActivity {
             boolean hidden = shape.isHidden();
             boolean movable = shape.isMovable();
 
-            hidden_box.setChecked(hidden);
-            movable_box.setChecked(movable);
+//            hidden_box.setChecked(hidden);
+//            movable_box.setChecked(movable);
             if (!script.isEmpty()) {
                 scripts.setText(script);
             } else {
@@ -410,7 +410,9 @@ public class EditorActivity extends AppCompatActivity {
             height.setText(Float.toString(h));
             texts.setText(text);
             images.setText(imgName);
-            fontSizes.setText(Integer.valueOf(fontSize));
+            hidden_box.setChecked(hidden);
+            movable_box.setChecked(movable);
+           // fontSizes.setText(String.valueOf(fontSize));
         }
     }
 
