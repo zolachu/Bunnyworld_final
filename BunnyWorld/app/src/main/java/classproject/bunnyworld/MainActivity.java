@@ -18,13 +18,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new DBHandler(this);
+
     }
 
     public void onNewGame(View view) {
         GameManager gameManager = GameManager.getInstance();
         db = new DBHandler(this);
         gameManager.setDb(db);
+//        gameManager.setAllGames(db);
+
 
         EditText gameName = findViewById(R.id.game_name_editText);
         String name = gameName.getText().toString();
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
 
         } else {
-            gameManager.setNewGame(name);
+            gameManager.setCurGame(name);
 
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Game added", Toast.LENGTH_SHORT);
@@ -52,24 +54,26 @@ public class MainActivity extends AppCompatActivity {
         GameManager gameManager = GameManager.getInstance();
         db = new DBHandler(this);
         gameManager.setDb(db);
-
+//        gameManager.setAllGames(db);
 
         EditText gameName = findViewById(R.id.game_existingName_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
         if (duplicate) {
             Game game = db.loadGameHandler(name);
+            gameManager.setCurGame(name);
+
+//            Game(); = gameManager.loadGame(name);
+            System.out.println("editing existing game : " + game.getName());
             List<GPage> pages = game.getPages();
+            System.out.println("number of pages: " + pages.size());
             for (GPage page: pages) {
-                System.out.println("editing existing game : " + game.getName() + " has a page called " + page.getName());
-                System.out.println(" it has a shapes ");
+                System.out.println(" has a page called " + page.getName());
                 for (GShape shape: page.getShapes()){
                     System.out.println(" it has a shape " + shape.getName() );
                 }
 
             }
-
-            gameManager.setCurGame(name);
 
 
             Intent intent = new Intent(this, EditorActivity.class);
