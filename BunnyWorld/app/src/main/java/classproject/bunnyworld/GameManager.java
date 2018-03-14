@@ -1,5 +1,6 @@
 package classproject.bunnyworld;
 
+import android.media.MediaPlayer;
 import android.view.View;
 import android.app.Activity;
 
@@ -140,6 +141,11 @@ class GameManager {
     public String getCurScript() {
         return curScript;
     }
+
+
+    public Set<Game> getAllGames() { return allGames; }
+
+
 
     //zola adds her stuff here
 

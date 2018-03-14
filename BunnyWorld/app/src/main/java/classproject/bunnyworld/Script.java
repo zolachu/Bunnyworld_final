@@ -1,6 +1,7 @@
 package classproject.bunnyworld;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.widget.Toast;
 
@@ -55,6 +56,9 @@ public class Script {
      * list of instructions to be completed in the event of the trigger.
      */
     static void parse(String scriptText, Map<String, String[]> scriptMap) { // <trigger, instruction>
+        if(!scriptMap.isEmpty()) {
+            scriptMap = new HashMap<String, String[]>();
+        }
         String[] allInstructions = scriptText.split(";");
 
         for (String instruct : allInstructions) {
@@ -117,26 +121,16 @@ public class Script {
     }
 
     /*
-     * Plays the sounds given by param
-     * assumes there are no spaces within file names
-     */
+      * Plays the sounds given by param
+      * assumes there are no spaces within file names
+      */
     static void play(String sound) {
         try {
             Context cont = GameManager.getInstance().getGameView().getContext();
             int resID = cont.getResources().getIdentifier(sound, "raw", cont.getPackageName());
             MediaPlayer mp = MediaPlayer.create(cont, resID);
-            //AssetFileDescriptor descriptor = res.openRawResourceFd("R.raw." + sound);
-            //FileDescriptor fd = descriptor.getFileDescriptor();
-
-            //mp.setDataSource(fd);
-            //mp.prepare();
             mp.start();
-            while (mp.isPlaying()) {
-            } // for now freezes while sound plays
-            mp.stop();
-            mp.release();
 
-            // need to close data descriptor
         } catch (Exception e) {
             // file by that name does not exist
             //toast maybe
