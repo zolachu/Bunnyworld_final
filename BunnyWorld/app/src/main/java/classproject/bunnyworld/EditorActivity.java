@@ -37,6 +37,8 @@ public class EditorActivity extends AppCompatActivity {
     private static float initX, initY;
 
 
+    DBHandler db;
+
     /*
      * Initializes the editor activity
      */
@@ -46,7 +48,22 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
 
         gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
+        gameManager.setAllGames(db);
+
         curGame = gameManager.getCurGame();
+
+//
+        System.out.println("editor activity" + curGame.getPages().size());
+        for (GPage page: curGame.getPages()) {
+            System.out.println("current game : " + curGame.getName() + "page: " + page.getName() + " has following shapes");
+            for (GShape shape : page.getShapes()) {
+                System.out.println("shape name" + shape.getName() + shape.getPictureName() + shape.getState()+ shape.getText() + shape.getScript()+ shape.getX());
+            }
+
+        }
+//
         curPage = curGame.getCurrPage();
         curGame.setEditOn();
 
@@ -354,7 +371,8 @@ public class EditorActivity extends AppCompatActivity {
     public void saveGame(View view) {
         curGame.setCurrPage(curGame.getFirstPage());
         gameManager.saveGame(curGame);
-        gameManager.addGameToList(curGame);
+
+//        gameManager.addGameToList(curGame);
         Toast toast = Toast.makeText( getApplicationContext(),
                 curGame.getName() + " was saved", Toast.LENGTH_SHORT);
                 toast.show();
