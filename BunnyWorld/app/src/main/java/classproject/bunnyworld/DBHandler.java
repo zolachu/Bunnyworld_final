@@ -23,10 +23,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "database.db";
+    private static final String DATABASE_NAME = "databashhhe.db";
 
     // Games and Shapes table name
-    private static final String SHAPE_TABLE = "gameTable";
+    private static final String SHAPE_TABLE = "gameTajjjble";
 
     // Table column names
     private static final String KEY_PRIMARY = "id";
@@ -35,7 +35,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CURRENTPAGE = "currentPage";
     private static final String SHAPE = "shape";
 
-
+    int viewWidth = 1000, viewHeight = 1000;
     float initX = 50, initY = 50;
 
     public DBHandler(Context context) {
@@ -81,61 +81,6 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-
-    public void addNewGame(Game game) {
-        String gameName = game.getName();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        List<GPage> pageList = game.getPages();
-        GPage currPage = game.getCurrPage();
-
-        for (GPage page : pageList) {    // dont add existing page
-            String isCurrentPage = "YES";
-
-            String pageName = page.getName();
-            if (!pageName.equals(currPage.getName())) {
-                isCurrentPage = "NO";
-            }
-
-
-            String pageInfo = pageName;
-
-            List<GShape> shapes = page.getShapes();
-
-            String allShapeInfo = "";
-
-            for (GShape shape : shapes) {
-                String shapeName = shape.getName();
-                String imageName = shape.getPictureName();
-                String script = shape.getScript();
-                String font = Integer.toString(shape.getFontSize());
-                String text = shape.getText();
-                String x = String.valueOf(shape.getX());
-                String y = String.valueOf(shape.getY());
-                String w = String.valueOf(shape.getWidth());
-                String h = String.valueOf(shape.getHeight());
-
-
-                String shapeInfo =  shapeName + "," + imageName + "," + script + "," + font + "," + text +"," + x + "," + y + "," + w + "," + h + ";";
-                allShapeInfo += shapeInfo;
-            }
-
-            ContentValues values = new ContentValues();
-
-            values.put(GAME, gameName);
-            values.put(PAGE, pageInfo);
-            values.put(CURRENTPAGE, isCurrentPage);
-            values.put(SHAPE, allShapeInfo);
-
-
-            db.insert(SHAPE_TABLE, null, values);
-            System.out.println(game + " is added for the first time");
-            System.out.println("added game:" + gameName + " page info: " + pageInfo + " all shapes: " + allShapeInfo);
-        }
-
-        db.close();
-    }
 
     public void updateGame(Game game) {
 
@@ -202,7 +147,7 @@ public class DBHandler extends SQLiteOpenHelper {
 //                    new String[]{gameName, pageName}) > 0;
 
 //            if (a == false) {
-                db.insert(SHAPE_TABLE, null, values);
+            db.insert(SHAPE_TABLE, null, values);
 //            }
             System.out.println("updated database " );
             System.out.println("updated game:" + gameName + " page info: " + pageInfo
@@ -234,26 +179,25 @@ public class DBHandler extends SQLiteOpenHelper {
                 String isCurrentPage = cursor.getString(2);
                 String shapeInfo = cursor.getString(3);
 
-                // add a new page
-                GPage page = new GPage(pageName);
+
+                GPage newPage = new GPage(pageName);
+
+
                 // step 1: add a new page to the current game
-                game.addPage(page);
-                game.setCurrPage(page);
+                game.addPage(newPage);
+                game.setCurrPage(newPage);
 
 
-                //parse page string
+                initX = 0.1f * (float) viewWidth;
+                initY = 0.1f * (float) viewHeight;
 
+                // step 2: ask the custom view to redraw the new empty page
 
-//                GPage page = game.getPage(pageName);
-//                if (page == null) {
-
-//                    game.addPage(page);   // add page to game
-//                }
                 System.out.println("new page added: " + pageName);
 
 
                 if (isCurrentPage == "YES") {
-                    game.setCurrPage(page);
+                    game.setCurrPage(newPage);
                     System.out.println("sets current page to: " + pageName);
                 }
 
@@ -278,7 +222,30 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 
-                        GShape newShape = new GShape(shapeName, initX, initY);
+
+                        if (x.isEmpty() || y.isEmpty()) {
+                            x = Float.toString(initX);
+                            y = Float.toString(initY);
+                            initX += 0.05f * (float) viewWidth;
+                            initY += 0.1f * (float) viewHeight;
+
+                            if (initX > 0.9f * (float) viewWidth) {
+                                initX = 0.1f * (float) viewWidth;
+                            }
+                            if (initY > 0.7f * (float) viewHeight) {
+                                initY = 0.1f * (float) viewHeight;
+                            }
+                        }
+
+                        int type;
+                        if (!text.isEmpty()) {
+                            type = GShape.TEXT;
+                        } else {
+                            type = GShape.IMAGE;
+                        }
+
+                        GShape newShape = new GShape(shapeName, Float.valueOf(x), Float.valueOf(y), text, type);
+
 
 
 
@@ -291,32 +258,16 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
                         // add newShape to the current page's list of shapes
-                        page.addShape(newShape);
-
-                        //TODO add movable and hidden object boolean values
-
-                        // left these items since I found this to be more convenient
-                        // user can clear these fields by clicking a background
+                        newPage.addShape(newShape);
 
 
-//                       game.assignDefaultShapeName();
-
-
-//                        page.addShape(new GShape(shapeName, 300.0f, 300.0f, text, 0));
-                        System.out.println("fucking teext: " + text + "x:" + x + y);
-
-
-//                        System.out.println("Loading game: " + gameName + "Page: " + pageName + ", Added shapes: " + shapeName + ", Size: " + "x is " + x + ", y is " + y + ", w is " + width + ", h is " + height + ", " + "current page sets to" + isCurrentPage + " from database");
-
+//
                         //TODO Add Shapes to Possessions iff y < some number.
 //                        if (y < 100) {   //change 100 later
 //                            game.addPossession(newShape);
 //                        }
                     }
 
-//                    page.addShape(new GShape("shape1", 200.0f, 200.0f, "aear", 2));
-                    game.addPage(page);
-                    System.out.println("added page " + pageName);
                 }
 
             }
