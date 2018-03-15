@@ -32,8 +32,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     private EditText y_coordinate;
     private EditText width;
     private EditText height;
-    private EditText texts;
-//    private EditText images;
     private TextView scripts;
     private EditText fontSizes;
     private CheckBox hidden_box;
@@ -121,7 +119,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate = findViewById(R.id.shape_Y_editText);
         width        = findViewById(R.id.shape_W_editText);
         height       = findViewById(R.id.shape_H_editText);
-        texts        = findViewById(R.id.shape_text_editText);
+//        texts        = findViewById(R.id.shape_text_editText);
         scripts      = findViewById(R.id.shape_script_text);
         fontSizes    = findViewById(R.id.shape_fontSize_editText);
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
@@ -165,8 +163,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         String h = height.getText().toString();
         curShape.setHeight(Float.valueOf(h));
 
-        String text = texts.getText().toString();
-        curShape.setTextString(text);
+//        String text = texts.getText().toString();
+//        curShape.setTextString(text);
 
         String script = curShape.getScript();
         if (!script.isEmpty()) {
@@ -226,16 +224,16 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             updateInitialPosition();
         }
 
-        String text = texts.getText().toString();
+//        String text = texts.getText().toString();
 
-        int type;
-        if (!text.isEmpty()) {
-            type = GShape.TEXT;
-        } else {
-            type = GShape.IMAGE;
-        }
+//        int type;
+//        if (!text.isEmpty()) {
+//            type = GShape.TEXT;
+//        } else {
+//            type = GShape.IMAGE;
+//        }
 
-        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y), text, type);
+        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y));
         return newShape;
     }
 
@@ -243,7 +241,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     //Use view parameters to set properties of the shape object
     private void setNewShape(GShape newShape) {
 
-        String text  = texts.getText().toString();
+//        String text  = texts.getText().toString();
         String image = imgName;
         String script = gameManager.getCurScript();
         String fontSize = fontSizes.getText().toString();
@@ -412,7 +410,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate.setText("");
         width.setText("");
         height.setText("");
-        texts.setText("");
+//        texts.setText("");
         scripts.setText("Script");
         fontSizes.setText("");
         hidden_box.setChecked(false);
@@ -454,7 +452,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             y_coordinate.setText(Float.toString(y));
             width.setText(Float.toString(w));
             height.setText(Float.toString(h));
-            texts.setText(text);
+//            texts.setText(text);
             
             int spinnerPosition = adapter.getPosition(picName);
             imageSpinner.setSelection(spinnerPosition);
@@ -503,6 +501,17 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             gameManager.setCurScript(curScript);
 
             Intent intent = new Intent(this, ScriptActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void editText(View view) {
+        GShape curShape = myView.getSelectedShape();
+        if (curShape != null) {
+//            String curText = curShape.getText();
+//            gameManager.setCurScript(curScript);
+
+            Intent intent = new Intent(this, TextActivity.class);
             startActivity(intent);
         }
     }
