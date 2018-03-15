@@ -47,7 +47,7 @@ public class GShape {
 	private boolean movable;
 	private Map<String, String[]> scriptMap;
 
-	private Typeface myFont;
+//	private Typeface myFont;
 	private SpannableStringBuilder richText;
 	private Paint richTextPaint;
 
@@ -183,11 +183,11 @@ public class GShape {
 
 	public int getFontSize() { return this.fontSize; }
 
-	public SpannableStringBuilder getRichText() { return this.richText; }
-
 	public Paint getRichTextPaint() { return this.richTextPaint; }
 
 	public void setRichTextPaint(Paint paint) {this.richTextPaint = paint; }
+
+	public SpannableStringBuilder getRichText() { return this.richText; }
 
 	public void setRichText(SpannableStringBuilder myRichText) { this.richText = myRichText; }
 
@@ -267,9 +267,9 @@ public class GShape {
 		this.height = height;
 	}
 
-	public Typeface getMyFont() { return this.myFont; }
-
-	public void setMyFont(Typeface font) { this.myFont = font; }
+//	public Typeface getMyFont() { return this.myFont; }
+//
+//	public void setMyFont(Typeface font) { this.myFont = font; }
 
 	public boolean equals(GShape shape) {
 		return this.name.toLowerCase().equals(
