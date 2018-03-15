@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,10 +22,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "databashhjokldfdhhe.db";
+    private static final String DATABASE_NAME = "dajata.db";
 
     // Games and Shapes table name
-    private static final String SHAPE_TABLE = "gameTajjjfghiklble";
+    private static final String SHAPE_TABLE = "gamee";
 
     // Table column names
     private static final String KEY_PRIMARY = "id";
@@ -105,7 +106,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
             String pageName = page.getName();
             if (!pageName.equals(currPage.getName())) {
-                isCurrentPage = "YES";
+                isCurrentPage = "NO";
             }
 
 
@@ -167,9 +168,10 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db1 = this.getReadableDatabase();
         Cursor cursor = db1.rawQuery(query1, null);
 
-
+        int number =0;
         if (cursor.moveToFirst()) {
             do {
+                number++;
                 String pageName = cursor.getString(1);
                 String isCurrentPage = cursor.getString(2);
                 String shapeInfo = cursor.getString(3);
@@ -218,6 +220,11 @@ public class DBHandler extends SQLiteOpenHelper {
                         String movable = oneShapeParts[10];
 
 
+//                        this.scriptMap = new HashMap<String, String[]>();
+//                        if (!script.isEmpty()) {
+//                            Script.parse(script, scriptMap);
+//                        }
+
 
                         if (x.isEmpty() || y.isEmpty()) {
                             x = Float.toString(initX);
@@ -256,12 +263,8 @@ public class DBHandler extends SQLiteOpenHelper {
                         if (!movable.isEmpty()) { newShape.setMovable(Boolean.valueOf(movable)); }
                         if (!hidden.isEmpty()) { newShape.setHidden(Boolean.valueOf(hidden)); }
 
-                        if (!script.isEmpty()) {
-                            newShape.setScriptText(script);
-                        } else {
-                            newShape.setScriptText("Script");
-                        }
-
+                        if (!script.isEmpty()) { newShape.setScriptText(script); }
+//
                         // add newShape to the current page's list of shapes
                         newPage.addShape(newShape);
 
@@ -276,6 +279,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 }
 
             } while (cursor.moveToNext());
+            System.out.println("number of pages I added to database " + number);
             cursor.close();
         } else {
             game = null;
