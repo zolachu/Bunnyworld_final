@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         GameManager gameManager = GameManager.getInstance();
         db = new DBHandler(this);
         gameManager.setDb(db);
-//        gameManager.setAllGames(db);
+        gameManager.setAllGames(db);
 
 
         EditText gameName = findViewById(R.id.game_name_editText);
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         GameManager gameManager = GameManager.getInstance();
         db = new DBHandler(this);
         gameManager.setDb(db);
-//        gameManager.setAllGames(db);
+        gameManager.setAllGames(db);
 
         EditText gameName = findViewById(R.id.game_existingName_editText);
         String name = gameName.getText().toString();
@@ -95,3 +95,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
