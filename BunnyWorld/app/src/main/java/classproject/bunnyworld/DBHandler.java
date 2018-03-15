@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.nio.channels.FileLock;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +21,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "databashhhe.db";
+    private static final String DATABASE_NAME = "databashdfdhhe.db";
 
     // Games and Shapes table name
     private static final String SHAPE_TABLE = "gameTajjjble";
@@ -89,7 +87,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-
         String query = "Select * FROM " + SHAPE_TABLE + " WHERE " + GAME + " = '" + gameName + "'";
         Cursor cursor = db.rawQuery(query, null);
 
@@ -99,6 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
         List<GPage> pageList = game.getPages();
         GPage currPage = game.getCurrPage();
 
+        // delete the existing game if any
         db.delete(SHAPE_TABLE, GAME + " = ?",
                 new String[]{gameName});
 
@@ -128,9 +126,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 String y = Float.toString(shape.getY());
                 String w = Float.toString(shape.getWidth());
                 String h = Float.toString(shape.getHeight());
+                String hidden = String.valueOf(shape.isHidden());
+                String movable = String.valueOf(shape.isMovable());
 
-
-                String shapeInfo =  shapeName + "," + imageName + "," + script + "," + font + "," + text +"," + x + "," + y + "," + w + "," + h + ";";
+                String shapeInfo =  shapeName + "," + imageName + "," + script + "," + font + "," + text +"," + x + "," + y + "," + w + "," + h + "," + hidden + "," + movable + ";";
                 allShapeInfo += shapeInfo;
             }
 
@@ -141,14 +140,10 @@ public class DBHandler extends SQLiteOpenHelper {
             values.put(SHAPE, allShapeInfo);
             values.put(CURRENTPAGE, isCurrentPage);
 
-            // Inserting Row
-
-//            a = db.update(SHAPE_TABLE, values, GAME + " = ? AND " + PAGE + " = ?",
-//                    new String[]{gameName, pageName}) > 0;
-
-//            if (a == false) {
+            // Inserting the game data into database
             db.insert(SHAPE_TABLE, null, values);
-//            }
+
+            // delete following print statements
             System.out.println("updated database " );
             System.out.println("updated game:" + gameName + " page info: " + pageInfo
                     + " all shapes: " + allShapeInfo + "current page: " + isCurrentPage);
@@ -174,7 +169,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
         if (cursor.moveToFirst()) {
-            while (cursor.moveToNext()) {
+            do {
                 String pageName = cursor.getString(1);
                 String isCurrentPage = cursor.getString(2);
                 String shapeInfo = cursor.getString(3);
@@ -219,7 +214,8 @@ public class DBHandler extends SQLiteOpenHelper {
                         String y = oneShapeParts[6];
                         String width = oneShapeParts[7];
                         String height = oneShapeParts[8];
-
+                        String hidden = oneShapeParts[9];
+                        String movable = oneShapeParts[10];
 
 
 
@@ -257,6 +253,10 @@ public class DBHandler extends SQLiteOpenHelper {
                         if (!width.isEmpty()) { newShape.setWidth(Float.parseFloat(width)); }
 
 
+                        if (!movable.isEmpty()) { newShape.setMovable(Boolean.valueOf(movable)); }
+                        if (!hidden.isEmpty()) { newShape.setHidden(Boolean.valueOf(hidden)); }
+
+
                         // add newShape to the current page's list of shapes
                         newPage.addShape(newShape);
 
@@ -270,7 +270,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
                 }
 
-            }
+            } while (cursor.moveToNext());
             cursor.close();
         } else {
             game = null;
@@ -306,4 +306,3 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 }
-
