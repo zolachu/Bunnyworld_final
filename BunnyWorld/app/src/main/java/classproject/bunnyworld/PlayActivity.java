@@ -8,6 +8,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private Game curGame;
     private GameManager gameManager;
+    DBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +16,9 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play);
 
         gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
+        gameManager.setAllGames(db);
         curGame = gameManager.getCurGame();
         curGame.setCurrPage(curGame.getFirstPage());
         curGame.setEditOff();
