@@ -22,7 +22,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "dajata.db";
+    private static final String DATABASE_NAME = "dajaterrerea.db";
 
     // Games and Shapes table name
     private static final String SHAPE_TABLE = "gamee";
@@ -88,10 +88,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "Select * FROM " + SHAPE_TABLE + " WHERE " + GAME + " = '" + gameName + "'";
-        Cursor cursor = db.rawQuery(query, null);
-
-
 
         System.out.println(game + "is added");
         List<GPage> pageList = game.getPages();
@@ -149,6 +145,7 @@ public class DBHandler extends SQLiteOpenHelper {
             System.out.println("updated game:" + gameName + " page info: " + pageInfo
                     + " all shapes: " + allShapeInfo + "current page: " + isCurrentPage);
         }
+        System.out.println(pageList.size());
 
         db.close();
 
@@ -181,6 +178,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
                 // step 1: add a new page to the current game
+
+                if(game.isFirstPage(newPage)) {
+                    game.removePage(game.getFirstPage());
+
+                }
                 game.addPage(newPage);
                 game.setCurrPage(newPage);
 
