@@ -21,10 +21,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "databashdfdhhe.db";
+    private static final String DATABASE_NAME = "databashhjokldfdhhe.db";
 
     // Games and Shapes table name
-    private static final String SHAPE_TABLE = "gameTajjjble";
+    private static final String SHAPE_TABLE = "gameTajjjfghiklble";
 
     // Table column names
     private static final String KEY_PRIMARY = "id";
@@ -256,6 +256,11 @@ public class DBHandler extends SQLiteOpenHelper {
                         if (!movable.isEmpty()) { newShape.setMovable(Boolean.valueOf(movable)); }
                         if (!hidden.isEmpty()) { newShape.setHidden(Boolean.valueOf(hidden)); }
 
+                        if (!script.isEmpty()) {
+                            newShape.setScriptText(script);
+                        } else {
+                            newShape.setScriptText("Script");
+                        }
 
                         // add newShape to the current page's list of shapes
                         newPage.addShape(newShape);
