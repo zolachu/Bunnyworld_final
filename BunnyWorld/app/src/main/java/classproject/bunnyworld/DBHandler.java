@@ -22,10 +22,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "dajaterrerea.db";
+    private static final String DATABASE_NAME = "database.db";
 
     // Games and Shapes table name
-    private static final String SHAPE_TABLE = "gamee";
+    private static final String SHAPE_TABLE = "GAME_TABLE";
 
     // Table column names
     private static final String KEY_PRIMARY = "id";
