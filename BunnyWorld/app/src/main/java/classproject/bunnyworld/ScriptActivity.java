@@ -36,6 +36,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         GameManager gameManager = GameManager.getInstance();
         String script = gameManager.getCurScript();
         curScript = new StringBuilder(script);
+        //curScript.append(curShape.getScript());
         curGame = gameManager.getCurGame();
 
         GameView myView = gameManager.getGameView();
@@ -151,8 +152,8 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         // parent.getItemAtPosition(pos)
         String item = parent.getItemAtPosition(pos).toString();
         if(id > 0) {
-            parent.setVisibility(View.INVISIBLE);
-            thirdColumnStuffOn(view, false);
+            //parent.setVisibility(View.INVISIBLE);
+            //thirdColumnStuffOn(view, false);
             secondColumnStuffOn(view, true);
             curScript.append(item + " ");
             displayScript();
@@ -268,6 +269,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         curScript.append(GO_TO + " ");
         displayScript();
         secondColumnStuffOn(view, false);
+        thirdColumnStuffOn(view, false);
         Spinner gopage = (Spinner) findViewById(R.id.script_goto_spinner);
         gopage.setVisibility(View.VISIBLE);
         gopage.setSelection(0);
@@ -278,6 +280,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         curScript.append(PLAY + " ");
         displayScript();
         secondColumnStuffOn(view, false);
+        thirdColumnStuffOn(view, false);
         Spinner sound = (Spinner) findViewById(R.id.script_play_spinner);
         sound.setVisibility(View.VISIBLE);
         sound.setSelection(0);
@@ -288,6 +291,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         curScript.append(HIDE + " ");
         displayScript();
         secondColumnStuffOn(view, false);
+        thirdColumnStuffOn(view, false);
         Spinner hidden = (Spinner) findViewById(R.id.script_hide_spinner);
         hidden.setVisibility(View.VISIBLE);
         hidden.setSelection(0);
@@ -298,6 +302,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         curScript.append(SHOW + " ");
         displayScript();
         secondColumnStuffOn(view, false);
+        thirdColumnStuffOn(view, false);
         Spinner shown = (Spinner) findViewById(R.id.script_show_spinner);
         shown.setVisibility(View.VISIBLE);
         shown.setSelection(0);
@@ -311,6 +316,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
 
     public void resetScript(View view) {
         curScript = new StringBuilder();
+        curShape.setScriptText(curScript.toString().trim());
         displayScript();
         initializeButtonClickability(view);
     }
