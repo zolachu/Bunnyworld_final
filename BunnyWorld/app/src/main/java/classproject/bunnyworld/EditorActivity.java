@@ -1,6 +1,7 @@
 package classproject.bunnyworld;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -175,7 +176,13 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         }
 
         String fontSize = fontSizes.getText().toString();
-        if (!fontSize.isEmpty()) curShape.setFontSize(Integer.valueOf(fontSize));
+        if (!fontSize.isEmpty()) {
+            curShape.setFontSize(Integer.valueOf(fontSize));
+            Paint richtext = curShape.getRichTextPaint();
+            if (richtext != null) {
+                richtext.setTextSize(Float.valueOf(fontSize));
+            }
+        }
 
         if (hidden_box.isChecked()) {
             curShape.setHidden(true);
@@ -432,7 +439,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             float y = shape.getY();
             float w = shape.getWidth();
             float h = shape.getHeight();
-            String text = shape.getText();
+//            String text = shape.getText();
             String picName = shape.getPictureName();
             int fontSize = shape.getFontSize();
             String script = shape.getScript();
@@ -452,6 +459,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             y_coordinate.setText(Float.toString(y));
             width.setText(Float.toString(w));
             height.setText(Float.toString(h));
+            fontSizes.setText(Integer.toString(fontSize));
 //            texts.setText(text);
             
             int spinnerPosition = adapter.getPosition(picName);

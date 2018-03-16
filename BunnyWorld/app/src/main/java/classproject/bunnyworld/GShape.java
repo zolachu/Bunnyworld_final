@@ -77,7 +77,7 @@ public class GShape {
 		this.hidden  = false;
 		this.movable = false;
 		this.scriptMap = new HashMap<String, String[]>();
-		this.fontSize = 10;
+		this.fontSize = 50;
 	}
 
 	public GShape(String name, float x, float y, String text, int type) {
