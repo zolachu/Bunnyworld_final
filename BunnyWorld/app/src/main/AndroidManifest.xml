@@ -18,8 +18,7 @@
         </activity>
         <activity android:name=".EditorActivity" />
         <activity android:name=".PlayActivity" />
-        <activity android:name=".ScriptActivity" />
-        <activity android:name=".TextActivity"></activity>
+        <activity android:name=".ScriptActivity"></activity>
     </application>
 
 </manifest>

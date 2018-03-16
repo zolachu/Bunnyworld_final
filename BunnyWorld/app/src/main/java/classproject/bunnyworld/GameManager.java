@@ -1,10 +1,9 @@
 package classproject.bunnyworld;
 
-import android.media.MediaPlayer;
-import android.view.View;
 import android.app.Activity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,11 +14,12 @@ import java.util.Set;
  */
 
 class GameManager {
-    private Set<Game> allGames; // essentially active games for edit or play
+    // essentially active games for edit or play
     private GameView gameView;
     private Game curGame;
-
+    private Set<Game> allGames;
     private String curScript = "";
+    private DBHandler db;
 
     private static final GameManager ourInstance = new GameManager();
 
@@ -28,16 +28,25 @@ class GameManager {
     }
 
     private GameManager() {
-        allGames = new HashSet<Game>();
         gameView = null;
-        //deepLoad();
+        allGames = new HashSet<>();
+        deepLoad();
+
     }
 
+    public void setDb(DBHandler db) {
+        this.db = db;
+    }
+
+
+    public void setAllGames(DBHandler db) {
+        allGames = db.getAllGames();
+    }
     /*
      * Saves all of its games
      */
     public void deepSave() {
-        for(Game game: allGames) {
+        for (Game game : allGames) {
             saveGame(game);
         }
     }
@@ -45,7 +54,9 @@ class GameManager {
     /* Probably used by Editor to save games
      */
     public void saveGame(Game game) {
-
+        String gameName = game.getName();
+        allGames.add(game);
+        this.db.updateGame(game);
     }
 
 
@@ -58,6 +69,9 @@ class GameManager {
      */
     private void deepLoad() {
 
+        for (Game game : allGames) {
+            loadGame(game.getName());
+        }
 
     }
 
@@ -66,9 +80,16 @@ class GameManager {
      * game if it exists, putting it in its set of
      * games. Returns game or null or none exists
      */
-    public void loadGame(String gameName) {
+    public Game loadGame(String gameName) {
+
         // load from database
-        getGame(gameName);
+        for (Game game : allGames) {
+            if (game.getName().equals(gameName)){
+                return game;
+            }
+        }
+
+        return null;
     }
 
     /* returns a game referred to by gameName
@@ -77,7 +98,7 @@ class GameManager {
      */
     public Game getGame(String gameName) {
         for (Game game : allGames) {
-            if(game.getName().toLowerCase().equals(gameName.toLowerCase())) {
+            if (game.getName().toLowerCase().equals(gameName.toLowerCase())) {
                 return game;
             }
         }
@@ -99,20 +120,27 @@ class GameManager {
     // Below are Cindy's changes
     // set the current game
     public void setCurGame(String gameName) {
+        if (loadGame(gameName) == null) {
+            System.out.println("there is no game");
+        }
+
         for (Game game : allGames) {
             String curGameName = game.getName().toLowerCase();
             if (curGameName.equals(gameName.toLowerCase())) {
+
                 curGame = game;
+
                 return;
             }
         }
+
         curGame = new Game(gameName);
-        // allGames.add(curGame);
+
+        System.out.println("new game object:  " + gameName);
+
     }
 
-    public void addGameToList(Game game) {
-        allGames.add(game);
-    }
+
 
     // get the current game
     public Game getCurGame() {
@@ -125,9 +153,9 @@ class GameManager {
      * returns false when game name has no duplicates
      */
     public boolean duplicateGameName(String name) {
+
         for (Game game : allGames) {
-            String curGameName = game.getName().toLowerCase();
-            if (curGameName.equals(name.toLowerCase())) {
+            if (game.getName().equals(name)) {
                 return true;
             }
         }
@@ -142,11 +170,7 @@ class GameManager {
         return curScript;
     }
 
-
-    public Set<Game> getAllGames() { return allGames; }
-
-
-
     //zola adds her stuff here
 
 }
+

@@ -1,31 +1,23 @@
 package classproject.bunnyworld;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class EditorActivity extends AppCompatActivity {
 
     private Game curGame;
     private GPage curPage;
     private GameManager gameManager;
-    private String imgName;
 
     private GameView myView;
     private EditText shapeName;
@@ -33,18 +25,19 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     private EditText y_coordinate;
     private EditText width;
     private EditText height;
+    private EditText texts;
+    private EditText images;
     private TextView scripts;
     private EditText fontSizes;
     private CheckBox hidden_box;
     private CheckBox movable_box;
     private EditText pageName;
 
-    private Spinner imageSpinner;
-    private ArrayAdapter<String> adapter;
-
     public static int viewWidth, viewHeight;
     private static float initX, initY;
 
+
+    DBHandler db;
 
     /*
      * Initializes the editor activity
@@ -55,7 +48,22 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_editor);
 
         gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
+        gameManager.setAllGames(db);
+
         curGame = gameManager.getCurGame();
+
+//
+        System.out.println("editor activity" + curGame.getPages().size());
+        for (GPage page: curGame.getPages()) {
+            System.out.println("current game : " + curGame.getName() + "page: " + page.getName() + " has following shapes");
+            for (GShape shape : page.getShapes()) {
+                System.out.println("shape name" + shape.getName() + shape.getPictureName() + shape.getState()+ shape.getText() + shape.getScript()+ shape.getX());
+            }
+
+        }
+//
         curPage = curGame.getCurrPage();
         curGame.setEditOn();
 
@@ -77,39 +85,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 "Edit Mode Enabled",
                 Toast.LENGTH_SHORT);
         toast.show();
-
-        spinnerSetUp();
-    }
-
-    private void spinnerSetUp() {
-        imageSpinner = findViewById(R.id.shape_imgName_spinner);
-        imageSpinner.setOnItemSelectedListener(this);
-
-        List<String> adapterList = new ArrayList<>();
-        adapterList.add("");
-        adapterList.add("carrot");
-        adapterList.add("carrot2");
-        adapterList.add("death");
-        adapterList.add("duck");
-        adapterList.add("fire_pic");
-        adapterList.add("mystic");
-
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, adapterList);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        imageSpinner.setAdapter(adapter);
-    }
-
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
-        imgName = parent.getItemAtPosition(pos).toString();
-    }
-
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
     }
 
 
@@ -120,7 +95,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate = findViewById(R.id.shape_Y_editText);
         width        = findViewById(R.id.shape_W_editText);
         height       = findViewById(R.id.shape_H_editText);
-//        texts        = findViewById(R.id.shape_text_editText);
+        texts        = findViewById(R.id.shape_text_editText);
+        images       = findViewById(R.id.shape_imgName_editText);
         scripts      = findViewById(R.id.shape_script_text);
         fontSizes    = findViewById(R.id.shape_fontSize_editText);
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
@@ -139,35 +115,27 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
         // step 2: check which shape views are nonempty and update those fields using setters
         String name = shapeName.getText().toString();
-        String curName = curShape.getName();
-        if (!name.equals(curName)) {
-            if (!curGame.duplicateShapeName(name)) {
-                curShape.setName(name);
-            } else {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Shape name already exists!",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                return;
-            }
-        }
+        if (!name.isEmpty()) curShape.setName(name);
 
         String x = x_coordinate.getText().toString();
-        curShape.setX(Float.valueOf(x));
+        if (!x.isEmpty()) curShape.setX(Float.valueOf(x));
 
         String y = y_coordinate.getText().toString();
-        curShape.setY(Float.valueOf(y));
+        if (!y.isEmpty()) curShape.setY(Float.valueOf(y));
 
         String w = width.getText().toString();
-        curShape.setWidth(Float.valueOf(w));
+        if (!w.isEmpty()) curShape.setWidth(Float.valueOf(w));
 
         String h = height.getText().toString();
-        curShape.setHeight(Float.valueOf(h));
+        if (!h.isEmpty()) curShape.setHeight(Float.valueOf(h));
 
-//        String text = texts.getText().toString();
-//        curShape.setTextString(text);
+        String text = texts.getText().toString();
+        if (!text.isEmpty()) curShape.setTextString(text);
 
-        String script = curShape.getScript();
+        String image = images.getText().toString();
+        if (!image.isEmpty()) curShape.setPictureName(image);
+
+        String script = gameManager.getCurScript();
         if (!script.isEmpty()) {
             curShape.setScriptText(script);
             scripts.setText(script);
@@ -176,13 +144,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         }
 
         String fontSize = fontSizes.getText().toString();
-        if (!fontSize.isEmpty()) {
-            curShape.setFontSize(Integer.valueOf(fontSize));
-            Paint richtext = curShape.getRichTextPaint();
-            if (richtext != null) {
-                richtext.setTextSize(Float.valueOf(fontSize));
-            }
-        }
+        if (!fontSize.isEmpty()) curShape.setFontSize(Integer.valueOf(fontSize));
+
 
         if (hidden_box.isChecked()) {
             curShape.setHidden(true);
@@ -194,8 +157,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         } else {
             curShape.setMovable(false);
         }
-
-        curShape.setPictureName(imgName);
 
         myView.invalidate();
     }
@@ -231,16 +192,16 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             updateInitialPosition();
         }
 
-//        String text = texts.getText().toString();
+        String text = texts.getText().toString();
 
-//        int type;
-//        if (!text.isEmpty()) {
-//            type = GShape.TEXT;
-//        } else {
-//            type = GShape.IMAGE;
-//        }
+        int type;
+        if (!text.isEmpty()) {
+            type = GShape.TEXT;
+        } else {
+            type = GShape.IMAGE;
+        }
 
-        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y));
+        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y), text, type);
         return newShape;
     }
 
@@ -248,8 +209,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     //Use view parameters to set properties of the shape object
     private void setNewShape(GShape newShape) {
 
-//        String text  = texts.getText().toString();
-        String image = imgName;
+        String text  = texts.getText().toString();
+        String image = images.getText().toString();
         String script = gameManager.getCurScript();
         String fontSize = fontSizes.getText().toString();
 
@@ -276,6 +237,13 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
         // clear the shape info panel
         clearShapeInfo();
+
+        // left these items since I found this to be more convenient
+        // user can clear these fields by clicking a background
+        texts.setText(text);
+        images.setText(image);
+        movable_box.setChecked(movableBoxValue);
+        hidden_box.setChecked(hiddenboxValue);
 
         //display a default name for a shape to be created next
         shapeName.setText(curGame.assignDefaultShapeName());
@@ -403,7 +371,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void saveGame(View view) {
         curGame.setCurrPage(curGame.getFirstPage());
         gameManager.saveGame(curGame);
-        gameManager.addGameToList(curGame);
+
+//        gameManager.addGameToList(curGame);
         Toast toast = Toast.makeText( getApplicationContext(),
                 curGame.getName() + " was saved", Toast.LENGTH_SHORT);
                 toast.show();
@@ -417,14 +386,12 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate.setText("");
         width.setText("");
         height.setText("");
-//        texts.setText("");
+        texts.setText("");
+        images.setText("");
         scripts.setText("Script");
         fontSizes.setText("");
         hidden_box.setChecked(false);
         movable_box.setChecked(false);
-
-        int spinnerPosition = adapter.getPosition("");
-        imageSpinner.setSelection(spinnerPosition);
     }
 
     /*
@@ -439,8 +406,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             float y = shape.getY();
             float w = shape.getWidth();
             float h = shape.getHeight();
-//            String text = shape.getText();
-            String picName = shape.getPictureName();
+            String text = shape.getText();
+            String imgName = shape.getPictureName();
             int fontSize = shape.getFontSize();
             String script = shape.getScript();
             boolean hidden = shape.isHidden();
@@ -459,15 +426,11 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             y_coordinate.setText(Float.toString(y));
             width.setText(Float.toString(w));
             height.setText(Float.toString(h));
-            fontSizes.setText(Integer.toString(fontSize));
-//            texts.setText(text);
-            
-            int spinnerPosition = adapter.getPosition(picName);
-            imageSpinner.setSelection(spinnerPosition);
-
+            texts.setText(text);
+            images.setText(imgName);
+            fontSizes.setText(Integer.valueOf(fontSize));
         }
     }
-
 
     public void updateCoordinates(GShape shape) {
         if (shape != null) {
@@ -509,17 +472,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             gameManager.setCurScript(curScript);
 
             Intent intent = new Intent(this, ScriptActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    public void editText(View view) {
-        GShape curShape = myView.getSelectedShape();
-        if (curShape != null) {
-//            String curText = curShape.getText();
-//            gameManager.setCurScript(curScript);
-
-            Intent intent = new Intent(this, TextActivity.class);
             startActivity(intent);
         }
     }

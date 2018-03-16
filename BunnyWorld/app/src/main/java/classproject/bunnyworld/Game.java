@@ -1,9 +1,9 @@
 package classproject.bunnyworld;
 
 import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.String;
 
 public class Game {
 
@@ -16,13 +16,22 @@ public class Game {
 	private boolean editMode;
 
 	Game(String name) {
-		this.name = name;
-		this.pages = new ArrayList<GPage>();
-		this.possessions = new ArrayList<GShape>();
-		this.firstPage = new GPage(assignDefaultPageName());
-		this.currPage = firstPage;
-		this.pages.add(firstPage);
-		this.editMode = true;
+
+//		if (name.isEmpty()) {
+//			try {
+//				throw new RuntimeException("Game name cannot be the empty string");
+//			} catch (Exception e) {
+//
+//			}
+//		} else
+			this.name = name;
+			this.pages = new ArrayList<GPage>();
+			this.possessions = new ArrayList<GShape>();
+			this.firstPage = new GPage(assignDefaultPageName());
+			this.currPage  = firstPage;
+			this.pages.add(firstPage);
+			this.editMode = true;
+
 	}
 
 	void draw(Canvas canvas){
@@ -48,17 +57,6 @@ public class Game {
 
 	public void setCurrPage(GPage page) {
 		this.currPage = page;
-		GameManager gm = GameManager.getInstance();
-		GameView view = gm.getGameView();
-		view.invalidate();
-
-		if(!editMode) {
-			for(GShape shape: currPage.getShapes()) {
-				if(shape.hasOnEnter()) {
-					Script.perform(this, shape.getOnEnterActionArray());
-				}
-			}
-		}
 	}
 
 	public List<GPage> getPages() {
