@@ -1,9 +1,10 @@
 package classproject.bunnyworld;
 
+import android.media.MediaPlayer;
+import android.view.View;
 import android.app.Activity;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,10 +15,10 @@ import java.util.Set;
  */
 
 class GameManager {
-    // essentially active games for edit or play
+    private Set<Game> allGames; // essentially active games for edit or play
     private GameView gameView;
     private Game curGame;
-    private Set<Game> allGames;
+
     private String curScript = "";
     private DBHandler db;
 
@@ -169,6 +170,11 @@ class GameManager {
     public String getCurScript() {
         return curScript;
     }
+
+
+    public Set<Game> getAllGames() { return allGames; }
+
+
 
     //zola adds her stuff here
 

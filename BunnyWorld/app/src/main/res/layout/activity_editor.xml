@@ -68,20 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/shape_text_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Text: "
-                    android:textSize="12sp"/>
-
-                <EditText
-                    android:id="@+id/shape_text_editText"
-                    android:inputType="text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="10sp" />
+                <Button
+                    android:id="@+id/shape_text_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="35sp"
+                    android:text="Edit Text"
+                    android:textSize="9sp"
+                    android:onClick="editText" />
 
             </LinearLayout>
 
@@ -97,13 +90,10 @@
                     android:text="Image Name: "
                     android:textSize="12sp"/>
 
-                <EditText
-                    android:id="@+id/shape_imgName_editText"
-                    android:inputType="text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="10sp" />
+                <Spinner
+                    android:id="@+id/shape_imgName_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

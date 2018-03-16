@@ -1,6 +1,7 @@
 package classproject.bunnyworld;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.widget.Toast;
 
@@ -113,7 +114,14 @@ public class Script {
      */
     static void goTo(Game game, String pageName) {
         GPage page = game.getPage(pageName);
-        if (page != null) game.setCurrPage(page);
+        if (page != null) {
+            game.setCurrPage(page);
+        } else {
+            Context cont = GameManager.getInstance().getGameView().getContext();
+            Toast toast = Toast.makeText(cont, "Goto page has been deleted!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     /*
@@ -125,18 +133,8 @@ public class Script {
             Context cont = GameManager.getInstance().getGameView().getContext();
             int resID = cont.getResources().getIdentifier(sound, "raw", cont.getPackageName());
             MediaPlayer mp = MediaPlayer.create(cont, resID);
-            //AssetFileDescriptor descriptor = res.openRawResourceFd("R.raw." + sound);
-            //FileDescriptor fd = descriptor.getFileDescriptor();
-
-            //mp.setDataSource(fd);
-            //mp.prepare();
             mp.start();
-            while (mp.isPlaying()) {
-            } // for now freezes while sound plays
-            mp.stop();
-            mp.release();
 
-            // need to close data descriptor
         } catch (Exception e) {
             // file by that name does not exist
             //toast maybe
@@ -157,6 +155,13 @@ public class Script {
      */
     static void hideOrShow(Game game, String shapeName, boolean hide) {
         GShape shape = game.getShape(shapeName);
-        if (shape != null) shape.setHidden(hide);
+        if (shape != null) {
+            shape.setHidden(hide);
+        } else {
+            Context cont = GameManager.getInstance().getGameView().getContext();
+            Toast toast = Toast.makeText(cont, "Shape to be hidden or shown has been deleted!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }

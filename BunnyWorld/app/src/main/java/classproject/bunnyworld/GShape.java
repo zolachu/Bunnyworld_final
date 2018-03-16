@@ -7,8 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.SpannableStringBuilder;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class GShape {
@@ -44,6 +47,10 @@ public class GShape {
 	private boolean movable;
 	private Map<String, String[]> scriptMap;
 
+//	private Typeface myFont;
+	private SpannableStringBuilder richText;
+	private Paint richTextPaint;
+
 	public GShape(String name, float x, float y) {
 
 		fillPaint = new Paint();
@@ -70,14 +77,14 @@ public class GShape {
 		this.hidden  = false;
 		this.movable = false;
 		this.scriptMap = new HashMap<String, String[]>();
+		this.fontSize = 50;
 	}
 
 	public GShape(String name, float x, float y, String text, int type) {
 		this(name, x, y);
+		this.setFontSize(DEFAULT_FONT_SIZE);
 		if (type == TEXT) {
 			this.text = text;
-			setFontSize(DEFAULT_FONT_SIZE);
-
 			Rect textBounds = new Rect();
 			textPaint.getTextBounds(text, 0, text.length(), textBounds);
 			this.width  = (float) (textBounds.right - textBounds.left);
@@ -110,7 +117,7 @@ public class GShape {
 		if (this.getState() == TEXT) {
 			Rect textBounds = new Rect();
 			textPaint.getTextBounds(text, 0, text.length(), textBounds);
-			canvas.drawText(this.text, this.x, this.y + this.height, textPaint);
+			canvas.drawText(this.text, this.x, this.y + this.height, this.richTextPaint);
 		} else if (this.getState() == IMAGE) {
 			Context cont = GameManager.getInstance().getGameView().getContext();
 			int resID = cont.getResources().getIdentifier(this.getPictureName(),
@@ -176,6 +183,14 @@ public class GShape {
 
 	public int getFontSize() { return this.fontSize; }
 
+	public Paint getRichTextPaint() { return this.richTextPaint; }
+
+	public void setRichTextPaint(Paint paint) {this.richTextPaint = paint; }
+
+	public SpannableStringBuilder getRichText() { return this.richText; }
+
+	public void setRichText(SpannableStringBuilder myRichText) { this.richText = myRichText; }
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -207,10 +222,12 @@ public class GShape {
 		this.fontSize = fontSize;
 		textPaint.setTextSize(fontSize);
 
-		Rect textBounds = new Rect();
-		textPaint.getTextBounds(text, 0, text.length(), textBounds);
-		this.setWidth((float) (textBounds.right - textBounds.left));
-		this.setHeight((float) (textBounds.bottom - textBounds.top));
+		if (this.getState() == TEXT) {
+			Rect textBounds = new Rect();
+			textPaint.getTextBounds(text, 0, text.length(), textBounds);
+			this.setWidth((float) (textBounds.right - textBounds.left));
+			this.setHeight((float) (textBounds.bottom - textBounds.top));
+		}
 	}
 
 	public void setX(float x) {
@@ -249,6 +266,10 @@ public class GShape {
 	public void setHeight(float height) {
 		this.height = height;
 	}
+
+//	public Typeface getMyFont() { return this.myFont; }
+//
+//	public void setMyFont(Typeface font) { this.myFont = font; }
 
 	public boolean equals(GShape shape) {
 		return this.name.toLowerCase().equals(
