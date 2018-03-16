@@ -8,180 +8,244 @@
     tools:context="classproject.bunnyworld.ScriptActivity">
 
     <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/script_on_click_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="On Click"
-            android:onClick="onClickTrigger" />
 
-        <Button
-            android:id="@+id/script_on_enter_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="On Enter"
-            android:onClick="onEnterTrigger" />
-
-        <Button
-            android:id="@+id/script_on_drop_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="On Drop"
-            android:onClick="onDropTrigger" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="On Drop Target:" />
-
-        <Spinner
-            android:id="@+id/script_onDropTarget_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        <!--for each column of buttons-->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/script_goto_button"
+            <!--TRIGGERS-->
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="4sp"
+                    android:text="Step 1: TRIGGERS"/>
+
+                <Button
+                    android:id="@+id/script_on_click_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="On Click"
+                    android:onClick="onClickTrigger" />
+
+                <Button
+                    android:id="@+id/script_on_enter_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="On Enter"
+                    android:onClick="onEnterTrigger" />
+
+                <Button
+                    android:id="@+id/script_on_drop_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="On Drop"
+                    android:onClick="onDropTrigger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="On Drop Target:" />
+
+                <Spinner
+                    android:id="@+id/script_onDropTarget_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <!--ACTIONS-->
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="4sp"
+                    android:text="Step 2+: ACTIONS"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/script_goto_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Go To"
+                        android:onClick="goToAction"
+                        android:enabled="false"/>
+
+                    <Spinner
+                        android:id="@+id/script_goto_spinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/script_play_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Play"
+                        android:onClick="playAction"
+                        android:enabled="false"/>
+
+                    <Spinner
+                        android:id="@+id/script_play_spinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/script_hide_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hide"
+                        android:onClick="hideAction"
+                        android:enabled="false"/>
+
+                    <Spinner
+                        android:id="@+id/script_hide_spinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/script_show_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Show"
+                        android:onClick="showAction"
+                        android:enabled="false"/>
+
+                    <Spinner
+                        android:id="@+id/script_show_spinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--Deleting and Saving-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Go To"
-                android:onClick="goToAction" />
+                android:layout_weight="1"
+                android:orientation="vertical" >
 
-            <Spinner
-                android:id="@+id/script_goto_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="4sp"
+                    android:text="Final Step: Save"/>
+
+                <Button
+                    android:id="@+id/script_delete_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delete Last Clause"
+                    android:onClick="deleteLastClause" />
+                <Button
+                    android:id="@+id/script_reset_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Reset"
+                    android:onClick="resetScript" />
+                <Button
+                    android:id="@+id/script_semicolon_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="End Instruction"
+                    android:onClick="addSemicolon"
+                    android:enabled="false"/>
+
+                <Button
+                    android:id="@+id/script_save_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    android:onClick="saveScript" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/script_play_button"
+            <TextView
+                android:id="@+id/curShape_textView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Play"
-                android:onClick="playAction" />
+                android:layout_height="match_parent"
+                android:textSize="20dp" />
 
-            <Spinner
-                android:id="@+id/script_play_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20dp"
+                android:text="Current Script String:" />
+
+            <TextView
+                android:id="@+id/script_editor_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20dp" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/script_hide_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hide"
-                android:onClick="hideAction" />
-
-            <Spinner
-                android:id="@+id/script_hide_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/script_show_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show"
-                android:onClick="showAction" />
-
-            <Spinner
-                android:id="@+id/script_show_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
 
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/script_semicolon_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=";"
-            android:onClick="addSemicolon" />
 
 
-        <Button
-            android:id="@+id/script_reset_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset"
-            android:onClick="resetScript" />
 
-        <Button
-            android:id="@+id/script_save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:onClick="saveScript" />
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/curShape_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="20dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="20dp"
-            android:text="Current Script String:" />
-
-        <TextView
-            android:id="@+id/script_editor_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="20dp" />
-
-    </LinearLayout>
 
 
 </LinearLayout>
