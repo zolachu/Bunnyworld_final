@@ -56,9 +56,10 @@ public class Script {
      * list of instructions to be completed in the event of the trigger.
      */
     static void parse(String scriptText, Map<String, String[]> scriptMap) { // <trigger, instruction>
-        if(!scriptMap.isEmpty()) {
-            scriptMap = new HashMap<String, String[]>();
-        }
+        //if(!scriptMap.isEmpty()) {
+            //scriptMap = new HashMap<String, String[]>();
+        //}
+        scriptMap.clear();
         String[] allInstructions = scriptText.split(";");
 
         for (String instruct : allInstructions) {
