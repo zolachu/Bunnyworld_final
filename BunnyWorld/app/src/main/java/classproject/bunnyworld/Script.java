@@ -56,7 +56,6 @@ public class Script {
      * list of instructions to be completed in the event of the trigger.
      */
     static void parse(String scriptText, Map<String, String[]> scriptMap) { // <trigger, instruction>
-        scriptMap.clear();
         String[] allInstructions = scriptText.split(";");
 
         for (String instruct : allInstructions) {
@@ -84,6 +83,10 @@ public class Script {
 
         // loop used to check actions and parameters
         for(int j = i; j < actionArray.length; j+=2) {
+
+            //int index = instruct.indexOf(' ');
+            //String action = instruct.substring(0, index);
+            //String param = instruct.substring(index + 1); // eliminate space at the end
 
             String action = actionArray[j];
             String param = actionArray[j+1];
@@ -122,9 +125,9 @@ public class Script {
     }
 
     /*
-      * Plays the sounds given by param
-      * assumes there are no spaces within file names
-      */
+     * Plays the sounds given by param
+     * assumes there are no spaces within file names
+     */
     static void play(String sound) {
         try {
             Context cont = GameManager.getInstance().getGameView().getContext();

@@ -47,7 +47,7 @@ public class GShape {
 	private boolean movable;
 	private Map<String, String[]> scriptMap;
 
-//	private Typeface myFont;
+	//	private Typeface myFont;
 	private SpannableStringBuilder richText;
 	private Paint richTextPaint;
 

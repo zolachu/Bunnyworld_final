@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.database.sqlite.*;
 import android.widget.AdapterView;
@@ -65,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onNewGame(View view) {
+        GameManager gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
+        gameManager.setAllGames(db);
+
         EditText gameName = findViewById(R.id.game_name_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
@@ -82,6 +88,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onEditGame(View view) {
+        GameManager gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
+        gameManager.setAllGames(db);
+
         if (selectedGame != null) {
             String name = selectedGame.getName();
             gameManager.setCurGame(name);
@@ -113,3 +124,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 }
+

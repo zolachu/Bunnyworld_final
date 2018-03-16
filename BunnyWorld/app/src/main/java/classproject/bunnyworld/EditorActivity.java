@@ -33,6 +33,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     private EditText y_coordinate;
     private EditText width;
     private EditText height;
+    private EditText texts;
+    private EditText images;
     private TextView scripts;
     private EditText fontSizes;
     private CheckBox hidden_box;
@@ -46,6 +48,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     private static float initX, initY;
 
 
+    DBHandler db;
+
     /*
      * Initializes the editor activity
      */
@@ -55,7 +59,22 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_editor);
 
         gameManager = GameManager.getInstance();
+        db = new DBHandler(this);
+        gameManager.setDb(db);
+        gameManager.setAllGames(db);
+
         curGame = gameManager.getCurGame();
+
+//
+        System.out.println("editor activity" + curGame.getPages().size());
+        for (GPage page: curGame.getPages()) {
+            System.out.println("current game : " + curGame.getName() + "page: " + page.getName() + " has following shapes");
+            for (GShape shape : page.getShapes()) {
+                System.out.println("shape name" + shape.getName() + shape.getPictureName() + shape.getState()+ shape.getText() + shape.getScript()+ shape.getX());
+            }
+
+        }
+//
         curPage = curGame.getCurrPage();
         curGame.setEditOn();
 
@@ -406,7 +425,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         gameManager.addGameToList(curGame);
         Toast toast = Toast.makeText( getApplicationContext(),
                 curGame.getName() + " was saved", Toast.LENGTH_SHORT);
-                toast.show();
+        toast.show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -461,13 +480,12 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             height.setText(Float.toString(h));
             fontSizes.setText(Integer.toString(fontSize));
 //            texts.setText(text);
-            
+
             int spinnerPosition = adapter.getPosition(picName);
             imageSpinner.setSelection(spinnerPosition);
 
         }
     }
-
 
     public void updateCoordinates(GShape shape) {
         if (shape != null) {
