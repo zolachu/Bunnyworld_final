@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:layout_marginBottom="4sp"
-                    android:text="Step 1: TRIGGERS"/>
+                    android:text="Step 1: Triggers"/>
 
                 <Button
                     android:id="@+id/script_on_click_button"
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:layout_marginBottom="4sp"
-                    android:text="Step 2+: ACTIONS"/>
+                    android:text="Step 2: Actions + Targets"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:layout_marginBottom="4sp"
-                    android:text="Final Step: Save"/>
+                    android:text="Save or Finish and Repeat"/>
 
                 <Button
                     android:id="@+id/script_delete_button"

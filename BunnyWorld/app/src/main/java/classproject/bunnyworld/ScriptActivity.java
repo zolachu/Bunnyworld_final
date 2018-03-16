@@ -331,11 +331,22 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void addSemicolon(View view) {
-        int len = curScript.length();
-        curScript.deleteCharAt(len-1);
-        curScript.append("; ");
-        displayScript();
-        initializeButtonClickability(view);
+        String[] words= curScript.toString().split(" ");
+        String lastword = words[words.length-1];
+
+        if(lastword.equals(GO_TO)|| lastword.equals(PLAY)||
+                lastword.equals(HIDE)|| lastword.equals(SHOW)) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Please select a target for your action from dropdown menu",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            int len = curScript.length();
+            curScript.deleteCharAt(len - 1);
+            curScript.append("; ");
+            displayScript();
+            initializeButtonClickability(view);
+        }
     }
 
     public void saveScript(View view) {
