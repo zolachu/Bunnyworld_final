@@ -18,7 +18,9 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -523,6 +525,81 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             startActivity(intent);
         }
     }
+
+    public void errorCheckingScript(View view) {
+        List<GPage> allPages = curGame.getPages();
+        Set<String> pageNames = new HashSet<>();
+        Set<String> soundList = new HashSet<>();
+        soundList.add("");
+        soundList.add("carrotcarrotcarrot");
+        soundList.add("evillaugh");
+        soundList.add("fire");
+        soundList.add("hooray");
+        soundList.add("munch");
+        soundList.add("munching");
+        soundList.add("woof");
+
+        for(GPage page: allPages) {
+            pageNames.add(page.getName());
+        }
+
+        List<GShape> allShapes = curGame.getAllShapes();
+        Set<String> shapeNames = new HashSet<>();
+        for(GShape shape: allShapes) {
+            shapeNames.add(shape.getName());
+        }
+
+        for(GShape shape: allShapes) {
+
+
+            String[] clicks = shape.getOnClickActionArray();
+            if(clicks != null) {
+                int clickLen = clicks.length;
+                for (int i = 1; i < clickLen; i += 2) {
+                    if (!pageNames.contains(clicks[i]) && !shapeNames.contains(clicks[i]) &&
+                            !soundList.contains(clicks[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + clicks[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+            String[] enters = shape.getOnEnterActionArray();
+            if(enters != null) {
+                int enterLen = enters.length;
+                for (int i = 1; i < enterLen; i += 2) {
+                    if (!pageNames.contains(enters[i]) && !shapeNames.contains(enters[i]) &&
+                            !soundList.contains(enters[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + enters[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+            String[] drops = shape.getOnDropActionArray();
+            if(drops != null) {
+                int dropLen = drops.length;
+                for (int i = 2; i < dropLen; i += 2) {
+                    if (!pageNames.contains(drops[i]) && !shapeNames.contains(drops[i]) &&
+                            !soundList.contains(drops[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + drops[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+        }
+    }
+
 
 
 }
