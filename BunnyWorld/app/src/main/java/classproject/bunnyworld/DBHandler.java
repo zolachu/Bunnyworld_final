@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -189,6 +192,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 String isCurrentPage = cursorForAGame.getString(2);
                 String shapeInfo = cursorForAGame.getString(3);
 
+                System.err.println(shapeInfo);
+
                 //if the page is new, then add to the game
                 if (!game.duplicatePageName(pageName) && !pageName.equals("possessionArea")) {
                     GPage newPage = new GPage(pageName);
@@ -233,9 +238,13 @@ public class DBHandler extends SQLiteOpenHelper {
                 if (!imageName.isEmpty()) newShape.setPictureName(imageName);
                 if (!script.isEmpty()) newShape.setScriptText(script);
 
-                //TODO also populate the scriptMap
-
                 if (!font.isEmpty()) newShape.setFontSize(Integer.valueOf(font));
+
+                Paint rtPaint = new Paint();
+                rtPaint.setColor(Color.LTGRAY);
+                rtPaint.setTextSize(newShape.getFontSize());
+                rtPaint.setTypeface(Typeface.DEFAULT);
+                newShape.setRichTextPaint(rtPaint);
 
                 if (!height.isEmpty()) {
                     newShape.setHeight(Float.parseFloat(height));
