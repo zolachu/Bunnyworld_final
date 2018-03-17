@@ -31,49 +31,22 @@ class GameManager {
     private GameManager() {
         gameView = null;
         allGames = new HashSet<>();
-        deepLoad();
-
     }
 
     public void setDb(DBHandler db) {
         this.db = db;
+        setAllGames(db);
     }
 
-
-    public void setAllGames(DBHandler db) {
-        allGames = db.getAllGames();
-    }
-    /*
-     * Saves all of its games
-     */
-    public void deepSave() {
-        for (Game game : allGames) {
-            saveGame(game);
-        }
+    private void setAllGames(DBHandler db) {
+        allGames = db.tableToGame();
     }
 
-    /* Probably used by Editor to save games
+    /* Probably used by Editor to save games to the db
      */
     public void saveGame(Game game) {
-        String gameName = game.getName();
         allGames.add(game);
-        this.db.updateGame(game);
-    }
-
-
-    /* used when booting up the game on phone
-     * runs through underlying database and
-     * creates all game instances, then saves them
-     * to the list of games
-     * Probably would be needed while in editor but not
-     * necessarily when playing a single game.
-     */
-    private void deepLoad() {
-
-        for (Game game : allGames) {
-            loadGame(game.getName());
-        }
-
+        this.db.gameToTable(game);
     }
 
     /* Checks underlying database for a game by
@@ -93,6 +66,12 @@ class GameManager {
         return null;
     }
 
+    public Set<Game> getAllGames() { return allGames; }
+
+    public void addGame(Game game) {
+        this.allGames.add(game);
+    }
+
     /* returns a game referred to by gameName
      * to the asking class. Returns null if a game
      * by that name does not exist.
@@ -105,7 +84,6 @@ class GameManager {
         }
         return null;
     }
-
 
     public void setGameView(Activity activity) {
         gameView = (GameView) activity.findViewById(R.id.myCanvas);
@@ -121,7 +99,7 @@ class GameManager {
     // Below are Cindy's changes
     // set the current game
     public void setCurGame(String gameName) {
-        if (loadGame(gameName) == null) {
+        if (!allGames.contains(new Game(gameName))){
             System.out.println("there is no game");
         }
 
@@ -140,8 +118,6 @@ class GameManager {
         System.out.println("new game object:  " + gameName);
 
     }
-
-
 
     // get the current game
     public Game getCurGame() {
@@ -170,13 +146,5 @@ class GameManager {
     public String getCurScript() {
         return curScript;
     }
-
-
-    public Set<Game> getAllGames() { return allGames; }
-
-
-
-    //zola adds her stuff here
-
 }
 

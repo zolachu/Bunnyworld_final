@@ -8,7 +8,6 @@ public class PlayActivity extends AppCompatActivity {
 
     private Game curGame;
     private GameManager gameManager;
-    DBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,9 +15,6 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play);
 
         gameManager = GameManager.getInstance();
-        db = new DBHandler(this);
-        gameManager.setDb(db);
-        gameManager.setAllGames(db);
         curGame = gameManager.getCurGame();
         curGame.setCurrPage(curGame.getFirstPage());
         curGame.setEditOff();
@@ -30,10 +26,14 @@ public class PlayActivity extends AppCompatActivity {
             }
         }
 
+        for (GShape shape : curGame.getPossessions()) {
+            shape.unselectShape();
+            shape.unselectOnDrop();
+        }
+
         Toast toast = Toast.makeText(getApplicationContext(),
                 "Edit Mode Off",
                 Toast.LENGTH_SHORT);
         toast.show();
-
     }
 }

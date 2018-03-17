@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    SQLiteDatabase db;
+    private DBHandler db;
     private Game selectedGame;
     private GameManager gameManager;
 
@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         gameManager = GameManager.getInstance();
-
+        db = new DBHandler(this);
+        gameManager.setDb(db);
         spinnerSetUp();
     }
 
@@ -66,11 +67,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onNewGame(View view) {
-        GameManager gameManager = GameManager.getInstance();
-        db = new DBHandler(this);
-        gameManager.setDb(db);
-        gameManager.setAllGames(db);
-
         EditText gameName = findViewById(R.id.game_name_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
@@ -88,11 +84,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onEditGame(View view) {
-        GameManager gameManager = GameManager.getInstance();
-        db = new DBHandler(this);
-        gameManager.setDb(db);
-        gameManager.setAllGames(db);
-
         if (selectedGame != null) {
             String name = selectedGame.getName();
             gameManager.setCurGame(name);
@@ -122,6 +113,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Toast.LENGTH_SHORT);
         toast.show();
     }
-
 }
 

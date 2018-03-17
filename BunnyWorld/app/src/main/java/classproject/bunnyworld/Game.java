@@ -70,6 +70,10 @@ public class Game {
 		}
 	}
 
+	public void setCurrPageForDB(GPage page) {
+		this.currPage = page;
+	}
+
 	public List<GPage> getPages() {
 		return this.pages;
 	}
@@ -254,6 +258,10 @@ public class Game {
 		} else {
 			return false;
 		}
+	}
+
+	public void setFirstPage(GPage page) {
+		this.firstPage = page;
 	}
 
 	public GPage getFirstPage() {
