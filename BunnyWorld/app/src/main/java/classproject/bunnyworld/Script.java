@@ -149,6 +149,6 @@ public class Script {
         GShape shape = game.getShape(shapeName);
         if (shape != null) {
             shape.setHidden(hide);
-        } 
+        }
     }
 }

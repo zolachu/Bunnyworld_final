@@ -153,8 +153,9 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         String item = parent.getItemAtPosition(pos).toString();
         if(id > 0) {
             //parent.setVisibility(View.INVISIBLE);
-            //thirdColumnStuffOn(view, false);
+            firstColumnStuffOn(view, false);
             secondColumnStuffOn(view, true);
+            thirdColumnStuffOn(view, false);
             curScript.append(item + " ");
             displayScript();
         }
