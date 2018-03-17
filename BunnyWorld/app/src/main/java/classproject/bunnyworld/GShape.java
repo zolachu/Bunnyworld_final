@@ -47,6 +47,9 @@ public class GShape {
 	private boolean movable;
 	private Map<String, String[]> scriptMap;
 
+	private float prevX;
+	private float prevY;
+
 //	private Typeface myFont;
 	private SpannableStringBuilder richText;
 	private Paint richTextPaint;
@@ -72,6 +75,8 @@ public class GShape {
 		this.script = "";
 		this.x = x;
 		this.y = y;
+		this.prevX = 10;
+		this.prevY = 10;
 		this.width  = INITIAL_WIDTH;
 		this.height = INITIAL_HEIGHT;
 		this.hidden  = false;
@@ -242,6 +247,20 @@ public class GShape {
 		this.x = x1;
 		this.y = y1;
 	}
+
+	public void setPreviousPosition(float x1, float y1) {
+		this.prevX = x1;
+		this.prevY = y1;
+	}
+
+	public float getPrevX() {
+		return this.prevX;
+	}
+
+	public float getPrevY() {
+		return this.prevY;
+	}
+
 
 	public void selectShape() { this.isSelected = true; }
 

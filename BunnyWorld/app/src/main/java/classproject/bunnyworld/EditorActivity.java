@@ -134,11 +134,19 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void updateShape(View view) {
         // step 1: get currently selected shape, in shape class
         GShape curShape = myView.getSelectedShape();
-
         if (curShape == null) return;
 
         // step 2: check which shape views are nonempty and update those fields using setters
         String name = shapeName.getText().toString();
+
+        if (name.contains(" ") || name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Shape names cannot have spaces or be empty",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
         String curName = curShape.getName();
         if (!name.equals(curName)) {
             if (!curGame.duplicateShapeName(name)) {
@@ -151,6 +159,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 return;
             }
         }
+
 
         String x = x_coordinate.getText().toString();
         curShape.setX(Float.valueOf(x));
@@ -211,6 +220,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             if (curGame.duplicateShapeName(name)) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Shape name already exists!",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+
+            if (name.contains(" ")) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Shape names cannot have spaces!",
                         Toast.LENGTH_SHORT);
                 toast.show();
                 return;
@@ -351,6 +368,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
      */
     public void updatePage(View view) {
         String name = pageName.getText().toString();
+
+        if(name.contains(" ") || name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Page name cannot contain spaces or be empty!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
 
         // get current page
         // rename current page

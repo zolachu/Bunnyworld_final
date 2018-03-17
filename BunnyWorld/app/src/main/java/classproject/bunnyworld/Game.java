@@ -1,6 +1,9 @@
 package classproject.bunnyworld;
 
+import android.content.Context;
 import android.graphics.Canvas;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
@@ -25,6 +28,7 @@ public class Game {
 		this.editMode = true;
 	}
 
+
 	void draw(Canvas canvas){
 		//draw page
 		this.getCurrPage().draw(canvas);
@@ -39,6 +43,14 @@ public class Game {
 	}
 
 	public void setName(String name) {
+		if(name.isEmpty()) {
+			Context cont = GameManager.getInstance().getGameView().getContext();
+			Toast toast = Toast.makeText(cont,
+					"Game name cannot be empty",
+					Toast.LENGTH_SHORT);
+			toast.show();
+			return;
+		}
 		this.name = name;
 	}
 

@@ -261,16 +261,6 @@
 
     </LinearLayout>
 
-
-
-
-
-
-
-
-
-
-
     <!--page buttons-->
     <LinearLayout
         android:orientation="horizontal"

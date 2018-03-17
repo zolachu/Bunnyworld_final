@@ -27,15 +27,6 @@ public class PlayActivity extends AppCompatActivity {
                 shape.unselectOnDrop();
             }
         }
-
-
-
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "Edit Mode Off",
-                Toast.LENGTH_SHORT);
-        toast.show();
-
-
     }
 
     @Override

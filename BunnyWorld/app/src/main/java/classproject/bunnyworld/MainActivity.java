@@ -68,7 +68,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         EditText gameName = findViewById(R.id.game_name_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
-        if (duplicate) {
+        if(name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Must give the game a name!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        } else if (duplicate) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Game already exists!",
                     Toast.LENGTH_SHORT);

@@ -356,7 +356,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void saveScript(View view) {
-        if(curScript.charAt(curScript.length() - 2) != ';') {
+        if(curScript.length() != 0 && curScript.charAt(curScript.length() - 2) != ';') {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Please complete current instruction or delete it.",
                     Toast.LENGTH_LONG);
