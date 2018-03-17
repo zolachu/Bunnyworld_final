@@ -235,6 +235,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
                 GShape newShape = new GShape(shapeName, Float.valueOf(x), Float.valueOf(y), text, type);
 
+                
+
                 if (!imageName.isEmpty()) newShape.setPictureName(imageName);
                 if (!script.isEmpty()) newShape.setScriptText(script);
 
