@@ -113,11 +113,6 @@ public class Script {
         GPage page = game.getPage(pageName);
         if (page != null) {
             game.setCurrPage(page);
-        } else {
-            Context cont = GameManager.getInstance().getGameView().getContext();
-            Toast toast = Toast.makeText(cont, "Goto page has been deleted!",
-                    Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 
@@ -154,11 +149,6 @@ public class Script {
         GShape shape = game.getShape(shapeName);
         if (shape != null) {
             shape.setHidden(hide);
-        } else {
-            Context cont = GameManager.getInstance().getGameView().getContext();
-            Toast toast = Toast.makeText(cont, "Shape to be hidden or shown has been deleted!",
-                    Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 }
