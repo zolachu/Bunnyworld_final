@@ -25,7 +25,6 @@ public class PlayActivity extends AppCompatActivity {
                 shape.unselectOnDrop();
             }
         }
-
         for (GShape shape : curGame.getPossessions()) {
             shape.unselectShape();
             shape.unselectOnDrop();

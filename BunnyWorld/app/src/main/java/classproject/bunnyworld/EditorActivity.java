@@ -18,7 +18,9 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -134,11 +136,19 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void updateShape(View view) {
         // step 1: get currently selected shape, in shape class
         GShape curShape = myView.getSelectedShape();
-
         if (curShape == null) return;
 
         // step 2: check which shape views are nonempty and update those fields using setters
         String name = shapeName.getText().toString();
+
+        if (name.contains(" ") || name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Shape names cannot have spaces or be empty",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
         String curName = curShape.getName();
         if (!name.equals(curName)) {
             if (!curGame.duplicateShapeName(name)) {
@@ -151,6 +161,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 return;
             }
         }
+
 
         String x = x_coordinate.getText().toString();
         curShape.setX(Float.valueOf(x));
@@ -211,6 +222,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             if (curGame.duplicateShapeName(name)) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Shape name already exists!",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+
+            if (name.contains(" ")) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Shape names cannot have spaces!",
                         Toast.LENGTH_SHORT);
                 toast.show();
                 return;
@@ -351,6 +370,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
      */
     public void updatePage(View view) {
         String name = pageName.getText().toString();
+
+        if(name.contains(" ") || name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Page name cannot contain spaces or be empty!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
 
         // get current page
         // rename current page
@@ -522,6 +549,81 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             startActivity(intent);
         }
     }
+
+    public void errorCheckingScript(View view) {
+        List<GPage> allPages = curGame.getPages();
+        Set<String> pageNames = new HashSet<>();
+        Set<String> soundList = new HashSet<>();
+        soundList.add("");
+        soundList.add("carrotcarrotcarrot");
+        soundList.add("evillaugh");
+        soundList.add("fire");
+        soundList.add("hooray");
+        soundList.add("munch");
+        soundList.add("munching");
+        soundList.add("woof");
+
+        for(GPage page: allPages) {
+            pageNames.add(page.getName());
+        }
+
+        List<GShape> allShapes = curGame.getAllShapes();
+        Set<String> shapeNames = new HashSet<>();
+        for(GShape shape: allShapes) {
+            shapeNames.add(shape.getName());
+        }
+
+        for(GShape shape: allShapes) {
+
+
+            String[] clicks = shape.getOnClickActionArray();
+            if(clicks != null) {
+                int clickLen = clicks.length;
+                for (int i = 1; i < clickLen; i += 2) {
+                    if (!pageNames.contains(clicks[i]) && !shapeNames.contains(clicks[i]) &&
+                            !soundList.contains(clicks[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + clicks[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+            String[] enters = shape.getOnEnterActionArray();
+            if(enters != null) {
+                int enterLen = enters.length;
+                for (int i = 1; i < enterLen; i += 2) {
+                    if (!pageNames.contains(enters[i]) && !shapeNames.contains(enters[i]) &&
+                            !soundList.contains(enters[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + enters[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+            String[] drops = shape.getOnDropActionArray();
+            if(drops != null) {
+                int dropLen = drops.length;
+                for (int i = 2; i < dropLen; i += 2) {
+                    if (!pageNames.contains(drops[i]) && !shapeNames.contains(drops[i]) &&
+                            !soundList.contains(drops[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + drops[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+        }
+    }
+
 
 
 }
