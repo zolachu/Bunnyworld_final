@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.database.sqlite.*;
 import android.widget.AdapterView;
@@ -19,7 +20,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    SQLiteDatabase db;
+    private DBHandler db;
     private Game selectedGame;
     private GameManager gameManager;
 
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         gameManager = GameManager.getInstance();
-
+        db = new DBHandler(this);
+        gameManager.setDb(db);
         spinnerSetUp();
     }
 
@@ -68,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         EditText gameName = findViewById(R.id.game_name_editText);
         String name = gameName.getText().toString();
         boolean duplicate = gameManager.duplicateGameName(name);
-        if (duplicate) {
+        if(name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Must give the game a name!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        } else if (duplicate) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Game already exists!",
                     Toast.LENGTH_SHORT);
@@ -111,5 +118,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Toast.LENGTH_SHORT);
         toast.show();
     }
-
 }
+

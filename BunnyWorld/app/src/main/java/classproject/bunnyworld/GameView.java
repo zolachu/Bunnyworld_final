@@ -96,6 +96,7 @@ public class GameView extends View {
             distX = x - downX;
             distY = y - downY;
             selectedShape.selectShape();
+            selectedShape.setPreviousPosition(selectedShape.getX(), selectedShape.getY());
 
             if (isInPossessionArea(selectedShape)) {
                 game.bringToTop(selectedShape);
@@ -210,16 +211,19 @@ public class GameView extends View {
                             selectedShape.getX() + selectedShape.getWidth() < shape.getX() ||
                             selectedShape.getY() > shape.getY() + shape.getHeight() ||
                             selectedShape.getY() + selectedShape.getHeight() < shape.getY())) {
-                        if (!shape.equals(selectedShape) &&
-                                shape.isOnDropTarget(selectedShape)) {
-                            Script.perform(game, shape.getOnDropActionArray());
+                        if (!shape.equals(selectedShape)) {
+                            if (shape.isOnDropTarget(selectedShape)) {
+                                Script.perform(game, shape.getOnDropActionArray());
+                            } else {
+                                selectedShape.setPosition(selectedShape.getPrevX(), selectedShape.getPrevY());
+                            }
+                        }
+
                         }
                     }
                 }
             }
         }
-
-    }
 
     /*
      * Returns the shape that's currently selected by the user
@@ -236,14 +240,31 @@ public class GameView extends View {
                 && y - distY >= 0 && y - distY + selectedShape.getHeight() < viewHeight;
     }
 
+
+    //Checks if a shape is touching the possession area; if so snap it
+    private boolean isTouchingPossession() {
+        Float area = (1 - possessionAreaProportion) * viewHeight;
+        return selectedShape.getY() <= area && selectedShape.getY() + selectedShape.getHeight() >= area;
+    }
+
     /*
      * Returns true if the center of the shape is in possession area
      */
     public boolean isInPossessionArea(GShape shape) {
         if (shape.getY() + 0.5f * shape.getHeight() >
                 (1 - possessionAreaProportion) * viewHeight) {
+            if(isTouchingPossession()) {
+                Float distance = ((1 - possessionAreaProportion) * viewHeight) - shape.getY();
+                shape.setY(shape.getY() + (shape.getHeight() - distance));
+                invalidate();
+            }
             return true;
         } else {
+            if(isTouchingPossession()) {
+                Float distance = ((1 - possessionAreaProportion) * viewHeight) - shape.getY();
+                shape.setY(shape.getY() - distance);
+                invalidate();
+            }
             return false;
         }
     }

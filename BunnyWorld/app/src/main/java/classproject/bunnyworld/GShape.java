@@ -47,6 +47,10 @@ public class GShape {
 	private boolean movable;
 	private Map<String, String[]> scriptMap;
 
+	//	private Typeface myFont;
+	private float prevX;
+	private float prevY;
+
 //	private Typeface myFont;
 	private SpannableStringBuilder richText;
 	private Paint richTextPaint;
@@ -72,6 +76,8 @@ public class GShape {
 		this.script = "";
 		this.x = x;
 		this.y = y;
+		this.prevX = 10;
+		this.prevY = 10;
 		this.width  = INITIAL_WIDTH;
 		this.height = INITIAL_HEIGHT;
 		this.hidden  = false;
@@ -117,7 +123,7 @@ public class GShape {
 		if (this.getState() == TEXT) {
 			Rect textBounds = new Rect();
 			textPaint.getTextBounds(text, 0, text.length(), textBounds);
-			canvas.drawText(this.text, this.x, this.y + this.height, this.richTextPaint);
+			canvas.drawText(this.text, this.x, this.y + this.height, this.textPaint);
 		} else if (this.getState() == IMAGE) {
 			Context cont = GameManager.getInstance().getGameView().getContext();
 			int resID = cont.getResources().getIdentifier(this.getPictureName(),
@@ -242,6 +248,20 @@ public class GShape {
 		this.x = x1;
 		this.y = y1;
 	}
+
+	public void setPreviousPosition(float x1, float y1) {
+		this.prevX = x1;
+		this.prevY = y1;
+	}
+
+	public float getPrevX() {
+		return this.prevX;
+	}
+
+	public float getPrevY() {
+		return this.prevY;
+	}
+
 
 	public void selectShape() { this.isSelected = true; }
 

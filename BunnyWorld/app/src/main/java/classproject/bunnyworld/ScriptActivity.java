@@ -153,8 +153,9 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
         String item = parent.getItemAtPosition(pos).toString();
         if(id > 0) {
             //parent.setVisibility(View.INVISIBLE);
-            //thirdColumnStuffOn(view, false);
+            firstColumnStuffOn(view, false);
             secondColumnStuffOn(view, true);
+            thirdColumnStuffOn(view, false);
             curScript.append(item + " ");
             displayScript();
         }
@@ -356,7 +357,7 @@ public class ScriptActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void saveScript(View view) {
-        if(curScript.charAt(curScript.length() - 2) != ';') {
+        if(curScript.length() != 0 && curScript.charAt(curScript.length() - 2) != ';') {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Please complete current instruction or delete it.",
                     Toast.LENGTH_LONG);

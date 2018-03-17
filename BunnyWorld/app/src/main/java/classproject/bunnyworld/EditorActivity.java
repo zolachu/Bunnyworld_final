@@ -18,7 +18,9 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -33,6 +35,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     private EditText y_coordinate;
     private EditText width;
     private EditText height;
+    private EditText texts;
+    private EditText images;
     private TextView scripts;
     private EditText fontSizes;
     private CheckBox hidden_box;
@@ -44,7 +48,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     public static int viewWidth, viewHeight;
     private static float initX, initY;
-
 
     /*
      * Initializes the editor activity
@@ -58,7 +61,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         curGame = gameManager.getCurGame();
         curPage = curGame.getCurrPage();
         curGame.setEditOn();
-
         gameManager.setGameView(this);
 
         TextView gameName = findViewById(R.id.gameName_textView);
@@ -120,7 +122,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate = findViewById(R.id.shape_Y_editText);
         width        = findViewById(R.id.shape_W_editText);
         height       = findViewById(R.id.shape_H_editText);
-//        texts        = findViewById(R.id.shape_text_editText);
+        texts        = findViewById(R.id.shape_text_editText);
         scripts      = findViewById(R.id.shape_script_text);
         fontSizes    = findViewById(R.id.shape_fontSize_editText);
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
@@ -134,11 +136,19 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void updateShape(View view) {
         // step 1: get currently selected shape, in shape class
         GShape curShape = myView.getSelectedShape();
-
         if (curShape == null) return;
 
         // step 2: check which shape views are nonempty and update those fields using setters
         String name = shapeName.getText().toString();
+
+        if (name.contains(" ") || name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Shape names cannot have spaces or be empty",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
         String curName = curShape.getName();
         if (!name.equals(curName)) {
             if (!curGame.duplicateShapeName(name)) {
@@ -152,6 +162,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             }
         }
 
+
         String x = x_coordinate.getText().toString();
         curShape.setX(Float.valueOf(x));
 
@@ -164,8 +175,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         String h = height.getText().toString();
         curShape.setHeight(Float.valueOf(h));
 
-//        String text = texts.getText().toString();
-//        curShape.setTextString(text);
+        String text = texts.getText().toString();
+        curShape.setTextString(text);
 
         String script = curShape.getScript();
         if (!script.isEmpty()) {
@@ -178,10 +189,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         String fontSize = fontSizes.getText().toString();
         if (!fontSize.isEmpty()) {
             curShape.setFontSize(Integer.valueOf(fontSize));
-            Paint richtext = curShape.getRichTextPaint();
-            if (richtext != null) {
-                richtext.setTextSize(Float.valueOf(fontSize));
-            }
         }
 
         if (hidden_box.isChecked()) {
@@ -215,6 +222,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 toast.show();
                 return;
             }
+
+            if (name.contains(" ")) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Shape names cannot have spaces!",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
         }
 
         GShape newShape = createNewShape(name);
@@ -231,16 +246,16 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             updateInitialPosition();
         }
 
-//        String text = texts.getText().toString();
+        String text = texts.getText().toString();
 
-//        int type;
-//        if (!text.isEmpty()) {
-//            type = GShape.TEXT;
-//        } else {
-//            type = GShape.IMAGE;
-//        }
+        int type;
+        if (!text.isEmpty()) {
+            type = GShape.TEXT;
+        } else {
+            type = GShape.IMAGE;
+        }
 
-        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y));
+        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y), text, type);
         return newShape;
     }
 
@@ -248,7 +263,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     //Use view parameters to set properties of the shape object
     private void setNewShape(GShape newShape) {
 
-//        String text  = texts.getText().toString();
+        String text  = texts.getText().toString();
         String image = imgName;
         String script = gameManager.getCurScript();
         String fontSize = fontSizes.getText().toString();
@@ -271,8 +286,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         myView.invalidate();
 
         // save these values before clear
-        boolean movableBoxValue = movable_box.isChecked();
-        boolean hiddenboxValue = hidden_box.isChecked();
+        //boolean movableBoxValue = movable_box.isChecked();
+        //boolean hiddenboxValue = hidden_box.isChecked();
 
         // clear the shape info panel
         clearShapeInfo();
@@ -352,6 +367,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void updatePage(View view) {
         String name = pageName.getText().toString();
 
+        if(name.contains(" ") || name.isEmpty()) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Page name cannot contain spaces or be empty!",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
         // get current page
         // rename current page
         if (!curGame.duplicatePageName(name)) {
@@ -403,10 +426,10 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void saveGame(View view) {
         curGame.setCurrPage(curGame.getFirstPage());
         gameManager.saveGame(curGame);
-        gameManager.addGameToList(curGame);
+        gameManager.addGame(curGame);
         Toast toast = Toast.makeText( getApplicationContext(),
                 curGame.getName() + " was saved", Toast.LENGTH_SHORT);
-                toast.show();
+        toast.show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -417,7 +440,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate.setText("");
         width.setText("");
         height.setText("");
-//        texts.setText("");
+        texts.setText("");
         scripts.setText("Script");
         fontSizes.setText("");
         hidden_box.setChecked(false);
@@ -439,7 +462,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             float y = shape.getY();
             float w = shape.getWidth();
             float h = shape.getHeight();
-//            String text = shape.getText();
+            String text = shape.getText();
             String picName = shape.getPictureName();
             int fontSize = shape.getFontSize();
             String script = shape.getScript();
@@ -460,14 +483,13 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             width.setText(Float.toString(w));
             height.setText(Float.toString(h));
             fontSizes.setText(Integer.toString(fontSize));
-//            texts.setText(text);
-            
+            texts.setText(text);
+
             int spinnerPosition = adapter.getPosition(picName);
             imageSpinner.setSelection(spinnerPosition);
 
         }
     }
-
 
     public void updateCoordinates(GShape shape) {
         if (shape != null) {
@@ -523,6 +545,81 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             startActivity(intent);
         }
     }
+
+    public void errorCheckingScript(View view) {
+        List<GPage> allPages = curGame.getPages();
+        Set<String> pageNames = new HashSet<>();
+        Set<String> soundList = new HashSet<>();
+        soundList.add("");
+        soundList.add("carrotcarrotcarrot");
+        soundList.add("evillaugh");
+        soundList.add("fire");
+        soundList.add("hooray");
+        soundList.add("munch");
+        soundList.add("munching");
+        soundList.add("woof");
+
+        for(GPage page: allPages) {
+            pageNames.add(page.getName());
+        }
+
+        List<GShape> allShapes = curGame.getAllShapes();
+        Set<String> shapeNames = new HashSet<>();
+        for(GShape shape: allShapes) {
+            shapeNames.add(shape.getName());
+        }
+
+        for(GShape shape: allShapes) {
+
+
+            String[] clicks = shape.getOnClickActionArray();
+            if(clicks != null) {
+                int clickLen = clicks.length;
+                for (int i = 1; i < clickLen; i += 2) {
+                    if (!pageNames.contains(clicks[i]) && !shapeNames.contains(clicks[i]) &&
+                            !soundList.contains(clicks[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + clicks[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+            String[] enters = shape.getOnEnterActionArray();
+            if(enters != null) {
+                int enterLen = enters.length;
+                for (int i = 1; i < enterLen; i += 2) {
+                    if (!pageNames.contains(enters[i]) && !shapeNames.contains(enters[i]) &&
+                            !soundList.contains(enters[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + enters[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+            String[] drops = shape.getOnDropActionArray();
+            if(drops != null) {
+                int dropLen = drops.length;
+                for (int i = 2; i < dropLen; i += 2) {
+                    if (!pageNames.contains(drops[i]) && !shapeNames.contains(drops[i]) &&
+                            !soundList.contains(drops[i])) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                shape.getName() +" has a script containing " + drops[i] +", which" +
+                                        " does not exist.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+
+        }
+    }
+
 
 
 }
