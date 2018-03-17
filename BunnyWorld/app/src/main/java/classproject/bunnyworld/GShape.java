@@ -123,7 +123,7 @@ public class GShape {
 		if (this.getState() == TEXT) {
 			Rect textBounds = new Rect();
 			textPaint.getTextBounds(text, 0, text.length(), textBounds);
-			canvas.drawText(this.text, this.x, this.y + this.height, this.richTextPaint);
+			canvas.drawText(this.text, this.x, this.y + this.height, this.textPaint);
 		} else if (this.getState() == IMAGE) {
 			Context cont = GameManager.getInstance().getGameView().getContext();
 			int resID = cont.getResources().getIdentifier(this.getPictureName(),

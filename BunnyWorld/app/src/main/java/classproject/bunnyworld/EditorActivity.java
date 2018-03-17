@@ -122,7 +122,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate = findViewById(R.id.shape_Y_editText);
         width        = findViewById(R.id.shape_W_editText);
         height       = findViewById(R.id.shape_H_editText);
-//        texts        = findViewById(R.id.shape_text_editText);
+        texts        = findViewById(R.id.shape_text_editText);
         scripts      = findViewById(R.id.shape_script_text);
         fontSizes    = findViewById(R.id.shape_fontSize_editText);
         hidden_box   = findViewById(R.id.shape_hidden_checkBox);
@@ -175,8 +175,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         String h = height.getText().toString();
         curShape.setHeight(Float.valueOf(h));
 
-//        String text = texts.getText().toString();
-//        curShape.setTextString(text);
+        String text = texts.getText().toString();
+        curShape.setTextString(text);
 
         String script = curShape.getScript();
         if (!script.isEmpty()) {
@@ -189,10 +189,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         String fontSize = fontSizes.getText().toString();
         if (!fontSize.isEmpty()) {
             curShape.setFontSize(Integer.valueOf(fontSize));
-            Paint richtext = curShape.getRichTextPaint();
-            if (richtext != null) {
-                richtext.setTextSize(Float.valueOf(fontSize));
-            }
         }
 
         if (hidden_box.isChecked()) {
@@ -250,16 +246,16 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             updateInitialPosition();
         }
 
-//        String text = texts.getText().toString();
+        String text = texts.getText().toString();
 
-//        int type;
-//        if (!text.isEmpty()) {
-//            type = GShape.TEXT;
-//        } else {
-//            type = GShape.IMAGE;
-//        }
+        int type;
+        if (!text.isEmpty()) {
+            type = GShape.TEXT;
+        } else {
+            type = GShape.IMAGE;
+        }
 
-        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y));
+        GShape newShape = new GShape(name, Float.valueOf(x), Float.valueOf(y), text, type);
         return newShape;
     }
 
@@ -267,7 +263,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     //Use view parameters to set properties of the shape object
     private void setNewShape(GShape newShape) {
 
-//        String text  = texts.getText().toString();
+        String text  = texts.getText().toString();
         String image = imgName;
         String script = gameManager.getCurScript();
         String fontSize = fontSizes.getText().toString();
@@ -290,8 +286,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         myView.invalidate();
 
         // save these values before clear
-        boolean movableBoxValue = movable_box.isChecked();
-        boolean hiddenboxValue = hidden_box.isChecked();
+        //boolean movableBoxValue = movable_box.isChecked();
+        //boolean hiddenboxValue = hidden_box.isChecked();
 
         // clear the shape info panel
         clearShapeInfo();
@@ -444,7 +440,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         y_coordinate.setText("");
         width.setText("");
         height.setText("");
-//        texts.setText("");
+        texts.setText("");
         scripts.setText("Script");
         fontSizes.setText("");
         hidden_box.setChecked(false);
@@ -466,7 +462,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             float y = shape.getY();
             float w = shape.getWidth();
             float h = shape.getHeight();
-//            String text = shape.getText();
+            String text = shape.getText();
             String picName = shape.getPictureName();
             int fontSize = shape.getFontSize();
             String script = shape.getScript();
@@ -487,7 +483,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             width.setText(Float.toString(w));
             height.setText(Float.toString(h));
             fontSizes.setText(Integer.toString(fontSize));
-//            texts.setText(text);
+            texts.setText(text);
 
             int spinnerPosition = adapter.getPosition(picName);
             imageSpinner.setSelection(spinnerPosition);

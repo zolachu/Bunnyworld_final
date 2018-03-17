@@ -240,12 +240,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
                 if (!font.isEmpty()) newShape.setFontSize(Integer.valueOf(font));
 
-                Paint rtPaint = new Paint();
-                rtPaint.setColor(Color.LTGRAY);
-                rtPaint.setTextSize(newShape.getFontSize());
-                rtPaint.setTypeface(Typeface.DEFAULT);
-                newShape.setRichTextPaint(rtPaint);
-
                 if (!height.isEmpty()) {
                     newShape.setHeight(Float.parseFloat(height));
                 }
